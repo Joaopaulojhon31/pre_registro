@@ -7,7 +7,10 @@ import java.util.List;
 import javax.persistence.Query;
 
 import ecivil.ejb.entidade.SituacaoPedidoCertidao;
+<<<<<<< HEAD
 import ecivil.ejb.entidade.SituacaoSolicitacaoUI;
+=======
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 import ecivil.ejb.entidade.UsuarioPortalInterno;
 import ecivil.ejb.util.Util;
 
@@ -27,13 +30,18 @@ public class FiltroPesquisaPedidoCertidaoVO {
 	private String corregedoriaRequisitante;
 	private List<String> listaCorregedoriaRequisitante;
 	private SituacaoPedidoCertidao situacaoPedidoCertidao;
+<<<<<<< HEAD
 	private SituacaoSolicitacaoUI situacaoSolicitacaoUI;
+=======
+	private String situacaoSolicitacaoUI;
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 	private UsuarioPortalInterno usuarioPortalInterno;
 
 	public String getProtocolo() {
 		return protocolo;
 	}
 
+<<<<<<< HEAD
 	public SituacaoSolicitacaoUI getSituacaoSolicitacaoUI() {
 		System.out.println("GET");
 		return situacaoSolicitacaoUI;
@@ -41,6 +49,13 @@ public class FiltroPesquisaPedidoCertidaoVO {
 
 	public void setSituacaoSolicitacaoUI(SituacaoSolicitacaoUI situacaoSolicitacaoUI) {
 		System.out.println("SET");
+=======
+	public String getSituacaoSolicitacaoUI() {
+		return situacaoSolicitacaoUI;
+	}
+
+	public void setSituacaoSolicitacaoUI(String situacaoSolicitacaoUI) {
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 		this.situacaoSolicitacaoUI = situacaoSolicitacaoUI;
 	}
 
@@ -178,7 +193,11 @@ public class FiltroPesquisaPedidoCertidaoVO {
 		StringBuffer consulta = new StringBuffer();
 		montaSelectSolicitacaoUI(consulta, ehCount);
 		montaClausulaWhereSolicitacaoUI(consulta);
+<<<<<<< HEAD
 		montaOrdenacao(consulta, ehCount);
+=======
+		montaOrdenacaoPreRegistro(consulta, ehCount);
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 		return consulta.toString();
 	}
 
@@ -191,6 +210,7 @@ public class FiltroPesquisaPedidoCertidaoVO {
 		consulta.append(" FROM PedidoCertidao pedidoCertidao ");
 	}
 	
+<<<<<<< HEAD
 	private void montaSelectSolicitacaoUI(StringBuffer consulta, boolean ehCount) {
 		if (ehCount) {
 			consulta.append(" SELECT COUNT(DISTINCT solicitacaoUINascimento) ");
@@ -198,6 +218,24 @@ public class FiltroPesquisaPedidoCertidaoVO {
 			consulta.append(" SELECT DISTINCT solicitacaoUINascimento ");
 		}
 		consulta.append(" FROM SolicitacaoUINascimento solicitacaoUINascimento ");
+=======
+	private void montaSelectPreRegistro(StringBuffer consulta, boolean ehCount) {
+		if (ehCount) {
+			consulta.append(" SELECT COUNT(DISTINCT preRegistro) ");
+		} else {
+			consulta.append(" SELECT DISTINCT preRegistro ");
+		}
+		consulta.append(" FROM PreRegistro preRegistro ");
+	}
+	
+	private void montaSelectSolicitacaoUI(StringBuffer consulta, boolean ehCount) {
+		if (ehCount) {
+			consulta.append(" SELECT COUNT(DISTINCT preRegistro) ");
+		} else {
+			consulta.append(" SELECT DISTINCT preRegistro ");
+		}
+		consulta.append(" FROM PreRegistro preRegistro");
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 	}
 	
 	private void montaJoin(StringBuffer consulta) {
@@ -239,6 +277,13 @@ public class FiltroPesquisaPedidoCertidaoVO {
 		consulta.append(" AND pedidoCertidao.protocolo = :protocolo ");
 	}
 	
+<<<<<<< HEAD
+=======
+	private void montaClausulaWhereProtocoloPreRegistro(StringBuffer consulta) {
+		consulta.append(" AND preRegistro.numeroSolicitacao = :numeroSolicitacao ");
+	}
+	
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 	private void montaClausulaWhereCpfmae(StringBuffer consulta) {
 		consulta.append(" AND solicitacaoUINascimento.cpfMae = :cpfmae ");
 	}
@@ -290,6 +335,15 @@ public class FiltroPesquisaPedidoCertidaoVO {
 		}
 	}
 	
+<<<<<<< HEAD
+=======
+	private void montaOrdenacaoPreRegistro(StringBuffer consulta, boolean ehCount) {
+		if (!ehCount) {
+			consulta.append(" ORDER BY preRegistro.dataInicioSolicitacao DESC  ");
+		}
+	}
+	
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 	public void setaParametrosPesquisaPedidoCertidao(Query query) {
 		if (Util.ehStringValida(getProtocolo())) {
 			setaParametroProtocolo(query);
@@ -391,6 +445,18 @@ public class FiltroPesquisaPedidoCertidaoVO {
 		return consulta.toString();
 	}
 	
+<<<<<<< HEAD
+=======
+	public String montaConsultaPesquisarPreRegistro(boolean ehCount) {
+		StringBuffer consulta = new StringBuffer();
+		montaSelectPreRegistro(consulta, ehCount);
+		montaClausulaWhereProtocoloPreRegistro(consulta);
+		montaOrdenacaoPreRegistro(consulta, ehCount);
+		System.out.println(consulta);
+		return consulta.toString();
+	}
+	
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 	private void montaClausulaWherePedidosRealizadoPeloCartorio(StringBuffer consulta) {
 		consulta.append(" WHERE 1 = 1 ");
 		
@@ -443,5 +509,8 @@ public class FiltroPesquisaPedidoCertidaoVO {
 			query.setParameter("codCorregedoriaRequisitante", getCorregedoriaRequisitante());
 		}		
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 }

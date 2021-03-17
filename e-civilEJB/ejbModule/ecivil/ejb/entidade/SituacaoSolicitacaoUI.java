@@ -8,16 +8,15 @@ import javax.persistence.Table;
 @Table(schema="ecivil", name="situacao_solicitacao_ui")
 public class SituacaoSolicitacaoUI  implements Entidade{
 
-	public static final String COD_EM_PREPARACAO ="1";
-	public static final String COD_EM_ANDAMENTO ="2";
-	public static final String COD_REJEITADO ="3";
-	public static final String COD_REALIZADO = "4";
-	public static final String COD_ARQUIVADO = "5";
-	public static final String COD_REJEITADO_UI = "6";
-	public static final String COD_ANALISE_CRI ="7";
-	public static final String COD_INICIAL ="8";
-	public static final String COD_FINALIZADO ="9";
-	public static final String COD_NAO_ATENDIDO ="10";
+	public static final String EM_PREPARACAO ="1";
+	public static final String EM_ANDAMENTO ="2";
+	public static final String REJEITADO ="3";
+	public static final String REALIZADO = "4";
+	public static final String ARQUIVADO = "5";
+	public static final String REJEITADO_UI = "6";
+	public static final String ANALISE_CRI ="7";
+	public static final String INICIAL ="8";
+	public static final String FINALIZADO ="9";
 
 	
 	@Id
@@ -44,44 +43,36 @@ public class SituacaoSolicitacaoUI  implements Entidade{
 		this.nome = nome;
 	}
 
-	public static String getCodInicial() {
-		return COD_INICIAL;
+	public static String getInicial() {
+		return INICIAL;
 	}
 
-	public static String getCodEmPreparacao() {
-		return COD_EM_PREPARACAO;
+	public static String getEmPreparacao() {
+		return EM_PREPARACAO;
 	}
 
-	public static String getCodEmAndamento() {
-		return COD_EM_ANDAMENTO;
+	public static String getEmAndamento() {
+		return EM_ANDAMENTO;
 	}
 
-	public static String getCodRejeitado() {
-		return COD_REJEITADO;
+	public static String getRejeitado() {
+		return REJEITADO;
 	}
 
-	public static String getCodRealizado() {
-		return COD_REALIZADO;
+	public static String getRealizado() {
+		return REALIZADO;
 	}
 
-	public static String getCodArquivado() {
-		return COD_ARQUIVADO;
+	public static String getArquivado() {
+		return ARQUIVADO;
 	}
 
-	public static String getCodRejeitadoUi() {
-		return COD_REJEITADO_UI;
+	public static String getRejeitadoUi() {
+		return REJEITADO_UI;
 	}
 
-	public static String getCodAnaliseCri() {
-		return COD_ANALISE_CRI;
-	}
-	
-	public static String getCodFinalizado() {
-		return COD_FINALIZADO;
-	}
-	
-	public static String getCodNaoAtendido(){
-		return COD_NAO_ATENDIDO;
+	public static String getAnaliseCri() {
+		return ANALISE_CRI;
 	}
 	@Override
 	public int hashCode() {

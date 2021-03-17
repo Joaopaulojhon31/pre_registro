@@ -7,9 +7,9 @@ import javax.ejb.Stateless;
 
 import ecivil.ejb.dao.PreRegistroDAO;
 import ecivil.ejb.entidade.PreRegistro;
-//import ecivil.ejb.entidade.PreRegistroXML;
+import ecivil.ejb.entidade.PreRegistroXML;
 import ecivil.ejb.entidade.UsuarioPortalInterno;
-//import ecivil.ejb.vo.FiltroPesquisaPreRegistroVO;
+import ecivil.ejb.vo.FiltroPesquisaPreRegistroVO;
 import web.util.Paginacao;
 
 @Stateless
@@ -19,8 +19,8 @@ public class PreRegistroBO {
 	@EJB
 	private HistoricoPreRegistroBO historicoPreRegistroBO;
 	
-	/*public PreRegistro recuperaPreRegistroPelaSolicitacao(String numeroSolicitacao) {
-		return preRegistroDAO.buscaPreregistroNumeroSolicitacao(numeroSolicitacao);
+	public PreRegistro recuperaPreRegistroPelaSolicitacao(Long id) {
+		return preRegistroDAO.buscaPreregistroNumeroSolicitacao(id);
 	}
 	
 	public List<PreRegistro> pesquisarPedidosRealizadoPeloCartorio(UsuarioPortalInterno usuarioLogadoPortal, FiltroPesquisaPreRegistroVO filtroPesquisaCertidao, Paginacao paginacao) {
@@ -42,8 +42,11 @@ public class PreRegistroBO {
 	public String retornaXmlPreRegistro(Long idPreRegistro) {
 		return preRegistroDAO.retornaDadosXmlPreRegistro(idPreRegistro);
 	}
-	*/
-	public void setaSituacaoPreRegistro(PreRegistro preRegistro, String codSituacaoPreRegistro, Long idUsuario) {
-		preRegistroDAO.setaSituacaoSolicitacao(preRegistro, codSituacaoPreRegistro, idUsuario);
+	
+	public void setaHistoricoPreRegistro(PreRegistro preRegistro, UsuarioPortalInterno usuario) {
+		historicoPreRegistroBO.setaHistoricoPreRegistro(preRegistro, usuario);
+	}
+	public void setaSituacaoPreRegistro(PreRegistro preRegistro, String codSituacaoPreRegistro, UsuarioPortalInterno usuarioPortalInterno) {
+		preRegistroDAO.setaSituacaoSolicitacao(preRegistro, codSituacaoPreRegistro, usuarioPortalInterno);
 	}
 }

@@ -135,6 +135,14 @@ public class BaseController implements Serializable {
 	public boolean possuiPermissaoAdministrador() {
 		return getUsuarioEstaLogado() && (isSuperUsuario(getUsuarioLogadoPortal()) || getUsuarioLogadoPortal().possuiGrupoPorDescricao(GrupoUsuario.ADMINISTRADOR));
 	}
+	
+	public boolean possuiPermissaoPreposto() {
+		return getUsuarioEstaLogado() && getUsuarioLogadoPortal().possuiGrupoPorDescricao(GrupoUsuario.PREPOSTO);
+	}
+	
+	public boolean possuiPermissaoPreRegistro() {
+		return getUsuarioEstaLogado() && getUsuarioLogadoPortal().possuiGrupoPorDescricao(GrupoUsuario.PREREGISTRO);
+	}
 
 	public boolean possuiAcessoRecurso(String paginaString) {
 		EnumPaginas pagina = EnumPaginas.valueOf(paginaString);

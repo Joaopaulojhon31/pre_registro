@@ -16,278 +16,244 @@
 						<div class="panel-wrapper" aria-expanded="true">
 							<div class="panel-body">
 								<div class="form-body">
-
+									
 									<h3 class="box-title">
 										<h:outputText value="Inicial" />
 									</h3>
-
+									
 									<hr />
-
+									
 									<div class="row">
 										<div class="col-md-12">
 											<style>
-.menu-inicial-item {
-	color: #0a3756 !important;
-	font-size: 15px !important;
-	margin-bottom: 25px;
-}
+												.menu-inicial-item {
+													color: #0a3756 !important;
+													font-size: 15px !important;
+													margin-bottom: 25px;
+												}
+												
+												.short-text { 
+													display: none;
+												}
 
-.short-text {
-	display: none;
-}
+												@media (max-width: 1400px) {
+												    .short-text { 
+												    	display: inline-block;
+												    }
+												    .full-text { 
+												    	display: none;
+												    }
+												}
+											</style>
+												<ui:fragment rendered="#{principalController.exibeMenuPesquisarPreRegistro}">
+												<div class="col-md-4">
+													<a jsf:id="preRegistro"
+														class="menu-inicial-item btn-block btn-lg btn-default"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:action="#{principalController.direcionaPesquisaPreRegistro}">
+															<i class="fa fa-fw fa-file-text"></i>Registros
+													</a>
+												</div>
+											</ui:fragment>
 
-@media ( max-width : 1400px) {
-	.short-text {
-		display: inline-block;
-	}
-	.full-text {
-		display: none;
-	}
-}
-</style>
-
-											<ui:fragment
-												rendered="#{principalController.exibeMenuPedidosCertidao}">
+											<ui:fragment rendered="#{principalController.exibeMenuPedidosCertidao}">
 												<div class="col-md-4">
 													<a jsf:id="pesquisarPedidoCertidaoParaServentia"
-														title="Pedidos de Certidão requisitados para sua serventia analisar"
+														title="Pedidos de Certidão"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaConsultarPedidosParaServentia}">
 														<i class="fa fa-fw fa-file-text"></i> Pedidos de Certidão
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuPedidosSolicitados}">
+											<ui:fragment rendered="#{principalController.exibeMenuPedidosSolicitados}">
 												<div class="col-md-4">
 													<a jsf:id="pesquisarPedidoCertidaoFeitoPelaServentia"
 														title="Pedidos de Certidão realizados por sua serventia para outro Cartório"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaConsultarPedidosRealizadoPelaServentia}">
-
-														<span class="full-text"> <i
-															class="fa fa-fw fa-files-o"></i> Pedidos Solicitados por
-															sua Serventia
-													</span> <span class="short-text"> <i
-															class="fa fa-fw fa-files-o"></i> Ped. Sol. por sua
-															Serventia
-													</span>
+														
+														<span class="full-text">
+															<i class="fa fa-fw fa-files-o"></i> Pedidos Solicitados por sua Serventia
+														</span>
+														<span class="short-text">
+															<i class="fa fa-fw fa-files-o"></i> Ped. Sol. por sua Serventia
+														</span>
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuRealizarPedido}">
+											<ui:fragment rendered="#{principalController.exibeMenuRealizarPedido}">
 												<div class="col-md-4">
 													<a jsf:id="realizarPedidoCertidao"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaRealizarPedidoCertidao}">
-
-														<span class="full-text"> <i
-															class="fa fa-fw fa-clipboard"></i> Realizar Pedido de
-															Certidão
-													</span> <span class="short-text"> <i
-															class="fa fa-fw fa-files-o"></i> Realizar Pedido Certidão
-													</span>
+														
+														<span class="full-text">
+															<i class="fa fa-fw fa-clipboard"></i> Realizar Pedido de Certidão
+														</span>
+														<span class="short-text">
+															<i class="fa fa-fw fa-files-o"></i> Realizar Pedido Certidão
+														</span>
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuRealizarPedido}">
+											<ui:fragment rendered="#{principalController.exibeMenuRealizarPedido}">
 												<div class="col-md-4">
 													<a jsf:id="adicionarArquivoLotesIndices"
 														class="menu-inicial-item btn-block btn-lg btn-default"
 														href="https://webrecivil.recivil.com.br/wr/?act=crcu">
-
-														<span class="full-text"> <i
-															class="fa fa-fw fa-file-text-o"></i> Adicionar Arquivo de
-															Lotes de Índices
-													</span> <span class="short-text"> <i
-															class="fa fa-fw fa-file-text-o"></i> Adic. Arquivo Lotes
-															Índices
-													</span>
+														
+														<span class="full-text">
+															<i class="fa fa-fw fa-file-text-o"></i> Adicionar Arquivo de Lotes de Índices
+														</span>
+														<span class="short-text">
+															<i class="fa fa-fw fa-file-text-o"></i> Adic. Arquivo Lotes Índices
+														</span>
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuRealizarPedido}">
+											<ui:fragment rendered="#{principalController.exibeMenuRealizarPedido}">
 												<div class="col-md-4">
 													<a jsf:id="relatorioLotesIndices"
 														class="menu-inicial-item btn-block btn-lg btn-default"
 														href="https://webrecivil.recivil.com.br/wr/?act=crcr">
-
-														<span class="full-text"> <i
-															class="fa fa-fw fa-file-text-o"></i> Relatório de Lotes
-															de Índices
-													</span> <span class="short-text"> <i
-															class="fa fa-fw fa-file-text-o"></i> Relatório Lotes
-															Índices
-													</span>
+														
+														<span class="full-text">
+															<i class="fa fa-fw fa-file-text-o"></i> Relatório de Lotes de Índices
+														</span>
+														<span class="short-text">
+															<i class="fa fa-fw fa-file-text-o"></i> Relatório Lotes Índices
+														</span>
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuSolicitarSaque}">
+											<ui:fragment rendered="#{principalController.exibeMenuSolicitarSaque}">
 												<div class="col-md-4">
 													<a jsf:id="solicitarSaque"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaSolicitarSaque}">
 														<i class="fa fa-fw fa-money"></i> Solicitar Saque
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuExtratoContaDigital}">
+											<ui:fragment rendered="#{principalController.exibeMenuExtratoContaDigital}">
 												<div class="col-md-4">
 													<a jsf:id="extratoContaDigital"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaExtratoContaDigital}">
 														<i class="fa fa-fw fa-list"></i> Extrato Conta Digital
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuAdicionarSaldo}">
+											<ui:fragment rendered="#{principalController.exibeMenuAdicionarSaldo}">
 												<div class="col-md-4">
 													<a jsf:id="adicionarSaldo"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaAdicionarSaldo}">
 														<i class="fa fa-fw fa-money"></i> Adicionar Saldo
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuConfirmarSolicitacaoSaque}">
+											<ui:fragment rendered="#{principalController.exibeMenuConfirmarSolicitacaoSaque}">
 												<div class="col-md-4">
 													<a jsf:id="confirmarSaque"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaConfirmarSaque}">
-
-														<span class="full-text"> <i
-															class="fa fa-fw fa-money"></i> Confirmar Solicitação de
-															Saque
-													</span> <span class="short-text"> <i
-															class="fa fa-fw fa-money"></i> Confir. Solicitação Saque
-													</span>
+														
+														<span class="full-text">
+															<i class="fa fa-fw fa-money"></i> Confirmar Solicitação de Saque
+														</span>
+														<span class="short-text">
+															<i class="fa fa-fw fa-money"></i> Confir. Solicitação Saque
+														</span>
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuValidarHashCertidao}">
+											<ui:fragment rendered="#{principalController.exibeMenuValidarHashCertidao}">
 												<div class="col-md-4">
 													<a jsf:id="validarHashCertidao"
 														title="Validar o Hash da Certidão Negativa"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaValidarHashCertidao}">
 														<i class="fa fa-fw fa-check"></i> Validar Hash Certidão
 													</a>
 												</div>
 											</ui:fragment>
 
-											<ui:fragment
-												rendered="#{principalController.exibeMenuAlterarServentia}">
+											<ui:fragment rendered="#{principalController.exibeMenuAlterarServentia}">
 												<div class="col-md-4">
 													<a jsf:id="alterarServentia"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaAlterarServentia}">
-
-														<span class="full-text"> <i
-															class="fa fa-fw fa-exchange"></i> Alterar Serventia
-															Selecionada
-													</span> <span class="short-text"> <i
-															class="fa fa-fw fa-exchange"></i> Alterar Serventia
-													</span>
+														
+														<span class="full-text">
+															<i class="fa fa-fw fa-exchange"></i> Alterar Serventia Selecionada
+														</span>
+														<span class="short-text">
+															<i class="fa fa-fw fa-exchange"></i> Alterar Serventia
+														</span>
 													</a>
 												</div>
 											</ui:fragment>
-
-											<ui:fragment
-												rendered="#{principalController.exibeMenuAlterarAliquotaISSQN}">
+											
+											<ui:fragment rendered="#{principalController.exibeMenuAlterarAliquotaISSQN}">
 												<div class="col-md-4">
 													<a jsf:id="aliquotaISSQN"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaAlterarISSQN()}">
 														<i class="fa fa-fw fa-exchange"></i> Alterar ISSQN
 													</a>
 												</div>
 											</ui:fragment>
-
-											<ui:fragment
-												rendered="#{principalController.exibeMenuGerenciarUsuario}">
+											
+											<ui:fragment rendered="#{principalController.exibeMenuGerenciarUsuario}">
 												<div class="col-md-4">
 													<a jsf:id="cadastroUsuario"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaCadastrarUsuario()}">
 														<i class="fa fa-fw fa-user"></i> Cadastro de Usuários
 													</a>
 												</div>
 											</ui:fragment>
-
-											<ui:fragment
-												rendered="#{principalController.exibeMenuGerenciarGrupoUsuario}">
+											
+											<ui:fragment rendered="#{principalController.exibeMenuGerenciarGrupoUsuario}">
 												<div class="col-md-4">
 													<a jsf:id="cadastroGrupoUsuario"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaCadastrarGrupo()}">
 														<i class="fa fa-fw fa-group"></i> Cadastro de Grupos
 													</a>
 												</div>
 											</ui:fragment>
-
-											<ui:fragment
-												rendered="#{principalController.exibeMenuGerenciarPermissoes}">
+											
+											<ui:fragment rendered="#{principalController.exibeMenuGerenciarPermissoes}">
 												<div class="col-md-4">
 													<a jsf:id="cadastroPermissao"
 														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
 														jsf:action="#{principalController.direcionaCadastrarPermissao()}">
 														<i class="fa fa-fw fa-key"></i> Cadastro de Permissões
-													</a>
-												</div>
-											</ui:fragment>
-
-											<ui:fragment
-												rendered="#{principalController.exibeMenuPreRegistroPrePosto}">
-												<div class="col-md-4">
-													<a jsf:id="preRegistroPrePosto"
-														class="menu-inicial-item btn-block btn-lg btn-default"
-														jsf:onclick="PF('statusDialog').show();"
-														jsf:oncomplete="PF('statusDialog').hide();"
-														jsf:action="#{principalController.direcionaPreRegistroPrePosto()}">
-														<i class="fa fa-fw fa-exchange"></i> Novo Registro
 													</a>
 												</div>
 											</ui:fragment>

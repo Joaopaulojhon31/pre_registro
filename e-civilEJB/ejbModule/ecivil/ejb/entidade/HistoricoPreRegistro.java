@@ -44,13 +44,14 @@ public class HistoricoPreRegistro implements Entidade {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataHoraAlteracao;
 	
+	
 	public String dataHoraAlteracaoFormatada() {
 		if (getDataHoraAlteracao() == null) {
 			return "-";
 		}
 		return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataHoraVisualizacaoRequisitante());
 	}
-
+	
 	public Date getDataHoraAlteracao() {
 		return this.dataHoraAlteracao;
 	}
@@ -75,6 +76,14 @@ public class HistoricoPreRegistro implements Entidade {
 		this.preRegistro = preRegistro;
 	}
 	
+	public Long getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Long usuario) {
+		this.usuario = usuario;
+	}
+
 	public String getSituacao() {
 		return situacao;
 	}
@@ -89,14 +98,6 @@ public class HistoricoPreRegistro implements Entidade {
 
 	public void setDataHoraVisualizacaoRequisitante(Date dataHoraAlteracao) {
 		this.dataHoraAlteracao = dataHoraAlteracao;
-	}
-
-	public Long getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Long usuario) {
-		this.usuario = usuario;
 	}
 
 	@Override

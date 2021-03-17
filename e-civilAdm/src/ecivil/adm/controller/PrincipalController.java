@@ -9,8 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import com.sun.mail.iap.Response;
-
 import ecivil.adm.enumerator.EnumPaginas;
 import web.util.JSFUtil;
 
@@ -89,12 +87,8 @@ public class PrincipalController extends BaseController implements Serializable 
 		return EnumPaginas.SELECIONAR_ALIQUOTA_ISSQN.getUrl();
 	}
 	
-	public String direcionaPreRegistroPrePosto() {
-		return EnumPaginas.PRE_REGISTRO_PRE_POSTO.getUrl();
-	}
-	
-	public String direcionaDeclaracoesPreRegistroPrePosto() {
-		return EnumPaginas.DECLARACOES_PRE_REGISTRO_PRE_POSTO.getUrl();
+	public String direcionaPesquisaPreRegistro() {
+		return EnumPaginas.PESQUISA_PRE_REGISTRO.getUrl();
 	}
 
 	public String direcionaPaginaInicial() {
@@ -171,12 +165,8 @@ public class PrincipalController extends BaseController implements Serializable 
 		return possuiAcessoRecurso(EnumPaginas.SELECIONAR_SERVENTIA.name()) && !getUsuarioLogadoPortal().possuiApenasUmaServentia();
 	}
 	
-	public boolean isExibeMenuPreRegistroPrePosto() {
-		return possuiAcessoRecurso(EnumPaginas.PRE_REGISTRO_PRE_POSTO.name());
-	}
-	
-	public boolean isExibeDeclaracoesPreRegistroPrePosto() {
-		return possuiAcessoRecurso(EnumPaginas.DECLARACOES_PRE_REGISTRO_PRE_POSTO.name());
+	public boolean isExibeMenuPesquisarPreRegistro() {
+		return possuiAcessoRecurso(EnumPaginas.PESQUISA_PRE_REGISTRO.name());
 	}
 	
 }

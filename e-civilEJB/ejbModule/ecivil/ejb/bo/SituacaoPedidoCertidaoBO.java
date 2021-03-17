@@ -22,10 +22,4 @@ public class SituacaoPedidoCertidaoBO {
 	public List<SituacaoPedidoCertidao> recuperaListaSituacaoPedidoCertidao() {
 		return situacaoPedidoCertidaoDAO.recuperaListaSituacaoPedidoCertidao();
 	}
-	
-	public List<SituacaoSolicitacaoUI> recuperaListaSituacaoSolicitacaoUI() {
-		return situacaoPedidoCertidaoDAO.recuperaListaSituacaoSolicitacaoUI();
-	}
-
-
 }

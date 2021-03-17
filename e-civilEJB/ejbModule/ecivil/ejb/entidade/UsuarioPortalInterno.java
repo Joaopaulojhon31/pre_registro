@@ -359,6 +359,12 @@ public class UsuarioPortalInterno implements Serializable {
 	public boolean isPermissaoFuncionario() {
 		return possuiGrupoPorDescricao(GrupoUsuario.FUNCIONARIO);
 	}
+	public boolean isPermissaoPreRegistro() {
+		return possuiGrupoPorDescricao(GrupoUsuario.PREREGISTRO);
+	}
+	public boolean isPermissaoPreposto() {
+		return possuiGrupoPorDescricao(GrupoUsuario.PREPOSTO);
+	}
 
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;

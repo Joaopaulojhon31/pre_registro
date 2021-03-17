@@ -29,6 +29,8 @@ public class GrupoUsuario implements Serializable {
 	public static final String CONSULTA = "CONSULTA";
 	public static final String FUNCIONARIO = "FUNCIONARIO";
 	public static final String OFICIAL = "OFICIAL";
+	public static final String PREREGISTRO = "PREREGISTRO";
+	public static final String PREPOSTO = "PREPOSTO";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_id_grupo_usuario")

@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pr="http://primefaces.org/ui">
+<ui:composition template="/pages/template/templateBS3.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Registro Preposto" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Registro Preposto" />
+		</h1>
+	</ui:define>
+
+
+	<ui:define name="body">
+		<!-- Modal -->
+		<h:form id="formBuscaPreRegistro">
+			<div class="modal fade" data-backdrop="static" id="buscaPreRegistro"
+				tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+				aria-hidden="true"
+				jsf:rendered="#{preRegistroPrePostoController.exibeModalBuscaPreRegistro}">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h:panelGroup layout="block" id="mensagens-sistema"
+								class="message #{facesContext.maximumSeverity}">
+								<h:messages />
+							</h:panelGroup>
+							<h5 class="modal-title" id="exampleModalLabel">Informe o CPF
+								da Mãe</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<input type="text" class="form-control" id="busca-cpf-mae"
+								jsf:converter="cpfConverter"
+								onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)"
+								maxlength="14"
+								jsf:value="#{preRegistroPrePostoController.cpfMaeBuscaPreRegistro}" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+
+							<h:commandLink styleClass="btn btn-fill btn-sm btn-success"
+								style="margin-left:5px;  font-size: 14px !important;"
+								update="mensagens-sistema"
+								action="#{preRegistroPrePostoController.buscaPreRegistroExistentePorCpfMae(preRegistroPrePostoController.cpfMaeBuscaPreRegistro)}"
+								onclick="verificaQuantidadeGemeos()">
+								 Buscar
+							</h:commandLink>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<h1>Novo Registro</h1>
+		<p id="aviso-campos">
+			Favor preencher todos os <span class="destaque">campos
+				obrigatórios.</span>
+		</p>
+		<div class="container">
+			<ul class="nav nav-tabs" id="navbar-tabs">
+				<li class="active"><a data-toggle="tab" id="tabs-pre-registro"
+					href="#home">Dados do Recém-Nascido</a></li>
+				<li><a data-toggle="tab" id="tabs-pre-registro" href="#menu1">Dados
+						da Mãe </a></li>
+				<li><a data-toggle="tab" id="tabs-pre-registro" href="#menu2">Dados
+						do Pai </a></li>
+				<li><a data-toggle="tab" id="tabs-pre-registro" href="#menu3">Dados
+						do Cartório</a></li>
+				<li><a data-toggle="tab" id="tabs-pre-registro" href="#menu4">Dados
+						do Contato</a></li>
+				<li><a data-toggle="tab" id="tabs-pre-registro" href="#menu5">Dados
+						do(a) Declarante</a></li>
+			</ul>
+		</div>
+		<h:form id="formPreRegistro">
+			<div class="container">
+				<div class="tab-content">
+
+					<div id="home" class="tab-pane fade in active">
+
+						<h3>
+							<h:outputText value="Informações da criança" />
+						</h3>
+
+						<div class="form-group geral" style="display: flex;">
+							<div style="width: 25%; margin-right: 50px;">
+								<h:outputLabel class="destaque campos"
+									value="O fato de ser gêmeos" />
+								<br />
+
+								<h:selectOneMenu class="form-control" id="comboQuantidadeGemeos"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.quantidadeCriancas}"
+									name="comboQuantidadeGemeos"
+									onclick="verificaQuantidadeGemeos()"
+									onexecute="verificaQuantidadeGemeos()">
+									<f:selectItem itemLabel="Não" itemValue="1" />
+									<f:selectItem itemLabel="Gêmeos" itemValue="2" />
+									<f:selectItem itemLabel="Trigêmeos" itemValue="3" />
+									<f:selectItem itemLabel="Quadrigêmeos" itemValue="4" />
+									<f:selectItem itemLabel="Quíntuplos" itemValue="5" />
+
+									<pr:ajax event="change"
+										update="segundo-gemelar, terceiro-gemelar, quarto-gemelar, quinto-gemelar" />
+								</h:selectOneMenu>
+							</div>
+
+							<div style="width: 25%; margin-right: 40px;">
+								<h:outputLabel class="destaque campos" value="Sexo" />
+								<br />
+								<h:selectOneMenu class="form-control geral"
+									id="comboSexoCrianca1"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.sexoCrianca1}"
+									name="comboSexoCrianca1">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+									<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+								</h:selectOneMenu>
+							</div>
+
+							<div style="width: 25%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos"
+									value="Data de Nascimento" />
+								<input type="Date" class="form-control"
+									id="data-nascimento-crianca1" jsf:converter="dataConverter"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoCrianca1}"></input>
+							</div>
+							<div style="width: 25%;">
+								<h:outputLabel class="destaque campos"
+									value="Horário do Nascimento" />
+								<input type="Text" class="form-control"
+									id="hora-nascimento-crianca1"
+									onkeypress="formatar_mascara(event,this,'##:##'); return somenteNumero(event)"
+									maxlength="5"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.horaNascimentoCrianca1}"></input>
+							</div>
+						</div>
+
+						<div class="form-group geral" style="display: flex;">
+							<div style="width: 85%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos" for="name"
+									value="Nome da criança" />
+								<input type="text" class="form-control" name="name" id="name"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeCrianca1}"></input>
+							</div>
+
+
+							<div style="width: 15%;">
+								<h:outputLabel class="destaque campos" value="Número da DNV" />
+								<input type="Text" class="form-control" id="dnv-crianca1"
+									onkeypress="return somenteNumero(event)" maxlength="11"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dnvCrianca1}"></input>
+							</div>
+						</div>
+						<div jsf:id="segundo-gemelar" name="segundo-gemelar"
+							id="segundo-gemelar" class="geral informacoes-gemeos">
+							<div class="form-group">
+								<h3>
+									<h:outputText value="Informações do segundo gemelar" />
+								</h3>
+
+							</div>
+							<div class="form-group" style="display: flex;">
+								<div style="width: 33%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos" value="Sexo" />
+									<br />
+									<h:selectOneMenu class="form-control " id="comboSexoCrianca2"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.sexoCrianca2}"
+										name="comboSexoCrianca2">
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+										<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+									</h:selectOneMenu>
+								</div>
+								<div style="width: 33%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos"
+										value="Data de Nascimento" />
+									<input type="Date" class="form-control"
+										id="data-nascimento-crianca2" jsf:converter="dataConverter"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoCrianca2}"></input>
+								</div>
+								<div style="width: 33%;">
+									<h:outputLabel class="destaque campos"
+										value="Horário do Nascimento" />
+									<input type="Text" class="form-control"
+										id="hora-nascimento-crianca2"
+										onkeypress="formatar_mascara(event,this,'##:##'); return somenteNumero(event)"
+										maxlength="5"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.horaNascimentoCrianca2}"></input>
+								</div>
+							</div>
+							<div class="form-group" style="display: flex;">
+								<div style="width: 85%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos" for="name"
+										value="Nome do segundo gemelar" />
+									<input type="text" class="form-control"
+										name="name-segundo-gemelar" id="name-segundo-gemelar"
+										maxlength="200"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeCrianca2}"></input>
+								</div>
+								<div style="width: 15%;">
+									<h:outputLabel class="destaque campos" value="Número da DNV" />
+									<input type="Text" class="form-control" id="dnv-crianca2"
+										onkeypress="return somenteNumero(event)" maxlength="11"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dnvCrianca2}"></input>
+								</div>
+							</div>
+						</div>
+						<div jsf:id="terceiro-gemelar" name="terceiro-gemelar"
+							id="terceiro-gemelar" class="geral informacoes-gemeos">
+							<div class="form-group">
+								<h3>
+									<h:outputText value="Informações do terceiro gemelar" />
+								</h3>
+
+								<div class="form-group" style="display: flex;">
+									<div style="width: 33%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos" value="Sexo" />
+										<br />
+										<h:selectOneMenu class="form-control " id="comboSexoCrianca3"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.sexoCrianca3}"
+											name="comboSexoCrianca3">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+											<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+										</h:selectOneMenu>
+									</div>
+									<div style="width: 33%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos"
+											value="Data de Nascimento" />
+										<input type="Date" class="form-control"
+											id="data-nascimento-crianca3" jsf:converter="dataConverter"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoCrianca3}"></input>
+									</div>
+									<div style="width: 33%;">
+										<h:outputLabel class="destaque campos"
+											value="Horário do Nascimento" />
+										<input type="Text" class="form-control"
+											id="hora-nascimento-crianca3"
+											onkeypress="formatar_mascara(event,this,'##:##'); return somenteNumero(event)"
+											maxlength="5"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.horaNascimentoCrianca3}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 85%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos" for="name"
+											value="Nome do terceiro gemelar" />
+										<input type="text" class="form-control"
+											name="name-terceiro-gemelar" id="name-terceiro-gemelar"
+											maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeCrianca3}"></input>
+									</div>
+									<div style="width: 15%;">
+										<h:outputLabel class="destaque campos" value="Número da DNV" />
+										<input type="Text" class="form-control" id="dnv-crianca3"
+											onkeypress="return somenteNumero(event)" maxlength="11"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dnvCrianca3}"></input>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div jsf:id="quarto-gemelar" name="quarto-gemelar"
+							id="quarto-gemelar" class="geral informacoes-gemeos">
+							<div class="form-group">
+								<h3>
+									<h:outputText value="Informações do quarto gemelar" />
+								</h3>
+
+								<div class="form-group" style="display: flex;">
+									<div style="width: 33%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos" value="Sexo" />
+										<br />
+										<h:selectOneMenu class="form-control " id="comboSexoCrianca4"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.sexoCrianca4}"
+											name="comboSexoCrianca4">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+											<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+										</h:selectOneMenu>
+									</div>
+									<div style="width: 33%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos"
+											value="Data de Nascimento" />
+										<input type="Date" class="form-control"
+											id="data-nascimento-crianca4" jsf:converter="dataConverter"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoCrianca4}"></input>
+									</div>
+									<div style="width: 33%;">
+										<h:outputLabel class="destaque campos"
+											value="Horário do Nascimento" />
+										<input type="Text" class="form-control"
+											id="hora-nascimento-crianca4"
+											onkeypress="formatar_mascara(event,this,'##:##'); return somenteNumero(event)"
+											maxlength="5"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.horaNascimentoCrianca4}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 85%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos" for="name"
+											value="Nome do quarto gemelar" />
+										<input type="text" class="form-control"
+											name="name-quarto-gemelar" id="name-quarto-gemelar"
+											maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeCrianca4}"></input>
+									</div>
+									<div style="width: 15%;">
+										<h:outputLabel class="destaque campos" value="Número da DNV" />
+										<input type="Text" class="form-control" id="dnv-crianca4"
+											onkeypress="return somenteNumero(event)" maxlength="11"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dnvCrianca4}"></input>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div jsf:id="quinto-gemelar" name="quinto-gemelar"
+							id="quinto-gemelar" class="geral informacoes-gemeos">
+							<div class="form-group">
+								<h3>
+									<h:outputText value="Informações do quinto gemelar" />
+								</h3>
+
+								<div class="form-group" style="display: flex;">
+									<div style="width: 33%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos" value="Sexo" />
+										<br />
+										<h:selectOneMenu class="form-control " id="comboSexoCrianca5"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.sexoCrianca5}"
+											name="comboSexoCrianca5">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+											<f:selectItem itemLabel="Masculino" itemValue="masculino" />
+										</h:selectOneMenu>
+									</div>
+									<div style="width: 33%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos"
+											value="Data de Nascimento" />
+										<input type="Date" class="form-control"
+											id="data-nascimento-crianca5" jsf:converter="dataConverter"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoCrianca5}"></input>
+									</div>
+									<div style="width: 33%;">
+										<h:outputLabel class="destaque campos"
+											value="Horário do Nascimento" />
+										<input type="Text" class="form-control"
+											id="hora-nascimento-crianca5"
+											onkeypress="formatar_mascara(event,this,'##:##'); return somenteNumero(event)"
+											maxlength="5"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.horaNascimentoCrianca5}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 85%; margin-right: 30px;">
+										<h:outputLabel class="destaque campos" for="name"
+											value="Nome do quinto gemelar" />
+										<input type="text" class="form-control"
+											name="name-quinto-gemelar" id="name-quinto-gemelar"
+											maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeCrianca5}"></input>
+									</div>
+									<div style="width: 15%;">
+										<h:outputLabel class="destaque campos" value="Número da DNV" />
+										<input type="Text" class="form-control" id="dnv-crianca5"
+											onkeypress="return somenteNumero(event)" maxlength="11"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dnvCrianca5}"></input>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group geral" style="display: flex;">
+							<div style="width: 50%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos" value="Naturalidade - UF" />
+								<br />
+								<f:ajax render="comboMunicipioCrianca" event="change"
+									immediate="false"
+									listener="#{preRegistroPrePostoController.recuperaListaMunicipioPorUfNaturalidadeCriancaPrePosto(preRegistroPrePostoController.preRegistroPrePosto.naturalidadeUf)}">
+									<h:selectOneMenu id="comboUfCrianca" name="comboUfCrianca"
+										styleClass="form-control"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadeUf}">
+										<f:selectItem itemLabel="Selecione" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{preRegistroPrePostoController.ufDAO.recuperaListaUF()}"
+											var="uf" itemLabel="#{uf.nomeCompleto}"
+											itemValue="#{uf.sigla}" />
+									</h:selectOneMenu>
+								</f:ajax>
+							</div>
+							<div style="width: 50%;">
+								<h:outputLabel class="destaque campos"
+									value="Naturalidade - Município" />
+								<br />
+								<h:selectOneMenu id="comboMunicipioCrianca"
+									name="comboMunicipioCrianca" styleClass="form-control"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidade}">
+
+									<f:selectItem itemLabel="Selecione" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems id="municipioCrianca"
+										value="#{preRegistroPrePostoController.listaNaturalidadeMunicipiosCrianca}"
+										var="municipio" itemLabel="#{municipio.nome}"
+										itemValue="#{municipio.nome}" />
+								</h:selectOneMenu>
+							</div>
+
+						</div>
+						<br />
+						<div class="geral" id="button-proximo-crianca">
+
+							<button type="button" class="btn  button-preregistro"
+								style="float: right;" id="form-button"
+								onclick="AbreNavTabDadosMae()">Próximo</button>
+
+						</div>
+					</div>
+
+					<div id="menu1" class="tab-pane fade">
+
+						<h3>Informações da mãe</h3>
+						<div class="form-group" style="display: flex;">
+							<div style="width: 80%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos" value="Nome da Mãe" />
+								<input type="text" class="form-control" id="name-mae"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeMae}"></input>
+							</div>
+							<div style="width: 20%;">
+								<h:outputLabel class="destaque campos" value="CPF da Mãe" />
+								<input type="text" class="form-control" id="cpf-mae"
+									jsf:converter="cpfConverter"
+									onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)"
+									maxlength="14"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.cpfMae}"
+									jsf:disabled="#{preRegistroPrePostoController.disabilitaCamposCPFMae}" />
+							</div>
+						</div>
+						<div class="form-group" style="display: flex;">
+
+							<div style="width: 25%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos" value="Nacionalidade" />
+								<input type="text" class="form-control" id="nacionalidade-mae"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nacionalidadeMae}"></input>
+							</div>
+
+							<div style="width: 25%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos" value="Naturalidade - UF" />
+								<br />
+								<f:ajax render="comboMunicipionaturalidadeMae" event="change"
+									immediate="false"
+									listener="#{preRegistroPrePostoController.recuperaListaMunicipioPorUfNaturalidadeMaePrePosto(preRegistroPrePostoController.preRegistroPrePosto.naturalidadeUfMae)}">
+									<h:selectOneMenu id="comboNaturalidadeUfMae"
+										name="comboNaturalidadeUfMae" styleClass="form-control"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadeUfMae}">
+										<f:selectItem itemLabel="Selecione" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems
+											value="#{preRegistroPrePostoController.ufDAO.recuperaListaUF()}"
+											var="uf" itemLabel="#{uf.nomeCompleto}"
+											itemValue="#{uf.sigla}" />
+									</h:selectOneMenu>
+								</f:ajax>
+							</div>
+
+							<div style="width: 25%; margin-right: 30px;">
+
+								<h:outputLabel class="destaque campos"
+									value="Naturalidade - Município" />
+								<br />
+								<h:selectOneMenu id="comboMunicipionaturalidadeMae"
+									name="comboMunicipionaturalidadeMae" styleClass="form-control"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadeMae}">
+
+									<f:selectItem itemLabel="Selecione" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems id="NaturalidadeMunicipioMae"
+										value="#{preRegistroPrePostoController.listaNaturalidadeMunicipiosMae}"
+										var="municipio" itemLabel="#{municipio.nome}"
+										itemValue="#{municipio.nome}" />
+								</h:selectOneMenu>
+							</div>
+
+							<div style="width: 25%;">
+								<h:outputLabel class="campos" value="Naturalidade - Distrito" />
+								<input type="text" class="form-control" maxlength="200"
+									id="naturalidade-dist-mae"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadeDistritoMae}"></input>
+							</div>
+
+						</div>
+						<br />
+
+						<div jsf:id="dadosCepMae">
+							<div class="form-group" style="display: flex;">
+								<div style="width: 25%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos" value="CEP" />
+
+									<input type="text" class="form-control"
+										jsf:converter="cepConverter"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaCEPMae}"
+										onkeypress="formatar_mascara(event,this,'#####-###'); return somenteNumero(event)"
+										maxlength="9">
+									<pr:ajax event="blur" process="@form"
+										onstart="PF('statusDialog').show();"
+										oncomplete="mensagensSistema(); PF('statusDialog').hide();"
+										update="dadosCepMae, mensagens-sistema, comboServentiaDoRegistro"
+										listener="#{preRegistroPrePostoController.consultaCEPMaePrePosto()}" />
+									</input>
+								</div>
+								<div style="width: 25%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos" value="Residência - UF" />
+									<br />
+									<f:ajax render="comboResidenciaMunicipioMae"
+										event="valueChange" immediate="false"
+										listener="#{preRegistroPrePostoController.recuperaListaMunicipioMaiusculoSemAcentoPorUfResidenciaMaePrePosto(preRegistroPrePostoController.preRegistroPrePosto.residenciaUfMae)}">
+										<select jsf:id="comboResidenciaUfMae" class="form-control"
+											name="comboResidenciaUfMae" size="1"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaUfMae}">
+											<f:selectItem itemLabel="Selecione" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems
+												value="#{preRegistroPrePostoController.ufDAO.recuperaListaUF()}"
+												var="uf" itemLabel="#{uf.nomeCompleto}"
+												itemValue="#{uf.sigla}" />
+										</select>
+									</f:ajax>
+								</div>
+								<div style="width: 25%; margin-right: 30px;">
+
+									<h:outputLabel class="destaque campos"
+										value="Residência - Município" />
+									<br />
+
+									<h:selectOneMenu id="comboResidenciaMunicipioMae"
+										name="comboResidenciaMunicipioMae" styleClass="form-control"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaMunicipioMae}">
+
+										<f:selectItem itemLabel="Selecione" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems id="ResidenciaMunicipioMae"
+											value="#{preRegistroPrePostoController.listaResidenciaMunicipiosMae}"
+											var="municipio" itemLabel="#{municipio.nome}"
+											itemValue="#{municipio.nome}" />
+										<pr:ajax event="change"
+											update="comboServentiaDoRegistro, mensagens-sistema"
+											listener="#{preRegistroPrePostoController.recuperaListaServentiasProximas()}" />
+									</h:selectOneMenu>
+								</div>
+
+								<div style="width: 25%;">
+									<h:outputLabel class="destaque campos"
+										value="Residência - Bairro" />
+									<input type="text" class="form-control" maxlength="200"
+										id="residencia-bairro-mae"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaBairroMae}"></input>
+								</div>
+							</div>
+
+
+							<br />
+							<div class="form-group" style="display: flex;">
+								<div style="width: 50%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos"
+										value="Residência - Logradouro" />
+									<input type="text" class="form-control" maxlength="200"
+										id="residencia-logradouro-mae"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaLogradouroMae}"></input>
+								</div>
+								<div style="width: 25%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos"
+										value="Residência - Número" />
+									<input type="text" class="form-control" maxlength="200"
+										id="residencia-numero-mae"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaNumeroMae}"></input>
+								</div>
+								<div style="width: 25%;">
+									<h:outputLabel class="campos" value="Residência - Complemento" />
+									<input type="text" class="form-control" maxlength="200"
+										id="residencia-complemento-mae"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaComplementoMae}"></input>
+								</div>
+							</div>
+						</div>
+						<div class="form-group" style="display: flex;">
+							<div style="width: 40%; margin-right: 30px;">
+								<h:outputLabel class="campos" value="Residência - Distrito" />
+								<input type="text" class="form-control" maxlength="200"
+									id="residencia-distrito-mae"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaDistritoMae}"></input>
+							</div>
+							<div style="width: 30%; margin-right: 30px;">
+								<h:outputLabel class="destaque campos" value="Profissão" />
+								<input type="text" class="form-control" id="profissao-mae"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.profissaoMae}"></input>
+							</div>
+							<div style="width: 30%;">
+								<h:outputLabel class="destaque campos"
+									value="Data de Nascimento" />
+								<input type="Date" class="form-control" id="data-nascimento-mae"
+									jsf:converter="dataConverter"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoMae}"></input>
+							</div>
+
+						</div>
+						<div class="form-group" style="display: flex;">
+							<div style="width: 30%; margin-right: 30px;">
+								<h:outputLabel class=" campos" value="Tipo de Documento" />
+								<br />
+								<h:selectOneMenu class="form-control "
+									id="comboTipoDocumentoMae"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.tipoDocumentoMae}"
+									name="comboTipoDocumentoMae">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Título de Eleitor"
+										itemValue="Título de Eleitor" />
+									<f:selectItem itemLabel="Passaporte" itemValue="Passaporte" />
+									<f:selectItem
+										itemLabel="C.N.H. - Carteira Nacional de Habilitação"
+										itemValue="C.N.H. - Carteira Nacional de Habilitação" />
+									<f:selectItem
+										itemLabel="C.T.P.S. - Carteira de Trabalho e Previdência Social"
+										itemValue="C.T.P.S. - Carteira de Trabalho e Previdência Social" />
+									<f:selectItem itemLabel="R.G. - Carteira de Identidade"
+										itemValue="R.G. - Carteira de Identidade" />
+									<f:selectItem itemLabel="Carteira de Marítimo"
+										itemValue="Carteira de Marítimo" />
+									<f:selectItem
+										itemLabel="Documento de Identificação do Estrangeiro no País de Origem"
+										itemValue="Documento de Identificação do Estrangeiro no País de Origem" />
+									<f:selectItem itemLabel="Certidão de Nascimento"
+										itemValue="Certidão de Nascimento" />
+									<f:selectItem
+										itemLabel="Carteira de Identificação Profissional"
+										itemValue="Carteira de Identificação Profissional" />
+									<f:selectItem itemLabel="Certificado de Reservista"
+										itemValue="Certificado de Reservista" />
+									<f:selectItem itemLabel="Outro Documento"
+										itemValue="Outro Documento" />
+								</h:selectOneMenu>
+							</div>
+							<div style="width: 70%;">
+								<h:outputLabel class="campos" value="Documento de Identificação" />
+								<input type="text" class="form-control" id="documento-mae"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.documentoMae}"></input>
+							</div>
+
+
+
+						</div>
+
+						<div class="form-group" style="display: flex;">
+							<div style="width: 75%; margin-right: 30px;">
+								<h:outputLabel class=" campos" value="Filiação - Avô" />
+								<input type="text" class="form-control" id="filiacao-avos1-mae"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.filiacaoPaiMae}"></input>
+							</div>
+							<div style="width: 25%;">
+								<h:outputLabel class=" campos" value="Filiação - Avô Falecido?" />
+								<br />
+								<h:selectOneMenu class="form-control "
+									id="comboFiliacaoPaiMaeFalecido"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.paiMaeFalecido}"
+									name="comboFiliacaoPaiMaeFalecido">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+
+						<div class="form-group" style="display: flex;">
+
+							<div style="width: 75%; margin-right: 30px;">
+								<h:outputLabel class=" campos" value="Filiação - Avó" />
+								<input type="text" class="form-control" id="filiacao-avos2-mae"
+									maxlength="200"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.filiacaoMaeMae}"></input>
+							</div>
+							<div style="width: 25%;">
+								<h:outputLabel class=" campos" value="Filiação - Avó Falecida?" />
+								<br />
+								<h:selectOneMenu class="form-control "
+									id="comboFiliacaoMaeMaeFalecida"
+									value="#{preRegistroPrePostoController.preRegistroPrePosto.maeMaeFalecida}"
+									name="comboFiliacaoMaeMaeFalecida">
+									<f:selectItem itemLabel="Selecione" itemValue="" />
+									<f:selectItem itemLabel="Sim" itemValue="true" />
+									<f:selectItem itemLabel="Não" itemValue="false" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+						<div id="button-id">
+							<div style="float: right;">
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-anterior"
+									onclick="AbreNavTabDadosCrianca()">Anterior</button>
+
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-proximo" onclick="AbreNavTabDadosPai()">Próximo</button>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div id="menu2" class="tab-pane fade">
+
+						<h3>Informações do pai</h3>
+						<div style="width: 30%;">
+							<h:outputLabel class="destaque campos" value="Pai" />
+							<br />
+							<h:selectOneMenu class="form-control " id="comboSituacaoPai"
+								value="#{preRegistroPrePostoController.preRegistroPrePosto.statusPai}"
+								name="comboSituacaoPai" onclick="verificaStatusPai()">
+								<f:selectItem itemLabel="Declarado" itemValue="1" />
+								<f:selectItem itemLabel="Não declarado" itemValue="2" />
+								<f:selectItem itemLabel="Suposto" itemValue="3" />
+								<pr:ajax event="change"
+									update="comboTipoDeclarante, comboPaisResidenciaServentiaPrePosto, comboServentiaDoRegistro"
+									listener="#{preRegistroPrePostoController.preencheListasStatusPai()}" />
+							</h:selectOneMenu>
+						</div>
+						<BR />
+						<div id="informacoes-pai">
+							<div class="form-group" style="display: flex;">
+								<div style="width: 80%; margin-right: 30px;">
+									<h:outputLabel class="campos" value="Nome do Pai" />
+									<input type="text" class="form-control" id="name-pai"
+										maxlength="200"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomePai}"></input>
+								</div>
+								<div style="width: 20%;">
+									<h:outputLabel class="campos" value="CPF do Pai" />
+									<input type="text" class="form-control" id="cpf-pai"
+										jsf:converter="cpfConverter"
+										onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)"
+										maxlength="14"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.cpfPai}"></input>
+								</div>
+							</div>
+							<div class="form-group" style="display: flex;">
+								<div style="width: 25%; margin-right: 30px;">
+									<h:outputLabel class="campos destaque-pai" id="nacionalidade-pai-n"
+										value="Nacionalidade" />
+									<input type="text" class="form-control" id="nacionalidade-pai"
+										maxlength="200"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nacionalidadePai}"></input>
+								</div>
+								<div style="width: 25%; margin-right: 30px;">
+									<h:outputLabel class="campos destaque-pai"
+										id="naturalidade-uf-pai-n" value="Naturalidade - UF" />
+									<br />
+									<f:ajax render="comboNaturalidadeMunicipioPai" event="change"
+										immediate="false"
+										listener="#{preRegistroPrePostoController.recuperaListaMunicipioPorUfNaturalidadePaiPrePosto(preRegistroPrePostoController.preRegistroPrePosto.naturalidadeUfPai)}">
+										<h:selectOneMenu id="comboNaturalidadeUfPai"
+											name="comboNaturalidadeUfPai" styleClass="form-control"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadeUfPai}">
+											<f:selectItem itemLabel="Selecione" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems
+												value="#{preRegistroPrePostoController.ufDAO.recuperaListaUF()}"
+												var="uf" itemLabel="#{uf.nomeCompleto}"
+												itemValue="#{uf.sigla}" />
+										</h:selectOneMenu>
+									</f:ajax>
+								</div>
+								<div style="width: 25%; margin-right: 30px;">
+									<h:outputLabel class="campos destaque-pai"
+										id="naturalidade-municipio-pai-n"
+										value="Naturalidade - Município" />
+									<br />
+									<h:selectOneMenu id="comboNaturalidadeMunicipioPai"
+										name="comboNaturalidadeMunicipioPai" styleClass="form-control"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadePai}">
+
+										<f:selectItem itemLabel="Selecione" itemValue=""
+											noSelectionOption="true" />
+										<f:selectItems id="NaturalidadeMunicipioPai"
+											value="#{preRegistroPrePostoController.listaNaturalidadeMunicipiosPai}"
+											var="municipio" itemLabel="#{municipio.nome}"
+											itemValue="#{municipio.nome}" />
+									</h:selectOneMenu>
+								</div>
+								<div style="width: 25%;">
+									<h:outputLabel class="campos" value="Naturalidade - Distrito" />
+									<input type="text" class="form-control" maxlength="200"
+										id="naturalidade-dist-pai"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.naturalidadeDistritoPai}"></input>
+								</div>
+
+
+							</div>
+
+							<br />
+
+
+							<div id="botaoAproveitarDadosCepMae">
+								<h:commandButton class="btn btn-primary btn-sm btn-block"
+									style="width:45%; margin-left: auto;margin-right: auto; "
+									action="#{preRegistroPrePostoController.aproveitarDadosResidenciaMae()}"
+									value="Aproveitar endereço da mãe">
+									<pr:ajax execute="@form"
+										update="dadosCEPPai, mensagens-sistema, comboServentiaDoRegistro" />
+								</h:commandButton>
+							</div>
+							<br />
+							<div jsf:id="dadosCEPPai">
+								<div class="form-group" style="display: flex;">
+									<div style="width: 25%; margin-right: 30px;">
+										<h:outputLabel class="campos destaque-pai" id="cep-pai-n"
+											value="CEP" />
+
+										<input type="text" class="form-control"
+											jsf:converter="cepConverter"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaCEPpai}"
+											onkeypress="formatar_mascara(event,this,'#####-###'); return somenteNumero(event)"
+											maxlength="9">
+										<pr:ajax event="blur" process="@form"
+											onstart="PF('statusDialog').show();"
+											oncomplete="mensagensSistema(); PF('statusDialog').hide();"
+											update="dadosCEPPai, mensagens-sistema, comboServentiaDoRegistro"
+											listener="#{preRegistroPrePostoController.consultaCEPPaiPrePosto()}" />
+										</input>
+									</div>
+									<div style="width: 25%; margin-right: 30px;">
+										<h:outputLabel class="campos destaque-pai"
+											id="residencia-uf-pai-n" value="Residência
+								- UF" />
+										<br />
+										<f:ajax
+											render="comboResidenciaMunicipioPai, mensagens-sistema"
+											event="change" immediate="false"
+											listener="#{preRegistroPrePostoController.recuperaListaMunicipioMaiusculoSemAcentoPorUfResidenciaPaiPrePosto(preRegistroPrePostoController.preRegistroPrePosto.residenciaUfPai)}">
+											<h:selectOneMenu id="comboResidenciaUfPai"
+												name="comboResidenciaUfPai" styleClass="form-control"
+												value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaUfPai}">
+												<f:selectItem itemLabel="Selecione" itemValue=""
+													noSelectionOption="true" />
+												<f:selectItems
+													value="#{preRegistroPrePostoController.ufDAO.recuperaListaUF()}"
+													var="uf" itemLabel="#{uf.nomeCompleto}"
+													itemValue="#{uf.sigla}" />
+											</h:selectOneMenu>
+										</f:ajax>
+									</div>
+									<div style="width: 25%; margin-right: 30px;">
+										<h:outputLabel class="campos destaque-pai"
+											id="residencia-municipio-pai-n"
+											value="Residência - Município" />
+										<br />
+										<h:selectOneMenu id="comboResidenciaMunicipioPai"
+											name="comboResidenciaMunicipioPai" styleClass="form-control"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaMunicipioPai}">
+											<f:selectItem itemLabel="Selecione" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems id="ResidenciaMunicipioPai"
+												value="#{preRegistroPrePostoController.listaResidenciaMunicipiosPai}"
+												var="municipio" itemLabel="#{municipio.nome}"
+												itemValue="#{municipio.nome}" />
+											<pr:ajax event="change"
+												update="comboServentiaDoRegistro, mensagens-sistema"
+												listener="#{preRegistroPrePostoController.recuperaListaServentiasProximas()}" />
+										</h:selectOneMenu>
+									</div>
+									<div style="width: 25%;">
+										<h:outputLabel class="campos destaque-pai"
+											id="residencia-bairro-pai-n"
+											value="Residência
+								- Bairro" />
+										<input type="text" class="form-control" maxlength="200"
+											id="residencia-bairro-pai"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaBairroPai}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 50%; margin-right: 30px;">
+										<h:outputLabel class="campos destaque-pai"
+											id="residencia-logradouro-pai-n"
+											value="Residência - Logradouro" />
+										<input type="text" class="form-control" maxlength="200"
+											id="residencia-logradouro-pai"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaLogradouroPai}"></input>
+									</div>
+									<div style="width: 25%; margin-right: 30px;">
+										<h:outputLabel class="campos destaque-pai"
+											id="residencia-numero-pai-n"
+											value="Residência
+								- Número" />
+										<input type="text" class="form-control" maxlength="200"
+											id="residencia-numero-pai"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaNumeroPai}"></input>
+									</div>
+									<div style="width: 25%;">
+										<h:outputLabel class="campos" value="Residência - Complemento" />
+										<input type="text" class="form-control" maxlength="200"
+											id="residencia-complemento-pai"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaComplementoPai}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 40%; margin-right: 30px;">
+										<h:outputLabel class="campos" id="residencia-distrito-pai-n"
+											value="Residência
+								- Distrito" />
+										<input type="text" class="form-control" maxlength="200"
+											id="residencia-distrito-pai"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.residenciaDistritoPai}"></input>
+									</div>
+									<div style="width: 30%; margin-right: 30px;">
+										<h:outputLabel class="campos destaque-pai"
+											id="profissao-pai-n" value="Profissão" />
+										<input type="text" class="form-control" id="profissao-pai"
+											maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.profissaoPai}"></input>
+									</div>
+									<div style="width: 30%;">
+										<h:outputLabel class="campos destaque-pai"
+											id="data-nascimento-pai-n"
+											value="Data
+								de Nascimento" />
+										<input type="date" class="form-control"
+											id="data-nascimento-pai" jsf:converter="dataConverter"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoPai}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 35%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="Tipo de Documento" />
+										<br />
+										<h:selectOneMenu class="form-control "
+											id="comboTipoDocumentoPai"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.tipoDocumentoPai}"
+											name="comboTipoDocumentoPai">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Título de Eleitor"
+												itemValue="Título de Eleitor" />
+											<f:selectItem itemLabel="Passaporte" itemValue="Passaporte" />
+											<f:selectItem
+												itemLabel="C.N.H. - Carteira Nacional de Habilitação"
+												itemValue="C.N.H. - Carteira Nacional de Habilitação" />
+											<f:selectItem
+												itemLabel="C.T.P.S. - Carteira de Trabalho e Previdência Social"
+												itemValue="C.T.P.S. - Carteira de Trabalho e Previdência Social" />
+											<f:selectItem itemLabel="R.G. - Carteira de Identidade"
+												itemValue="R.G. - Carteira de Identidade" />
+											<f:selectItem itemLabel="Carteira de Marítimo"
+												itemValue="Carteira de Marítimo" />
+											<f:selectItem
+												itemLabel="Documento de Identificação do Estrangeiro no País de Origem"
+												itemValue="Documento de Identificação do Estrangeiro no País de Origem" />
+											<f:selectItem itemLabel="Certidão de Nascimento"
+												itemValue="Certidão de Nascimento" />
+											<f:selectItem
+												itemLabel="Carteira de Identificação Profissional"
+												itemValue="Carteira de Identificação Profissional" />
+											<f:selectItem itemLabel="Certificado de Reservista"
+												itemValue="Certificado de Reservista" />
+											<f:selectItem itemLabel="Outro Documento"
+												itemValue="Outro Documento" />
+										</h:selectOneMenu>
+									</div>
+									<div style="width: 65%;">
+										<h:outputLabel class="campos"
+											value="Documento de Identificação" />
+										<input type="text" class="form-control" id="documento-pai"
+											maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.documentoPai}"></input>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 75%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="Filiação - Avô" />
+										<input type="text" class="form-control"
+											id="filiacao-avos1-pai" maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.filiacaoPaiPai}"></input>
+									</div>
+									<div style="width: 25%;">
+										<h:outputLabel class="campos" value="Filiação - Avô Falecido?" />
+										<br />
+										<h:selectOneMenu class="form-control "
+											id="comboFiliacaoPaiPaiFalecido"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.paiPaiFalecido}"
+											name="comboFiliacaoPaiPaiFalecido">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Sim" itemValue="true" />
+											<f:selectItem itemLabel="Não" itemValue="false" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="form-group" style="display: flex;">
+									<div style="width: 75%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="Filiação - Avó" />
+										<input type="text" class="form-control"
+											id="filiacao-avos2-pai" maxlength="200"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.filiacaoMaePai}"></input>
+									</div>
+									<div style="width: 25%;">
+										<h:outputLabel class="campos" value="Filiação - Avó Falecida?" />
+										<br />
+										<h:selectOneMenu class="form-control "
+											id="comboFiliacaoMaePaiFalecida"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.maePaiFalecida}"
+											name="comboFiliacaoMaePaiFalecida">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Sim" itemValue="true" />
+											<f:selectItem itemLabel="Não" itemValue="false" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="button-id">
+							<div style="float: right;">
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-anterior" onclick="AbreNavTabDadosMae()">Anterior</button>
+
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-proximo"
+									onclick="AbreNavTabDadosCartorio()">Próximo</button>
+							</div>
+
+						</div>
+
+					</div>
+					<div id="menu3" class="tab-pane fade">
+
+						<h3>Informações da serventia</h3>
+						<div class="form-group">
+							<h:outputLabel class="destaque campos" value="Opção de Registro" />
+							<br></br>
+							<h:selectOneMenu class="form-control " id="comboOpcaoRegistro"
+								disabled="#{preRegistroPrePostoController.disabilitaCamposServentia}"
+								value="#{preRegistroPrePostoController.preRegistroPrePosto.opcaoRegistro}"
+								name="comboOpcaoRegistro" onclick="verificaOpcaoRegistro()">
+								<f:selectItem itemLabel="Residência dos Pais"
+									itemValue="Residência dos Pais" />
+								<f:selectItem
+									itemLabel="Local de Nascimento -Unidade Interligada"
+									itemValue="Local de Nascimento -Unidade Interligada" />
+							</h:selectOneMenu>
+
+						</div>
+
+						<div class="form-group" jsf:id="serventia-pre-registro"
+							id="serventia-pre-registro">
+
+							<h:outputLabel class="destaque campos"
+								value="Cartório mais próximo da residência" />
+							<br></br>
+							<h:selectOneMenu class="form-control"
+								disabled="#{preRegistroPrePostoController.disabilitaCamposServentia}"
+								id="comboPaisResidenciaServentiaPrePosto"
+								value="#{preRegistroPrePostoController.preRegistroPrePosto.paisResidenciaServentiaEscolhida}"
+								name="comboPaisResidenciaServentiaPrePosto"
+								onclick="verificaOpcaoRegistroResidenciaPais()">
+								<f:selectItems id="paisResidenciaServentia"
+									value="#{preRegistroPrePostoController.listaPaisResidenciaMaisProximaServentia}" />
+								<pr:ajax event="change"
+									update="comboServentiaDoRegistro, mensagens-sistema"
+									listener="#{preRegistroPrePostoController.recuperaListaServentiasProximas()}" />
+							</h:selectOneMenu>
+							<br />
+
+							<h:outputLabel class="destaque campos"
+								value="Selecione a serventia onde
+							será lavrado o registro de nascimento" />
+							<br></br>
+							<h:selectOneMenu id="comboServentiaDoRegistro"
+								disabled="#{preRegistroPrePostoController.disabilitaCamposServentia}"
+								name="comboServentiaDoRegistro" styleClass="form-control"
+								value="#{preRegistroPrePostoController.preRegistroPrePosto.codCorregedoriaCartorio}">
+								<f:selectItem itemLabel="Selecione" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems id="ServentiaDoRegistro"
+									value="#{preRegistroPrePostoController.listaCartorio}"
+									var="serventia"
+									itemLabel="#{serventia.nomeDistritoECartorio} (#{serventia.logradouro},#{serventia.numeroLogradouro} - #{serventia.bairro})"
+									itemValue="#{serventia.codigoCorregedoria}" />
+							</h:selectOneMenu>
+						</div>
+						<div id="button-id">
+							<div style="float: right;">
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-anterior" onclick="AbreNavTabDadosPai()">Anterior</button>
+
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-proximo"
+									onclick="AbreNavTabDadosContato()">Próximo</button>
+							</div>
+
+						</div>
+					</div>
+					<div id="menu4" class="geral tab-pane fade">
+						<h3>Informações para contato</h3>
+						<h:outputLabel class="destaque campos" value="Nome do contato" />
+						<br /> <input type="text" class="form-control" id="nome-contato"
+							maxlength="200"
+							jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeContato}"></input>
+						<br />
+						<h:outputLabel class="destaque campos" value="Telefone/ Celular" />
+						<br /> <input type="text" class="form-control"
+							id="telefone-contato"
+							onkeypress="formatar_mascara(event,this,'## #####-####'); return somenteNumero(event)"
+							maxlength="13"
+							jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.telCelularContato}"></input>
+						<br />
+						<h:outputLabel class=" campos" value="Quarto - Ramal" />
+						<br /> <input type="text" class="form-control" id="quarto-ramal"
+							maxlength="200"
+							jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dadosQuartoHospedagemMae}"></input>
+						<br />
+						<div id="button-id">
+							<div style="float: right;">
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-anterior"
+									onclick="AbreNavTabDadosCartorio()">Anterior</button>
+
+								<button type="button" class="btn  button-preregistro"
+									id="form-button button-proximo"
+									onclick="AbreNavTabDadosDeclarante()">Próximo</button>
+							</div>
+						</div>
+					</div>
+					<div id="menu5" class="tab-pane fade">
+						<h3>Informações sobre o declarante</h3>
+						<h:outputLabel class="destaque campos" value="Declarante" />
+						<br />
+						<div style="width: 30%;">
+							<h:selectOneMenu class="form-control geral"
+								id="comboTipoDeclarante"
+								value="#{preRegistroPrePostoController.preRegistroPrePosto.tipoDeclarante}"
+								name="comboTipoDeclarante" onclick="verificaTipoDeclarante()"
+								onexecute="verificaTipoDeclarante()">
+								<f:selectItems id="pessoaDeclarantePreRegistro"
+									value="#{preRegistroPrePostoController.listaPessoaDeclarante}" />
+							</h:selectOneMenu>
+						</div>
+						<br />
+
+						<div class="geral" id="dados-declarante" name="dados-declarante">
+
+							<div>
+								<h:outputLabel class="destaque campos" value="Nome" />
+								<br /> <input type="text" class="form-control" maxlength="200"
+									id="nome-declarante"
+									jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nomeDeclarante}"></input>
+								<br />
+							</div>
+
+							<div class="form-group" style="display: flex;">
+								<div style="width: 70%; margin-right: 30px;">
+									<h:outputLabel class="destaque campos"
+										value="Pessoa Declarante" />
+									<br />
+									<div id="pessoa-declarante" name="pessoa-declarante">
+										<h:selectOneMenu class="form-control"
+											id="comboPessoaDeclarante"
+											value="#{preRegistroPrePostoController.tipoDeclaranteOutro}"
+											name="comboTipoDeclarante">
+											<f:selectItem itemLabel="Selecione" itemValue="" />
+											<f:selectItem itemLabel="Avô paterno" itemValue="1" />
+											<f:selectItem itemLabel="Avó paterna" itemValue="2" />
+											<f:selectItem itemLabel="Avô materno" itemValue="3" />
+											<f:selectItem itemLabel="Avó materna" itemValue="4" />
+											<f:selectItem itemLabel="Tio paterno" itemValue="5" />
+											<f:selectItem itemLabel="Tia paterna" itemValue="6" />
+											<f:selectItem itemLabel="Tio materno" itemValue="7" />
+											<f:selectItem itemLabel="Tia materna" itemValue="8" />
+											<f:selectItem itemLabel="Outra pessoa" itemValue="9" />
+											<pr:ajax event="change" update="comboTipoDeclaracao"
+												listener="#{preRegistroPrePostoController.preecheListaPessoaTipoDeclaracao()}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+
+
+								<div id="tipo-declaracao" name="tipo-declaracao"
+									style="width: 30%;">
+									<h:outputLabel class="destaque campos"
+										value="Tipo de Declaração" />
+									<br />
+									<h:selectOneMenu class="form-control" id="comboTipoDeclaracao"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.tipoDeclaracao}"
+										name="comboTipoDeclaracao">
+										<f:selectItems id="tipoDeclaracao"
+											value="#{preRegistroPrePostoController.listaPessoaTipoDeclaracao}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="form-group" style="display: flex;">
+								<div style="width: 30%; margin-right: 30px;">
+									<h:outputLabel class=" campos" value="Tipo de Documento" />
+									<br />
+									<h:selectOneMenu class="form-control "
+										id="comboTipoDocumentoDeclarante"
+										value="#{preRegistroPrePostoController.preRegistroPrePosto.tipoDocDeclarante}"
+										name="comboTipoDocumentoDeclarante">
+										<f:selectItem itemLabel="Selecione" itemValue="" />
+										<f:selectItem itemLabel="C.P.F - Cadastro de Pessoa Física"
+											itemValue="C.P.F - Cadastro de Pessoa Física" />
+										<f:selectItem itemLabel="Título de Eleitor"
+											itemValue="Título de Eleitor" />
+										<f:selectItem itemLabel="Passaporte" itemValue="Passaporte" />
+										<f:selectItem
+											itemLabel="C.N.H. - Carteira Nacional de Habilitação"
+											itemValue="C.N.H. - Carteira Nacional de Habilitação" />
+										<f:selectItem
+											itemLabel="C.T.P.S. - Carteira de Trabalho e Previdência Social"
+											itemValue="C.T.P.S. - Carteira de Trabalho e Previdência Social" />
+										<f:selectItem itemLabel="R.G. - Carteira de Identidade"
+											itemValue="R.G. - Carteira de Identidade" />
+										<f:selectItem itemLabel="Carteira de Marítimo"
+											itemValue="Carteira de Marítimo" />
+										<f:selectItem
+											itemLabel="Documento de Identificação do Estrangeiro no País de Origem"
+											itemValue="Documento de Identificação do Estrangeiro no País de Origem" />
+										<f:selectItem itemLabel="Certidão de Nascimento"
+											itemValue="Certidão de Nascimento" />
+										<f:selectItem
+											itemLabel="Carteira de Identificação Profissional"
+											itemValue="Carteira de Identificação Profissional" />
+										<f:selectItem itemLabel="Certificado de Reservista"
+											itemValue="Certificado de Reservista" />
+										<f:selectItem itemLabel="Outro Documento"
+											itemValue="Outro Documento" />
+									</h:selectOneMenu>
+								</div>
+								<div style="width: 70%;">
+									<h:outputLabel class="campos"
+										value="Documento de identificação" />
+									<br /> <input type="text" class="form-control" maxlength="200"
+										id="documento-declarante"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.docDeclarante}"></input>
+								</div>
+							</div>
+
+							<div class="form-group" style="display: flex;">
+								<div style="width: 33%; margin-right: 30px;">
+									<h:outputLabel class="campos" value="Data de Nascimento" />
+									<input type="Date" class="form-control"
+										id="data-nascimento-crianca1" jsf:converter="dataConverter"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.dataNascimentoDeclarante}"></input>
+								</div>
+								<div style="width: 33%; margin-right: 30px;">
+									<h:outputLabel class="campos" value="Profissão" />
+									<br /> <input type="text" class="form-control" maxlength="200"
+										id="nome-declarante"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.profissaoDeclarante}"></input>
+									<br />
+								</div>
+								<div style="width: 33%;">
+									<h:outputLabel class="campos" value="Nacionalidade" />
+									<br /> <input type="text" class="form-control" maxlength="200"
+										id="nome-declarante"
+										jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.nacionalidadeDeclarante}"></input>
+								</div>
+							</div>
+							<div jsf:id="dadosCepDeclarante">
+								<div class="form-group" style="display: flex;">
+									<div style="width: 25%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="CEP" />
+										<input type="text" class="form-control"
+											jsf:converter="cepConverter"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.cepDeclarante}"
+											onkeypress="formatar_mascara(event,this,'#####-###'); return somenteNumero(event)"
+											maxlength="9">
+										<pr:ajax event="blur" process="@form"
+											onstart="PF('statusDialog').show();"
+											oncomplete="mensagensSistema(); PF('statusDialog').hide();"
+											update="dadosCepDeclarante, mensagens-sistema"
+											listener="#{preRegistroPrePostoController.consultaCEPDeclarantePrePosto()}" />
+										</input>
+
+
+
+
+
+									</div>
+									<div style="width: 25%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="Residência-UF" />
+										<br />
+										<f:ajax render="comboMunicipioDeclarante" event="change"
+											immediate="false"
+											listener="#{preRegistroPrePostoController.recuperaListaMunicipioPorUfNaturalidadeDeclarante(preRegistroPrePostoController.preRegistroPrePosto.ufResidenciaDeclarante)}">
+											<h:selectOneMenu id="comboUfDeclarante"
+												name="comboUfDeclarante" styleClass="form-control"
+												value="#{preRegistroPrePostoController.preRegistroPrePosto.ufResidenciaDeclarante}">
+												<f:selectItem itemLabel="Selecione" itemValue=""
+													noSelectionOption="true" />
+												<f:selectItems
+													value="#{preRegistroPrePostoController.ufDAO.recuperaListaUF()}"
+													var="uf" itemLabel="#{uf.nomeCompleto}"
+													itemValue="#{uf.sigla}" />
+											</h:selectOneMenu>
+										</f:ajax>
+									</div>
+									<div style="width: 25%; margin-right: 30px;">
+
+										<h:outputLabel class="campos" value="Residência-Município" />
+										<br />
+										<h:selectOneMenu id="comboMunicipioDeclarante"
+											name="comboMunicipioDeclarante" styleClass="form-control"
+											value="#{preRegistroPrePostoController.preRegistroPrePosto.municipioResidenciaDeclarante}">
+
+											<f:selectItem itemLabel="Selecione" itemValue=""
+												noSelectionOption="true" />
+											<f:selectItems id="municipioDeclarante"
+												value="#{preRegistroPrePostoController.listaNaturalidadeMunicipiosDeclarante}"
+												var="municipio" itemLabel="#{municipio.nome}"
+												itemValue="#{municipio.nome}" />
+										</h:selectOneMenu>
+									</div>
+									<div style="width: 25%;">
+										<h:outputLabel class="campos" value="Residência-Bairro" />
+										<br /> <input type="text" class="form-control"
+											maxlength="200" id="bairro-declarante"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.bairroResidenciaDeclarante}"></input>
+										<br />
+									</div>
+								</div>
+
+								<div class="form-group" style="display: flex;">
+									<div style="width: 40%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="Residência-Logradouro" />
+										<br /> <input type="text" class="form-control"
+											maxlength="200" id="logradouro-declarante"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.logradouroResidenciaDeclarante}"></input>
+										<br />
+									</div>
+
+									<div style="width: 30%; margin-right: 30px;">
+										<h:outputLabel class="campos" value="Residência-Número" />
+										<br /> <input type="text" class="form-control"
+											maxlength="200" id="numero-residencia-declarante"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.numeroResidenciaDeclarante}"></input>
+
+									</div>
+
+									<div style="width: 30%;">
+										<h:outputLabel class="campos" value="Residência-Complemento" />
+										<input type="text" class="form-control" maxlength="200"
+											id="complemento-residencia-declarante"
+											jsf:value="#{preRegistroPrePostoController.preRegistroPrePosto.complementoResidenciaDeclarante}"></input>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<br />
+						<div class="geral" id="button-id">
+							<div style="float: right;">
+								<a><button type="button" class="btn  button-preregistro"
+										onclick="AbreNavTabDadosContato()">Anterior</button></a>
+								<h:commandLink styleClass="btn btn-fill btn-sm btn-success"
+									style="margin-left:5px;  font-size: 14px !important;"
+									update="mensagens-sistema"
+									action="#{preRegistroPrePostoController.gravaDadosPreRegistroPrePosto()}">
+								 Salvar e Prosseguir 
+							</h:commandLink>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

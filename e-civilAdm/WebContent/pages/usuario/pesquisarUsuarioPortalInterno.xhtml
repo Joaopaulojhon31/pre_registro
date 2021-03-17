@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui"
+	xmlns:paginacao="http://java.sun.com/jsf/composite/paginacao">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+
+<ui:define name="body">
+	<h:form id="formPesquisarUsuario" prependId="false">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-wrapper" aria-expanded="true">
+						<div class="panel-body">
+							<div class="form-body">
+								
+								<h3 class="box-title">
+									<h:outputText value="Pesquisar Usuário" />
+								</h3>
+								
+								<hr />
+								
+								<div jsf:id="idDivFiltrosPesquisa">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">Nome:</label>
+												<input type="text" class="form-control" jsf:id="nome" placeholder="Nome" 
+													jsf:value="#{pesquisarUsuarioPortalInternoController.usuario.nome}" maxlength="200" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label class="control-label">CPF:</label>
+												<input type="cpf" class="form-control" jsf:id="cpf" placeholder="CPF" jsf:disabled="#{cadastroUsuarioPortalExternoController.edicao}"
+													onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)" jsf:converter="cpfConverter"
+													jsf:value="#{pesquisarUsuarioPortalInternoController.usuario.cpf}" maxlength="14" />
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label class="control-label">Email:</label>
+												<input type="email" class="form-control" jsf:id="email" placeholder="nome@exemplo.com.br"
+													jsf:value="#{pesquisarUsuarioPortalInternoController.usuario.email}" maxlength="115" />
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group pull-right">
+											<pr:commandLink id="limpaUsuario" styleClass="btn btn-default"
+												onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();" 
+												update="tablePesquisaUsuario idDivFiltrosPesquisa"
+												action="#{pesquisarUsuarioPortalInternoController.limpaUsuario()}">
+												<i class="fa fa-fw fa-eraser"></i>Limpar
+											</pr:commandLink>
+											<h:outputText value=" " />
+											<pr:commandLink id="pesquisaUsuario" styleClass="btn btn-primary"
+												onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+												update="tablePesquisaUsuario" 
+												action="#{pesquisarUsuarioPortalInternoController.pesquisaUsuarios()}">
+												<i class="fa fa-fw fa-search"></i>Pesquisar
+											</pr:commandLink>
+											<h:outputText value=" " />
+											<a class="btn btn-success" 
+												jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();"
+												jsf:action="#{pesquisarUsuarioPortalInternoController.novoUsuario()}">
+												<i class="fa fa-fw fa-plus"></i>Novo
+											</a>
+										</div>
+									</div>
+								</div>
+							
+								<hr />
+								<div class="row" jsf:id="tablePesquisaUsuario">
+									<div class="table-responsive">
+										<div class="col-sm-12" jsf:rendered="#{pesquisarUsuarioPortalInternoController.exibeListaUsuarios}">
+										
+											<h:outputLabel value="Usuários encontrados: " />
+											<br />
+											
+											<h:dataTable var="us" styleClass="table table-bordered table-striped"
+												value="#{pesquisarUsuarioPortalInternoController.listaUsuarios}"
+												rows="#{pesquisarUsuarioPortalInternoController.paginacao.registrosPorPagina}">
+	
+												<h:column>
+													<f:facet name="header">CPF</f:facet>
+													<h:commandLink value="#{us.cpfFormatado()}" action="#{pesquisarUsuarioPortalInternoController.selecionaUsuario(us)}" />
+												</h:column>
+	
+												<h:column>
+													<f:facet name="header">Nome</f:facet>
+													<h:outputText value="#{us.nome}" />
+												</h:column>
+	
+												<h:column>
+													<f:facet name="header">E-mail</f:facet>
+													<h:outputText value="#{us.email}" />
+												</h:column>
+												<f:facet name="footer">
+													<paginacao:paginacao pesquisaBean="#{pesquisarUsuarioPortalInternoController}"
+														bean="#{pesquisarUsuarioPortalInternoController.paginacao}" renderiza="tablePesquisaUsuario" nomeMetodo="pesquisaUsuariosPaginado" />
+												</f:facet>
+												
+											</h:dataTable>
+										</div>
+									</div>
+								</div>
+
+								<hr/>
+								
+								<div class="row">
+					 				<div class="form-group">
+				                       <div class="col-sm-12">
+				                      		<a jsf:id="voltar" jsf:action="#{pesquisarUsuarioPortalInternoController.voltar()}"
+				                      			jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();" 
+				                      			class="btn btn-default">
+				                      			
+				                      			<i class="fa fa-fw fa-arrow-left"></i>Voltar
+				                      		</a>
+				                       </div>
+	                  				</div>
+                  				</div>
+                  				
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>
+</html>

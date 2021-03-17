@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+
+<ui:define name="body">
+	<h:form id="formCadastroUsuario" prependId="false">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-info">
+					<div class="panel-wrapper" aria-expanded="true">
+						<div class="panel-body">
+							<div class="form-body">
+							
+								<h3 class="box-title">
+									<h:outputText value="Cadastro de Usuário" />
+								</h3>
+								
+								<hr />
+								
+								<div class="row">
+									<div class="col-sm-8">
+										<div class="form-group">
+											<label for="nome" class="control-label required">Nome</label>
+											<input type="text" class="form-control" jsf:id="nome" placeholder="Nome"
+												jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.nome}"
+												maxlength="200" />
+										</div>
+									</div>
+
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="cpf" class="control-label required">CPF</label>
+											<input type="text" class="form-control" jsf:id="cpf" placeholder="CPF"
+												onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)"
+												jsf:converter="cpfConverter"
+												jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.cpf}"
+												maxlength="14" />
+										</div>
+									</div>
+								</div>
+									
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="email" class="control-label required">Email</label>
+											<input type="email" class="form-control" jsf:id="email" placeholder="nome@exemplo.com.br"
+												jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.email}"
+												maxlength="100" />
+										</div>
+									</div>
+
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="confirmaemail" class="control-label required">Confirmar email</label>
+											<input type="text" class="form-control" jsf:id="confirmaemail" placeholder="nome@exemplo.com.br"
+												jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.confirmarEmail}"
+												maxlength="100" />
+										</div>
+									</div>
+								</div>
+					
+								<div class="row">
+									<div jsf:id="password_content" jsf:rendered="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.id eq null}">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="senha" class="control-label required">Senha</label>
+												<input type="password" class="form-control" placeholder="Senha" jsf:id="senha"
+													jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.senha}"
+													maxlength="80" />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="confirmasenha" class="control-label required">Confirmar senha</label>
+												<input type="password" class="form-control" placeholder="Senha" jsf:id="confirmasenha"
+													jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.confirmarSenha}"
+													maxlength="80" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="status" class="control-label required">Status</label>
+											<select jsf:id="status" class="form-control" size="1"
+												jsf:value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.status}">
+												<f:selectItem itemValue="1" itemLabel="Ativo" />
+												<f:selectItem itemValue="0" itemLabel="Inativo" />
+											</select>
+										</div>
+									</div>
+								</div>
+							
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-2 control-label text-right">Serventia(s):</label>
+											<div class="col-sm-10">
+												<pr:commandLink style="margin-left: 15px;" styleClass="btn btn-primary"
+													onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide(); $('#modalSelecionarServentia').modal('show');"
+													update="modalSelecionarServentia" action="#{cadastroUsuarioPortalInternoController.buscarListaMunicipio()}">
+					      							<i class="fa fa-fw fa-plus"></i>Adicionar
+						   						</pr:commandLink>
+					   						</div>
+										</div>
+									</div>
+								</div>
+								
+								<br/>
+								
+								<div class="row" jsf:id="idDivListaServentiaSelecionada">
+									<div class="table-responsive" jsf:rendered="#{not empty cadastroUsuarioPortalInternoController.usuarioPortalInterno.usuarioServentiaAtiva}">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<h:dataTable var="serventia" styleClass="table table-bordered table-striped"
+													value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.usuarioServentiaAtiva}">
+													
+													<h:column>
+														<f:facet name="header">Serventia</f:facet>
+														<h:outputText value="#{cadastroUsuarioPortalInternoController.recuperaNomeServentia(serventia.codigoCorregedoria)}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">Remover</f:facet>
+														<pr:commandLink action="#{cadastroUsuarioPortalInternoController.removerUsuarioServentia(serventia)}"
+															styleClass="btn btn-xs btn-danger" update="idDivListaServentiaSelecionada">
+															<i class="fa fa-fw fa-minus"></i>Remover
+														</pr:commandLink>
+													</h:column>
+													
+												</h:dataTable>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<br/>
+								
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-2 control-label text-right">Grupo(s) Usuário(s):</label>
+											<div class="col-sm-10">
+												<pr:commandLink style="margin-left: 15px;" styleClass="btn btn-primary"
+													update="formCadastroUsuario" actionListener="#{cadastroUsuarioPortalInternoController.adicionarNovoGrupoUsuario()}">
+					      							<i class="fa fa-fw fa-plus"></i>Adicionar
+						   						</pr:commandLink>
+					   						</div>
+										</div>
+									</div>
+								</div>
+								
+								<br/>
+								
+								<div class="row" jsf:id="idDivListaUsuarioGrupoUsuario">
+									<div class="table-responsive" jsf:rendered="#{not empty cadastroUsuarioPortalInternoController.usuarioPortalInterno.listaUsuarioGrupoUsuario}">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<h:dataTable var="usuarioGrupoUsuario" styleClass="table table-bordered table-striped"
+													value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.listaUsuarioGrupoUsuario}">
+													
+													<h:column>
+														<f:facet name="header">Grupo Usuário</f:facet>
+														<h:outputText value="#{usuarioGrupoUsuario.grupoUsuario.descricao}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">Remover</f:facet>
+														<pr:commandLink action="#{cadastroUsuarioPortalInternoController.removerUsuarioGrupoUsuario(usuarioGrupoUsuario)}"
+															styleClass="btn btn-xs btn-danger" update="idDivListaUsuarioGrupoUsuario">
+															<i class="fa fa-fw fa-minus"></i>Remover
+														</pr:commandLink>
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">Pesquisar</f:facet>
+														<pr:commandLink styleClass="btn btn-xs btn-primary" onclick="PF('statusDialog').show();"
+															actionListener="#{cadastroUsuarioPortalInternoController.buscarListaGrupoUsuario(usuarioGrupoUsuario)}"
+															oncomplete="PF('statusDialog').hide(); $('#modalSelecionarGrupoUsuario').modal('show');" 
+															update="modalSelecionarGrupoUsuario" >
+															
+															<i class="fa fa-fw fa-search"></i>Pesquisar Grupo(s)
+														</pr:commandLink>
+													</h:column>
+													
+												</h:dataTable>
+											</div>
+										</div>
+									</div>
+								</div>
+				
+								<hr/>
+								
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group pull-right">
+											<pr:commandLink rendered="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.id eq null}"
+												onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+												action="#{cadastroUsuarioPortalInternoController.gravar}" 
+												update="mensagens-sistema" styleClass="btn btn-success">
+												<i class="fa fa-fw fa-save"></i>Cadastrar
+											</pr:commandLink>
+											<pr:commandLink rendered="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.id ne null}"
+												onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+												action="#{cadastroUsuarioPortalInternoController.gravar}"
+												update="mensagens-sistema" styleClass="btn btn-primary">
+												<i class="fa fa-fw fa-save"></i>Atualizar
+											</pr:commandLink>
+										</div>
+									</div>
+								</div>
+
+								<hr/>
+								
+								<div class="row">
+					 				<div class="form-group">
+				                       <div class="col-sm-6">
+				                      		<a jsf:id="voltar" jsf:action="#{cadastroUsuarioPortalInternoController.voltar}"
+				                      			jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();" 
+				                      			class="btn btn-default">
+				                      			
+				                      			<i class="fa fa-fw fa-arrow-left"></i>Voltar
+				                      		</a>
+				                       </div>
+		               				</div>
+		             			</div>
+		             			
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal Selecionar Serventia -->
+		<div class="modal fade" jsf:id="modalSelecionarServentia" tabindex="-1" role="dialog" aria-labelledby="modalSelecionarServentia" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">Adicionar Serventia</h4>
+					</div>
+					
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="col-sm-12">
+								<label class="control-label">Municipio:</label>
+								<h:selectOneMenu id="comboMunicipio" name="comboMunicipio" styleClass="form-control" onchange="PF('statusDialog').show();"
+									value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.municipio}" converter="entidadeConverter">
+									<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+									<f:selectItems value="#{cadastroUsuarioPortalInternoController.listaMunicipio}" var="municipio" itemLabel="#{municipio.nome}" itemValue="#{municipio}" />
+									<f:ajax event="change" listener="#{cadastroUsuarioPortalInternoController.recuperaListaCartorioPorMunicipio()}" render="mensagens-sistema comboCartorio" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+						
+						<br/><br/><br/>
+						
+						<div class="form-group">
+							<div class="col-sm-12">
+								<label class="control-label">Serventia:</label>
+								<h:selectOneMenu id="comboCartorio" name="comboCartorio" styleClass="form-control" 
+									disabled="#{cadastroUsuarioPortalInternoController.desabilitaComboCartorio()}"
+									value="#{cadastroUsuarioPortalInternoController.usuarioPortalInterno.codigoCorregedoriaCadastroUsuario}" >
+									<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+									<f:selectItems value="#{cadastroUsuarioPortalInternoController.listaCartorio}" var="cartorio" 
+										itemLabel="#{cartorio.distrito} - #{cartorio.nomeCartorio}" itemValue="#{cartorio.codigoCorregedoria}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					
+					<br/>
+					
+					<div class="modal-footer">
+						<div class="pull-left">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalSelecionarServentia').modal('hide');">
+								Cancelar
+							</pr:commandLink>
+						</div>
+						<div class="pull-right">
+							<pr:commandLink actionListener="#{cadastroUsuarioPortalInternoController.adicionarServentia()}"
+								update="mensagens-sistema idDivListaServentiaSelecionada" styleClass="btn btn-primary"
+								onclick="$('#modalSelecionarServentia').modal('hide'); PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+								Adicionar
+							</pr:commandLink>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- Modal Selecionar Grupo de Usuario -->
+		<div class="modal fade" jsf:id="modalSelecionarGrupoUsuario" tabindex="-1" role="dialog" aria-labelledby="modalSelecionarGrupoUsuario" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title">Grupos Usuário</h4>
+					</div>
+					
+					<div class="panel-body">
+						<div class="form-group">
+							<div class="table-responsive">
+								<h:dataTable var="grupoUsuario" styleClass="table table-bordered table-striped"
+									value="#{cadastroUsuarioPortalInternoController.listaGrupoUsuario}">
+									
+									<h:column p:style="text-align: center;">
+										<pr:commandLink actionListener="#{cadastroUsuarioPortalInternoController.adicionaGrupoUsuario(grupoUsuario)}"
+											update="mensagens-sistema idDivListaUsuarioGrupoUsuario" styleClass="btn btn-primary"
+											onclick="$('#modalSelecionarGrupoUsuario').modal('hide'); PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+											<h:outputText value="#{grupoUsuario.descricao}" />
+										</pr:commandLink>
+									</h:column>
+									
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<pr:commandLink styleClass="btn btn-default" onclick="$('#modalSelecionarGrupoUsuario').modal('hide');">
+							Fechar
+						</pr:commandLink>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+	</h:form>
+
+</ui:define>
+</ui:composition>
+</html>

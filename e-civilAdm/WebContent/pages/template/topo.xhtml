@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<body>
+	<ui:composition>
+		<!-- Navigation -->
+		<nav class="navbar navbar-default navbar-fixed-top"
+			p:role="navigation">
+			<div class="container">
+			<h:form>
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#navbar-collapse-1">
+						<span class="sr-only">Exibir Navegação</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#{principalController.direcionaSitePrincipal()}">
+						<img src="#{request.contextPath}/resources/img/logo.png"
+						class="img-responsive" alt="" />
+					</a>
+					
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><h:commandLink rendered="#{usuarioController.usuarioEstaLogado}"	 
+							action="#{principalController.direcionaInicial()}">Inicial</h:commandLink></li>
+						
+						<li><h:commandLink action="#{principalController.direcionaPaginaInicial()}">e-Civil</h:commandLink></li>
+						<li class="dropdown" jsf:rendered="#{usuarioController.possuiUsuarioLogado}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<h:outputText value="Manuais " /><i class="caret"></i>
+							</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#{request.contextPath}/resources/files/consulta-de-nome-em-10-passos.pdf" target="_blank">Consulta de Nome em 10 passos</a></li>
+                                <li><a href="#{request.contextPath}/resources/files/fluxo-liberacao-CNPJ.pdf" target="_blank">Fluxo Liberação CNPJ</a></li>
+                                <li><a href="#{request.contextPath}/resources/files/manual-para-pesquisa-de-nome.pdf" target="_blank">Manual de Pesquisa de Nome</a></li>
+                            </ul>
+                        </li>
+						<li class="dropdown usuario-detalhes" jsf:rendered="#{usuarioController.possuiUsuarioLogado}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<h:outputText value="#{usuarioController.usuarioLogado.nome} " /><i class="caret"></i>
+							</a>
+                            <ul class="dropdown-menu">
+                                
+                                <li>
+                                    <div class="usuario-content">
+                                        <div class="row">
+                                            <div class="col-md-5">
+	                                            <div class="usuario-imagem">
+	                                                <i class="fa fa-user"></i>
+	                                            </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <span><h:outputText value="#{usuarioController.usuarioLogado.nome}" /> - <h:outputText value="#{usuarioController.usuarioLogado.municipio.nome}" /></span>
+                                                <p class="text-muted small"><h:outputText value="#{usuarioController.usuarioLogado.email}" /></p>
+                                                <div class="divider">
+                                                </div>
+                                                <h:commandLink
+											action="#{principalController.direcionarCadastrarUsuarioPortalInterno}" styleClass="btn btn-primary btn-sm"><i class="fa fa-user"></i>Editar Usuário</h:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="usuario-footer">
+                                        <div class="usuario-footer-content">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h:commandLink action="#{principalController.direcionarCadastrarUsuarioPortalInterno}" styleClass="btn btn-default btn-sm"><i class="fa fa-lock"></i>Alterar Senha</h:commandLink>
+                                                </div>
+                                                <div class="col-md-6">
+                                                   <h:commandLink styleClass="btn btn-danger btn-sm pull-right" action="#{usuarioController.logoff()}"><i
+												class="fa fa-sign-out"></i>Sair</h:commandLink>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        </li>
+					</ul>
+				</div>
+				</h:form>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container -->
+		</nav>
+	</ui:composition>
+</body>
+</html>

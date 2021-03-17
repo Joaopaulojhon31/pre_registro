@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pr="http://primefaces.org/ui">
+<ui:composition template="/pages/template/templateBS3.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Registro Preposto" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Registro Preposto" />
+		</h1>
+	</ui:define>
+
+
+	<ui:define name="body">
+
+		<h1>Registro Preposto</h1>
+		<p id="aviso-campos">
+			Favor preencher todos <span class="destaque">campos
+				obrigatórios.</span>
+		</p>
+		<div class="container">
+			<ul class="nav nav-tabs" id="navbar-tabs">
+				<li class="active"><a data-toggle="tab" id="tabs-pre-registro"
+					href="#home">Emitir Declarações</a></li>
+				<li><a data-toggle="tab" id="tabs-pre-registro" href="#menu1">Anexar
+						Declarações e Documentos</a></li>
+			</ul>
+		</div>
+		<h:form id="formDeclaracoesPreRegistro">
+			<div class="container">
+				<div class="tab-content">
+
+					<div id="home" class="tab-pane fade in active">
+						<h3>Emitir Declarações</h3>
+						<p>As seguintes declarações devem ser impressas e assinadas
+							pelo pai ou representante legal da criança:</p>
+						<div jsf:id="declaracao-nascimento">
+							<a
+								jsf:action="#{declaracoesPreRegistroPrePostoController.gerarPDFDeclaracaoRegistroNascimento()}"
+								target="_blank">Declaração de registro de nascimento</a>
+						</div>
+
+						<div jsf:id="declaracao-recusa-indicacao-paternidade"
+							jsf:rendered="#{declaracoesPreRegistroPrePostoController.exibeDeclaracaoRecusaPaternidade()}">
+							<a
+								jsf:action="#{declaracoesPreRegistroPrePostoController.gerarPDFDeclaracaoRecusaPaternidade()}"
+								target="_blank">Declaração de recusa de indicação de
+								paternidade</a>
+						</div>
+
+						<div jsf:id="declaracao-indicacao-paternidade"
+							jsf:rendered="#{declaracoesPreRegistroPrePostoController.exibeDeclaracaoIndicacaoPaternidade()}">
+							<a
+								jsf:action="#{declaracoesPreRegistroPrePostoController.gerarPDFDeclaracaoIndicacaoPaternidade()}"
+								target="_blank">Declaração de ciência que a mãe quer indicar
+								o suposto pai</a>
+						</div>
+					</div>
+					<div id="menu1" class="tab-pane fade">
+						<h3>Anexar Declarações e Documentos</h3>
+						<h5>Instruções</h5>
+						<p>1. Selecione os documentos requeridos para serem enviados a
+							serventia.</p>
+						<p>2. Os documentos deverão ser compactados juntos</p>
+						<p>3. Assine o arquivo compactado contendo os documentos,
+							utilizando o sistema de assinatura digital.</p>
+						<h5>Observações</h5>
+						<p>1. Favor configurar o scanner na resolução de 150 DPI para
+							a digitalização dos documentos a serem anexados.</p>
+						<p>2. O arquivo com os documentos compactados e assinados deve
+							possuir no maximo 5 MB, caso esteja acima desse valor, favor
+							verificar se os documentos foram digitalizados com a resolução de
+							150 DPI.</p>
+						<p class="destaque">3. Atenção: Não esqueça de anexar a DNV.</p>
+						<a onclick="$('#uploadAnexoXmlCertidao input').click()"
+							style="float: left; margin-right: 5px;"
+							class="btn btn-sm btn-primary"> <i class="fa fa-fw fa-upload"></i>Anexar
+							Documentação
+						</a>
+						<div id="uploadAnexoXmlCertidao" style="display: none">
+							<pr:fileUpload
+								fileUploadListener="#{declaracoesPreRegistroPrePostoController.converteDocumentacaoArrayBytes}"
+								update="mensagens-sistema removerAnexoDocumentacao divRemoverAnexoDocumentacao"
+								onstart="PF('statusDialog').show();"
+								oncomplete="PF('statusDialog').hide();" label="Anexar"
+								mode="advanced" dragDropSupport="false" auto="true">
+							</pr:fileUpload>
+						</div>
+						<div jsf:id="divRemoverAnexoDocumentacao">
+							<pr:commandLink id="removerAnexoDocumentacao"
+								actionListener="#{declaracoesPreRegistroPrePostoController.removerDocumentacaoAnexada()}"
+								styleClass="btn btn-fill btn-sm btn-danger"
+								rendered="#{declaracoesPreRegistroPrePostoController.documentacaoanexada}"
+								update="mensagens-sistema removerAnexoDocumentacao divRemoverAnexoDocumentacao"
+								p:style="font-size: 12px;">
+								<i class="fa fa-fw fa-trash"></i>Remover Arquivo
+							</pr:commandLink>
+
+							<h:commandLink styleClass="btn btn-fill btn-sm btn-success"
+								style="margin-left:5px;" update="mensagens-sistema"
+								action="#{declaracoesPreRegistroPrePostoController.anexaDocumentacaoConvertida()}"
+								rendered="#{declaracoesPreRegistroPrePostoController.documentacaoanexada}">
+								<i class="fa fa-check"> Enviar Solicitação</i>
+							</h:commandLink>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

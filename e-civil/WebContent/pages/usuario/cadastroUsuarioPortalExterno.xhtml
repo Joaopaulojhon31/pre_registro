@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html" 
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Dados do Usuário" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Dados do Usuário" />
+		</h1>
+	</ui:define>
+	
+	<ui:define name="body">
+		<form jsf:id="formCadastroUsuario" class="form-horizontal" role="form" jsf:prependId="false">
+			<div class="row">
+				<div class="col-md-12">
+				    <div class="panel panel-info">
+				        <div class="panel-wrapper" aria-expanded="true">
+				            <div class="panel-body">
+				           
+			                    <div class="form-body">
+			                    
+			                        <h3 class="box-title">
+			                        
+			                        	<h:outputText value="Dados do Usuário" />
+			                        	<div class="pull-left">
+			                        		
+										</div>
+										<div class="pull-right">
+											<pr:commandLink styleClass="btn btn-primary" oncomplete="$('#modalAlterarSenha').modal('show');" 
+												update="modalAlterarSenha" actionListener="#{cadastroUsuarioPortalExternoController.setaAdicaoNovoEndereco()}">
+												<i class="fa fa-fw fa-unlock-alt"></i>Alterar Senha
+											</pr:commandLink>
+			                        	</div>
+			                        </h3>
+			                        
+			                        <hr/>
+			                        
+			                        <div class="panel panel-default">
+			                        	<div jsf:id="idDadosBaseUsuario">
+											
+											<div jsf:rendered="#{cadastroUsuarioPortalExternoController.exibeCamposNovoCadastro()}">
+												<div class="form-group">
+													<div class="col-sm-4">
+														<strong>CPF:</strong>
+														<input type="cpf" class="form-control" jsf:id="cpf" placeholder="CPF" jsf:disabled="#{cadastroUsuarioPortalExternoController.edicao}"
+															onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)" jsf:converter="cpfConverter"
+															jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.cpf}" maxlength="14" />
+													</div>
+													<div class="col-sm-8">
+														<strong>Nome completo:</strong>
+														<input type="text" class="form-control" jsf:id="nome" placeholder="Nome" 
+															jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.nome}" maxlength="200" />
+													</div>
+												</div>
+												
+												<div class="form-group">
+													<div class="col-sm-6">
+														<strong>Email:</strong>
+														<input type="email" class="form-control" jsf:id="email" placeholder="nome@exemplo.com.br"
+															jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.email}" maxlength="115" />
+													</div>
+													<div class="col-sm-6">
+														<strong>Confirmar email:</strong>
+														<input type="text" class="form-control" jsf:id="confirmaemail" placeholder="nome@exemplo.com.br"
+															jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.confirmarEmail}" maxlength="115" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="form-group" jsf:rendered="#{!cadastroUsuarioPortalExternoController.exibeCamposNovoCadastro()}">
+												<div class="col-sm-4">
+													<strong>CPF:</strong>
+													<input type="text" class="form-control" jsf:disabled="true" jsf:converter="cpfConverter"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.cpf}" />
+												</div>
+												<div class="col-sm-4">
+													<strong>Nome completo:</strong>
+													<input type="text" class="form-control" placeholder="Nome" 
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.nome}" maxlength="200" />
+												</div>
+												<div class="col-sm-4">
+													<strong>Email:</strong>
+													<input type="text" class="form-control" jsf:disabled="true"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.email}" />
+												</div>
+											</div>
+						
+											<div class="form-group">
+												<div class="col-sm-6">
+													<strong>Telefone:</strong>
+													<input type="tel" class="form-control" placeholder="(DD)9999-9999" jsf:id="telefone"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.telefone}"
+														onkeypress="formataMascaraTelefone(this); return somenteNumero(event)" jsf:converter="telefoneConverter" maxlength="13" />
+												</div>
+												
+												<div class="col-sm-6">
+													<strong>Celular:</strong>
+													<input type="tel" class="form-control" placeholder="(DD)99999-9999" jsf:id="celular"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.celular}"
+														onkeypress="formataMascaraCel(this); return somenteNumero(event)" jsf:converter="telefoneConverter" maxlength="14" />
+												</div>
+											</div>
+										</div>
+										
+										<div jsf:id="idListaEndereco" jsf:rendered="#{cadastroUsuarioPortalExternoController.exibeListaEnderecoEdicao()}">
+											<hr/>
+											
+					                        <h3 class="box-title">
+                    							<div class="pull-left">
+					                        		<h:outputText value="Endereço(s)" />
+												</div>
+												<div class="pull-right">
+													<pr:commandLink styleClass="btn btn-sm btn-fill btn-primary" oncomplete="$('#modalEditarEndereco').modal('show');" 
+														update="modalEditarEndereco" actionListener="#{cadastroUsuarioPortalExternoController.setaAdicaoNovoEndereco()}">
+														<i class="fa fa-fw fa-plus"></i>Adicionar Endereço
+													</pr:commandLink>
+					                        	</div>
+					                        	<br/>
+					                        </h3>
+					                        
+					                        <div class="table-responsive">
+						                        <h:dataTable var="endereco" value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.listaEnderecoAtivo}"
+						                        	styleClass="table table-bordered table-striped">
+						                        	
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome" />
+														</f:facet>
+														<h:outputText value="#{endereco.identificadorEndereco}" />
+													</h:column>
+						                        	
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Endereço" />
+														</f:facet>
+														<h:outputText value="#{endereco.obtemDescricaoEndereco()}" />
+													</h:column>
+						                        	
+													<h:column p:style="text-align:center;">
+														<f:facet name="header">
+															<h:outputText value="Ações" />
+														</f:facet>
+														<pr:commandLink styleClass="btn btn-sm btn-fill btn-primary"
+															oncomplete="$('#modalEditarEndereco').modal('show');" update="modalEditarEndereco"
+															actionListener="#{cadastroUsuarioPortalExternoController.setaEnderecoEdicaoOuExclusao(endereco)}" >
+															<i class="fa fa-pencil"></i>
+														</pr:commandLink>
+														<h:outputText value=" " />
+														<pr:commandLink styleClass="btn btn-sm btn-fill btn-danger" onclick="PF('statusDialog').show();" rendered="#{!endereco.enderecoPadrao}"
+															oncomplete="$('#modalExcluirEndereco').modal('show'); PF('statusDialog').hide();" update="modalExcluirEndereco"
+															actionListener="#{cadastroUsuarioPortalExternoController.setaEnderecoEdicaoOuExclusao(endereco)}">
+															<i class="fa fa-trash"></i>
+														</pr:commandLink>
+													</h:column>
+						                        
+						                        </h:dataTable>
+					                        </div>
+					                        
+										</div>
+										
+										<div jsf:rendered="#{!cadastroUsuarioPortalExternoController.exibeListaEnderecoEdicao()}">
+											<hr/>
+											
+					                        <h3 class="box-title">
+					                        	<h:outputText value="Endereço" />
+					                        </h3>
+			                        
+											<div class="form-group">
+												<div class="col-sm-3">
+													<strong>CEP:</strong>
+													<input type="text" class="form-control" jsf:id="cep" placeholder="99999-999"
+														onkeypress="formatar_mascara(event,this,'#####-###'); return somenteNumero(event)" jsf:converter="cepConverter"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.cep}" maxlength="9">
+														
+														<pr:ajax event="blur" process="@form" listener="#{cadastroUsuarioPortalExternoController.buscaCep(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}" 
+															oncomplete="mensagensSistema(); PF('statusDialog').hide();" onstart="PF('statusDialog').show();" update="formCadastroUsuario, mensagens-sistema" />
+													</input>
+												</div>
+											
+												<div class="col-sm-3">
+													<strong>UF:</strong>
+													<select jsf:id="comboUf" name="comboUf" class="form-control" size="1" jsf:converter="entidadeConverter"
+														jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCamposEndereco(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.uf}" >
+														<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+														<f:selectItems var="uf" itemLabel="#{uf.sigla}" value="#{cadastroUsuarioPortalExternoController.listaUf}" />
+														<pr:ajax update="comboMun" onstart="PF('statusDialog').show();" />
+													</select>
+												</div>
+												
+												<div class="col-sm-6">
+													<strong>Município:</strong>
+													<select jsf:id="comboMun" name="comboMun" class="form-control" size="1" jsf:converter="entidadeConverter"
+														jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCamposEndereco(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.municipio}">
+														<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+														<f:selectItems var="mun" itemLabel="#{mun.nome}" 
+															value="#{cadastroUsuarioPortalExternoController.recuperaListaMunicipioPorUf(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}" />
+													</select>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<div class="col-sm-4">
+													<strong>Tipo logradouro:</strong>
+													<select jsf:id="comboTipoLogradouro" name="comboTipoLogradouro" class="form-control" size="1"
+														jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCampoTipoLogradouro(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.tipoLogradouro}" jsf:converter="entidadeConverter">
+														<f:selectItem itemLabel="Selecione" />
+														<f:selectItems var="tipoLogradouro" itemLabel="#{tipoLogradouro.nome}" value="#{cadastroUsuarioPortalExternoController.listaTipoLogradouro}" />
+													</select>
+												</div>
+										
+												<div class="col-sm-4">
+													<strong>Logradouro:</strong>
+													<input type="text" class="form-control" jsf:id="logradouro"
+														jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCampoNomeLogradouro(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.nomeLogradouro}" maxlength="255" />
+												</div>
+												
+												<div class="col-sm-4">
+													<strong>Número:</strong>
+													<input type="text" jsf:id="numerologradouro" jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.numeroLogradouro}"
+														class="form-control" placeholder="Ex.: 1200" maxlength="10" />
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<div class="col-sm-6">
+													<strong>Bairro:</strong>
+													<input type="text" class="form-control" placeholder="Bairro" jsf:id="bairro"
+														jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCampoBairro(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.bairro}" maxlength="100" />
+												</div>
+												<div class="col-sm-6">
+													<strong>Complemento:</strong>
+													<input type="text" class="form-control" placeholder="Ex.: Apto 101" jsf:id="complemento"
+														jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.complemento}" maxlength="50" />
+												</div>
+											</div>
+											
+										</div>
+										
+										<div class="form-group" jsf:rendered="#{!cadastroUsuarioPortalExternoController.edicao or cadastroUsuarioPortalExternoController.usuarioPortalExterno.pendenteAtualizacao}">
+											<hr/>
+											<div class="col-sm-6">
+												<strong>Senha:</strong>
+												<input type="password" class="form-control" placeholder="Senha" jsf:id="senhaAtual"
+													jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.senha}" maxlength="50" />
+											</div>
+											<div class="col-sm-6">
+												<strong>Confirmar senha:</strong>
+												<input type="password" class="form-control" placeholder="Senha" jsf:id="confirmasenha"
+													jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.confirmarSenha}" maxlength="50" />
+											</div>
+										</div>
+										
+										<div class="form-group" jsf:rendered="#{cadastroUsuarioPortalExternoController.exibeTermosECondicoes()}">
+											<hr/>
+											<div class="col-sm-12">
+												<h:panelGroup id="confirmaTermos" layout="block" styleClass="well well-warning">
+													<h4>Termos e Condições:</h4>
+													<ul>
+														<li>Confirmo que verifiquei todos os dados informados e estou ciente de que as informações cadastrais serão utilizadas para acesso ao sistema, bem como aos serviços fornecidos através da Central de Serviços Oficial dos Cartórios de Registro Civil de Minas Gerais.</li>
+													</ul>
+													<hr/>
+													<h:selectBooleanCheckbox value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.termoAceite}" 
+														id="idCheckConfirmaDados" onchange="atualizaTermosECondicoes('idCheckConfirmaDados', 'confirmaTermos')"/>
+													<h:outputLabel for="idCheckConfirmaDados" style="margin-left:5px;" value="Confirmo que li e estou de acordo com as declarações acima." />
+												</h:panelGroup>
+											</div>
+										</div>
+										
+									</div>
+					
+									<div class="form-actions">
+										<hr/>
+					                    <a jsf:id="voltar" jsf:action="#{cadastroUsuarioPortalExternoController.voltar}" class="btn btn-default"
+					                    	jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+											<i class="fa fa-fw fa-arrow-left"></i>Voltar
+										</a>
+										<a style="margin-right:0px;" jsf:action="#{cadastroUsuarioPortalExternoController.gravar}" class="btn btn-success pull-right"
+											jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+											<i class="fa fa-fw fa-save"></i>Salvar
+										</a>
+					                </div>
+						                                       
+								</div>
+	           				</div>
+	       				</div>
+	  				</div>
+				</div>
+			</div>
+			
+			<!-- Modal Editar Endereco -->
+			<div class="modal fade" jsf:id="modalEditarEndereco" tabindex="-1" role="dialog" aria-labelledby="modalEditarEndereco" aria-hidden="true">
+				<div class="modal-dialog" jsf:rendered="#{cadastroUsuarioPortalExternoController.exibeModalEditarExcluirEndereco()}">
+					<div class="modal-content modal-lg">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 jsf:rendered="#{not empty cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.id}" class="modal-title" id="myModalLabel">Editar dados do endereço</h4>
+							<h4 jsf:rendered="#{empty cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.id}" class="modal-title" id="myModalLabel">Adicionar endereço</h4>
+						</div>
+						
+						<div class="panel-body" jsf:id="idDadosEnderecoModal">
+						<h:panelGroup layout="block" id="mensagens-error-endereco" style="margin-bottom:0px" class="message #{facesContext.maximumSeverity}">
+							<h:messages warnClass="WARN" infoClass="INFO" fatalClass="ERROR" errorClass="ERROR"/>
+						</h:panelGroup>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<h:panelGroup layout="block" id="mensagens-sistema-modal-endereco" class="message #{facesContext.maximumSeverity}">
+										<h:messages />
+									</h:panelGroup>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-sm-3">
+									<strong>Identificador do endereço:</strong>
+									<input type="text" jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.identificadorEndereco}"
+										class="form-control" placeholder="Ex.: Minha casa" maxlength="20" 
+										jsf:disabled="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.enderecoPadrao}" />
+								</div>
+								<div class="col-sm-9">
+									<strong>Destinatário:</strong>
+									<input type="text" jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.destinatario}"
+										class="form-control" placeholder="Destinatário" maxlength="100" />
+								</div>
+							</div>
+							
+							<div class="form-group" jsf:id="idDadosUfMunicipio">
+								<div class="col-sm-3">
+									<strong>CEP:</strong>
+									<input type="text" class="form-control" placeholder="99999-999"
+										onkeypress="formatar_mascara(event,this,'#####-###'); return somenteNumero(event)" jsf:converter="cepConverter"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.cep}" maxlength="9">
+										
+										<pr:ajax event="blur" onstart="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+											update="mensagens-sistema-modal-endereco idDadosUfMunicipio idDadosLogradouro idDadosBairroEComplemento"
+											listener="#{cadastroUsuarioPortalExternoController.buscaCep(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}" />
+									</input>
+								</div>
+							
+								<div class="col-sm-3">
+									<strong>UF:</strong>
+									<select class="form-control" size="1" jsf:converter="entidadeConverter"
+										jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCamposEndereco(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.uf}" >
+										<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+										<f:selectItems var="uf" itemLabel="#{uf.sigla}" value="#{cadastroUsuarioPortalExternoController.listaUf}" />
+										<pr:ajax update="comboMun" onstart="PF('statusDialog').show();" />
+									</select>
+								</div>
+								
+								<div class="col-sm-6">
+									<strong>Município:</strong>
+									<select class="form-control" size="1" jsf:converter="entidadeConverter"
+										jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCamposEndereco(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.municipio}">
+										<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+										<f:selectItems var="mun" itemLabel="#{mun.nome}" 
+											value="#{cadastroUsuarioPortalExternoController.recuperaListaMunicipioPorUf(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}" />
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group" jsf:id="idDadosLogradouro">
+								<div class="col-sm-4">
+									<strong>Tipo logradouro:</strong>
+									<select class="form-control" size="1"
+										jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCampoTipoLogradouro(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.tipoLogradouro}" jsf:converter="entidadeConverter">
+										<f:selectItem itemLabel="Selecione" />
+										<f:selectItems var="tipoLogradouro" itemLabel="#{tipoLogradouro.nome}" value="#{cadastroUsuarioPortalExternoController.listaTipoLogradouro}" />
+									</select>
+								</div>
+						
+								<div class="col-sm-4">
+									<strong>Logradouro:</strong>
+									<input type="text" class="form-control"
+										jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCampoNomeLogradouro(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.nomeLogradouro}" maxlength="255" />
+								</div>
+								
+								<div class="col-sm-4">
+									<strong>Número:</strong>
+									<input type="text" jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.numeroLogradouro}"
+										class="form-control" placeholder="Ex.: 1200" maxlength="10" />
+								</div>
+							</div>
+							
+							<div class="form-group" jsf:id="idDadosBairroEComplemento">
+								<div class="col-sm-6">
+									<strong>Bairro:</strong>
+									<input type="text" class="form-control" placeholder="Bairro"
+										jsf:disabled="#{cadastroUsuarioPortalExternoController.desabilitaCampoBairro(cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno)}"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.bairro}" maxlength="100" />
+								</div>
+								<div class="col-sm-6">
+									<strong>Complemento:</strong>
+									<input type="text" class="form-control" placeholder="Ex.: Apto 101"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.complemento}" maxlength="50" />
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" action="#{cadastroUsuarioPortalExternoController.cancelarEdicao()}"
+									render="mensagens-sistema" update="mensagens-sistema idDadosBaseUsuario"
+									onclick="PF('statusDialog').show(); $('#modalEditarEndereco').modal('hide');" oncomplete="PF('statusDialog').hide();">
+									Cancelar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-success" action="#{cadastroUsuarioPortalExternoController.salvarEdicaoEndereco()}" 
+									render="mensagens-sistema" update="mensagens-sistema mensagens-error-endereco idDadosBaseUsuario idListaEndereco" 
+									onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+									Salvar
+								</pr:commandLink>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Alterar Senha -->
+			<div class="modal fade" jsf:id="modalAlterarSenha" tabindex="-1" role="dialog" aria-labelledby="modalAlterarSenha" aria-hidden="true">
+				<div class="modal-dialog" >
+					<div class="modal-content modal-lg">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 jsf:rendered="#{not empty cadastroUsuarioPortalExternoController.usuarioPortalExterno.id}" class="modal-title" id="myModalLabel">Alterar senha</h4>
+						</div>
+						<div class="panel-body" id="idDadosSenhaModal">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<h:panelGroup layout="block" id="mensagens-error-nova-senha" style="margin-bottom:0px" class="message #{facesContext.maximumSeverity}">
+										<h:messages warnClass="WARN" infoClass="INFO" fatalClass="ERROR" errorClass="ERROR"/>
+									</h:panelGroup>
+								</div>
+							</div>
+							<div class="form-group" jsf:rendered="#{cadastroUsuarioPortalExternoController.edicao or cadastroUsuarioPortalExternoController.usuarioPortalExterno.pendenteAtualizacao}">
+								<div class="col-sm-6">
+									<strong>Senha atual:</strong>
+									<input type="password" class="form-control" placeholder="Senha" jsf:id="senha"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.senha}" maxlength="50" />
+								</div>
+							</div>
+							<div class="form-group" jsf:rendered="#{cadastroUsuarioPortalExternoController.edicao or cadastroUsuarioPortalExternoController.usuarioPortalExterno.pendenteAtualizacao}">
+								<div class="col-sm-6">
+									<strong>Nova senha:</strong>
+									<input type="password" class="form-control" placeholder="Senha" jsf:id="senhaalteracao"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.novaSenha}" maxlength="50" />
+								</div>
+								<div class="col-sm-6">
+									<strong>Confirmar nova senha:</strong>
+									<input type="password" class="form-control" placeholder="Senha" jsf:id="confirmasenhaalteracao"
+										jsf:value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.confirmarSenha}" maxlength="50" />
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" action="#{cadastroUsuarioPortalExternoController.cancelarEdicao()}"
+									render="mensagens-sistema" update="mensagens-sistema idDadosBaseUsuario"
+									onclick="PF('statusDialog').show(); $('#modalAlterarSenha').modal('hide');" oncomplete="PF('statusDialog').hide();">
+									Cancelar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-success" action="#{cadastroUsuarioPortalExternoController.salvarEdicaoSenha()}" 
+									render="mensagens-sistema" update="mensagens-error-nova-senha idDadosBaseUsuario idListaEndereco" 
+									onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide(); $('#idDadosSenhaModal input').val('');">
+									Salvar
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Excluir Endereco -->
+			<div class="modal fade" jsf:id="modalExcluirEndereco" tabindex="-1" role="dialog" aria-labelledby="modalExcluirEndereco" aria-hidden="true">
+				<div class="modal-dialog" jsf:rendered="#{cadastroUsuarioPortalExternoController.exibeModalEditarExcluirEndereco()}">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Confirmação</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="col-sm-12">
+								<strong>Tem certeza que deseja excluir esse endereço?</strong>
+							</div>
+							<div class="col-sm-12">
+								<br/>
+								<h:outputText value="#{cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.identificadorEndereco}: #{ cadastroUsuarioPortalExternoController.usuarioPortalExterno.enderecoUsuarioExterno.obtemDescricaoEndereco()}" />
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalExcluirEndereco').modal('hide');">
+									Não
+								</pr:commandLink>
+								<pr:commandLink styleClass="btn btn-danger" action="#{cadastroUsuarioPortalExternoController.excluirEndereco()}" 
+									render="mensagens-sistema" update="mensagens-sistema idListaEndereco idDadosBaseUsuario" 
+									onclick="PF('statusDialog').show(); $('#modalExcluirEndereco').modal('hide');" oncomplete="PF('statusDialog').hide();">Sim
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Informativo Atualizacao cadastro -->
+			<div class="modal fade" jsf:id="modalAtualizacaoCadastro" tabindex="-1" role="dialog" aria-labelledby="modalAtualizacaoCadastro" aria-hidden="true">
+				<div class="modal-dialog" >
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Atenção</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="col-sm-12">
+								<p>Prezado(a) Usuário,</p> 
+
+								<p>Com a implantação da nova Central de Serviços será necessário realizar a atualização dos dados cadastrais.</p>
+								
+								<p>Esta atualização é de extrema importância, pois auxilia os Oficiais de Registro Civil em um atendimento mais ágil e eficaz.</p>
+								
+								<p>Pedimos desculpas pelo transtorno, em breve, novos serviços e mais facilidades estarão disponíveis.</p>
+								
+								<p>Cordialmente,</p>
+								<p>Registradores de Registro Civil do Estado de Minas Gerais,</p>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalAtualizacaoCadastro').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

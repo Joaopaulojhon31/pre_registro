@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	
+	<ui:define name="pageTitle">
+		<h:outputText value="Validar hash certidão negativa" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Validar hash certidão negativa" />
+		</h1>
+	</ui:define>
+
+	<ui:define name="body">
+		<form jsf:id="formValidarHashCertidao" jsf:prependId="false" class="form-horizontal" role="form">
+			<div class="row" jsf:id="idDivValidarHashCertidao" >
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Validar hash certidão negativa" />
+									</h3>
+									
+									<hr />
+									
+									<div class="form-group" align="center">
+										<div class="col-md-3"></div>
+										<div class="col-md-6">
+											<h:outputLabel styleClass="control-label" value="Código hash" />
+											<input type="text" class="form-control" jsf:value="#{validarHashCertidaoController.codigoHash}" size="60" placeholder="Código Hash" maxlength="60" />
+										</div>
+										<div class="col-md-3"></div>
+									</div>
+									
+									<div jsf:rendered="#{not empty validarHashCertidaoController.certidaoNegativa}">
+										<hr/>
+										
+										<style>
+											.margem-top {
+												padding-top: 7px;
+											}
+										</style>
+										
+										<div class="col-sm-12">
+											<label class="col-sm-5 control-label text-right">Cartório:</label>
+											<div class="col-sm-7 margem-top">
+												<h:outputText value="#{validarHashCertidaoController.certidaoNegativa.cartorio.nomeDistritoECartorio}" />
+											</div>
+										</div>
+										
+										<div class="col-sm-12">
+											<label class="col-sm-5 control-label text-right">Município:</label>
+											<div class="col-sm-7 margem-top">
+												<h:outputText value="#{validarHashCertidaoController.certidaoNegativa.cartorio.nomeMunicipio}" />
+											</div>
+										</div>
+										
+										<div class="col-sm-12">
+											<label class="col-sm-5 control-label text-right">Tipo de certidão:</label>
+											<div class="col-sm-7 margem-top">
+												<h:outputText value="#{validarHashCertidaoController.certidaoNegativa.tipoCertidao.nome}" />
+											</div>
+										</div>
+										
+           								<div class="col-sm-12">
+											<label class="col-sm-5 control-label text-right" jsf:rendered="#{validarHashCertidaoController.certidaoNegativa.tipoCertidao.certidaoCasamento}">Nome do cônjuge 1:</label>
+											<label class="col-sm-5 control-label text-right" jsf:rendered="#{!validarHashCertidaoController.certidaoNegativa.tipoCertidao.certidaoCasamento}">Nome da pessoa:</label>
+											<div class="col-sm-7 margem-top">
+												<h:outputText value="#{validarHashCertidaoController.certidaoNegativa.nomePrimeiraPessoa}" />
+											</div>
+										</div>
+										
+           								<div class="col-sm-12" jsf:rendered="#{not empty validarHashCertidaoController.certidaoNegativa.nomeSegundaPessoa}">
+											<label class="col-sm-5 control-label text-right" jsf:rendered="#{validarHashCertidaoController.certidaoNegativa.tipoCertidao.certidaoCasamento}">Nome do cônjuge 2:</label>
+											<label class="col-sm-5 control-label text-right" jsf:rendered="#{!validarHashCertidaoController.certidaoNegativa.tipoCertidao.certidaoCasamento}">Nome da mãe:</label>
+											<div class="col-sm-7 margem-top">
+												<h:outputText value="#{validarHashCertidaoController.certidaoNegativa.nomeSegundaPessoa}" />
+											</div>
+										</div>
+											
+										<div class="col-sm-12" jsf:rendered="#{not empty validarHashCertidaoController.certidaoNegativa.ano}">
+											<label class="col-sm-5 control-label text-right">Ano:</label>
+											<div class="col-sm-7 margem-top">
+												<h:outputText value="#{validarHashCertidaoController.certidaoNegativa.ano}" />
+											</div>
+										</div>
+										
+										<hr/>
+									</div>
+								</div>
+								
+								<div class="form-actions">
+									<div class="pull-right">
+										<pr:commandLink styleClass="btn btn-default" action="#{validarHashCertidaoController.limpar()}" update="idDivValidarHashCertidao mensagens-sistema">
+											<i class="fa fa-fw fa-eraser"></i>Limpar
+										</pr:commandLink>
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();" 
+											action="#{validarHashCertidaoController.validaCodigoHash()}" update="idDivValidarHashCertidao mensagens-sistema" >
+											<i class="fa fa-fw fa-search"></i>Pesquisar
+										</pr:commandLink>
+									</div>
+								</div>
+								
+								<div class="clearfix"></div>
+								
+								<hr/>
+								
+								<a jsf:id="voltar" jsf:action="#{validarHashCertidaoController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+								
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

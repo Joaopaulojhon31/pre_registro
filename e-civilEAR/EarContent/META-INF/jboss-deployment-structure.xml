@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+	<deployment>
+		<dependencies>
+			<module name="org.apache.commons.collections" export="true" meta-inf="export" />
+			<module name="org.apache.commons.digester" export="true" meta-inf="export" />
+			<module name="org.apache.commons.io" export="true" meta-inf="export" />
+			<module name="org.apache.commons.lang3" export="true" meta-inf="export" />
+			<module name="com.google.code.gson" export="true" meta-inf="export" />
+			<module name="com.itextpdf" export="true" meta-inf="export" />
+			<module name="com.lowagie.itext" export="true" meta-inf="export" slot="2.1.7" />
+			<module name="net.sourceforge.barbecue" export="true" meta-inf="export" />
+			<module name="net.sf.jasperreports" export="true" meta-inf="export" slot="6.5.1" />
+			<module name="org.apache.pdfbox" export="true" meta-inf="export" slot="2.0.11" />
+			<module name="org.apache.poi" export="true" meta-inf="export" />
+			<module name="org.primefaces" export="true" meta-inf="export" />
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>

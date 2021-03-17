@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	
+	<ui:define name="pageTitle">
+		<h:outputText value="Formulário Pedido de Certidão" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Formulário Pedido de Certidão" />
+		</h1>
+	</ui:define>
+
+	<ui:define name="body">
+		<form jsf:id="formFormularioPedidoCertidao" jsf:prependId="false"> 
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Formulário pedido de certidão - #{formularioPedidoCertidaoController.pedidoCertidao.recuperaDescricaoTipoSaidaCertidao()}" />
+									</h3>
+									
+									<hr />
+									
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label class="control-label">Municipio:</label>
+												<h:selectOneMenu id="comboMunicipio" name="comboMunicipio" styleClass="form-control" onchange="PF('statusDialog').show();"
+													value="#{formularioPedidoCertidaoController.pedidoCertidao.municipio}" converter="entidadeConverter">
+													<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{formularioPedidoCertidaoController.recuperaListaMunicipioEstadoSede()}" var="municipio" itemLabel="#{municipio.nome}" itemValue="#{municipio}" />
+													<f:ajax event="change" listener="#{formularioPedidoCertidaoController.recuperaListaCartorioPorMunicipio()}" render="mensagens-sistema comboCartorio" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label class="control-label">Cartório:</label>
+												<h:selectOneMenu id="comboCartorio" name="comboCartorio" styleClass="form-control" 
+													disabled="#{formularioPedidoCertidaoController.desabilitaComboCartorio()}"
+													value="#{formularioPedidoCertidaoController.pedidoCertidao.codCorregedoriaRequisitada}" >
+													<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{formularioPedidoCertidaoController.listaCartorio}" var="cartorio" 
+														itemLabel="#{cartorio.distrito} - #{cartorio.nomeCartorio}" itemValue="#{cartorio.codigoCorregedoria}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label class="control-label">Certidão de:</label>
+												<h:selectOneMenu id="comboTipoCertidao" name="comboTipoCertidao" styleClass="form-control"
+													value="#{formularioPedidoCertidaoController.pedidoCertidao.tipoCertidao}" converter="entidadeConverter">
+													<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{formularioPedidoCertidaoController.listaTipoCertidao}" var="tipoCertidao" itemLabel="#{tipoCertidao.nome}" itemValue="#{tipoCertidao}" />
+													<f:ajax render="idDataFato, idNomePessoas" />
+												</h:selectOneMenu>
+											</div>
+										</div>	
+										<div jsf:id="idDataFato">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="control-label">Data do registro:</label>
+													<input type="date" class="form-control" id="dataOcorrencia" jsf:value="#{formularioPedidoCertidaoController.pedidoCertidao.dataFato}" 
+														maxlength="10" size="10" onkeypress="formatar_mascara(event,this,'##/##/####');" jsf:converter="dataConverter" />
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div jsf:id="idNomePessoas" class="idNomePessoas">
+											<div class="#{empty formularioPedidoCertidaoController.pedidoCertidao.tipoCertidao ? 'col-sm-12' : 'col-sm-6'}">
+												<label class="control-label" jsf:rendered="#{empty formularioPedidoCertidaoController.pedidoCertidao.tipoCertidao or formularioPedidoCertidaoController.pedidoCertidao.certidaoNascimentoOuObto}">Nome completo da pessoa:</label>
+												<label class="control-label" jsf:rendered="#{formularioPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">Nome completo do cônjuge 1:</label>
+												<br/>
+												<input type="text" class="form-control" jsf:value="#{formularioPedidoCertidaoController.pedidoCertidao.nomePrimeiraPessoa}" />
+											</div>	
+											<div class="col-sm-6" jsf:rendered="#{formularioPedidoCertidaoController.pedidoCertidao.certidaoNascimentoOuObto or formularioPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">
+												<label class="control-label" jsf:rendered="#{formularioPedidoCertidaoController.pedidoCertidao.certidaoNascimentoOuObto}">Nome completo da mãe:</label>
+												<label class="control-label" jsf:rendered="#{formularioPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">Nome completo do cônjuge 2:</label>
+												<br/>
+												<input type="text" class="form-control" jsf:value="#{formularioPedidoCertidaoController.pedidoCertidao.nomeSegundaPessoa}" />
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<br/>
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label class="control-label">Observação:</label>
+												<input type="text" jsf:value="#{formularioPedidoCertidaoController.pedidoCertidao.observacao}" class="form-control" 
+													placeholder="Livro, termo e folha da certidão ou outra informação" maxlength="500" />
+											</div>
+											<div class="col-sm-12" align="center">
+												<small style="color: #c7254e; background-color: #f9f2f4;">Pedido de certidão inteiro teor deverá ser solicitado diretamente no cartório</small>
+											</div>
+										</div>
+									</div>
+								
+								<div class="clearfix"></div>
+					
+								<hr/>
+										
+								<a jsf:id="voltar" jsf:action="#{formularioPedidoCertidaoController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+								<a jsf:id="salvar" jsf:action="#{formularioPedidoCertidaoController.solicitarAnalisePedido()}" class="btn btn-fill btn-success pull-right"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-right"></i>Solicitar o cartório a análise do pedido
+								</a>
+			
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			</div>
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

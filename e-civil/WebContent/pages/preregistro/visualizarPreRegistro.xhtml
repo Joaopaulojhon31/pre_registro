@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pr="http://primefaces.org/ui">
+<ui:composition template="/pages/template/templateBS3.xhtml">
+
+	<ui:define name="pageTitle">
+		<h:outputText value="Visualizar Pré-Registro" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Visualizar Pré-Registro" />
+		</h1>
+	</ui:define>
+
+
+	<ui:define name="body">
+
+		<h1>VISUALIZAR PRÉ-REGISTRO</h1>
+		<h:form id="formVisualizarPreRegistro">
+			<div class="container" style="width: 110%;">
+				<div class="tab-content">
+					<div id="listaPreRegistro" jsf:id="listaPreRegistro" class="row">
+
+						<div
+							jsf:rendered="#{empty visualizarPreRegistroController.listaPreRegistroTelaVisualizar}">
+							<div class="col-md-12">
+								<br /> <strong>Nenhum pré-registro encontrado.</strong>
+							</div>
+						</div>
+						<div class="table-responsive" style="font-size: 0.8em;"
+							jsf:rendered="#{not empty visualizarPreRegistroController.listaPreRegistroTelaVisualizar}">
+							<div class="col-sm-12">
+								<h:dataTable id="tableVisualizarPreRegistroDeclarado"
+									value="#{visualizarPreRegistroController.listaPreRegistroTelaVisualizar}"
+									var="visualizarPreRegistro"
+									styleClass="table table-bordered table-striped">
+
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Nome da Criança" />
+										</f:facet>
+										<div
+											jsf:rendered="#{visualizarPreRegistroController.exibeNomeVisualizarPreRegistro(visualizarPreRegistro.nomeCrianca1)}">
+											<h:outputText value="#{visualizarPreRegistro.nomeCrianca1}" />
+										</div>
+										<div
+											jsf:rendered="#{!visualizarPreRegistroController.exibeNomeVisualizarPreRegistro(visualizarPreRegistro.nomeCrianca1)}">
+											<h:outputText value="Não informado até o momento" />
+										</div>
+
+									</h:column>
+
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Cartório" />
+										</f:facet>
+										<div
+											jsf:rendered="#{visualizarPreRegistroController.exibeServentiaVisualizarPreRegistro(visualizarPreRegistro.serventia)}">
+											<h:outputText value="#{visualizarPreRegistro.serventia}" />
+										</div>
+										<div
+											jsf:rendered="#{!visualizarPreRegistroController.exibeServentiaVisualizarPreRegistro(visualizarPreRegistro.serventia)}">
+											<h:outputText value="#{visualizarPreRegistro.opcaoRegistro}" />
+										</div>
+									</h:column>
+
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Data de Criação" />
+										</f:facet>
+										<h:outputText
+											value="#{visualizarPreRegistro.dataInicioSolicitacaoFormatada()}" />
+									</h:column>
+
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Feito por" />
+										</f:facet>
+										<h:outputText
+											value="#{visualizarPreRegistro.nomeDeclarantePreRegistro}" />
+									</h:column>
+
+									<h:column p:style="text-align: center;">
+										<f:facet name="header">
+											<h:outputText value="Ações" />
+										</f:facet>
+										<div
+											jsf:rendered="#{visualizarPreRegistroController.exibeBotaoEditarPreRegistro(visualizarPreRegistro.situacaoSolicitacao,visualizarPreRegistro.cpfMae)}">
+											<h:commandLink styleClass="btn btn-sm btn-primary"
+												action="#{visualizarPreRegistroController.direcionaTelaEditarPreRegistro()}"
+												onclick="PF('statusDialog').show();"
+												oncomplete="PF('statusDialog').hide();">
+												<i class="fa fa-edit"> Editar</i>
+											</h:commandLink>
+											<pr:commandLink styleClass="btn btn-fill btn-sm btn-danger"
+												style="margin:5px"
+												oncomplete="$('#modalExcluirPreRegistro').modal('show');">
+												<i class="fa fa-ban">Excluir</i>
+											</pr:commandLink>
+										</div>
+									</h:column>
+
+								</h:dataTable>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- Modal Excluir Pré-Registro -->
+			<div class="modal" id="modalExcluirPreRegistro" tabindex="-1"
+				role="dialog" aria-labelledby="modalExcluirPreRegistro"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Fechar</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Confirmação</h4>
+						</div>
+
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-sm-12">
+									Você tem certeza que deseja <strong>excluir</strong> o
+									<strong>Pré-Registro</strong> permanentemente? obs: após essa exclusão, caso
+									queira, será necessário criar um novo Pré-Registro.
+
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-right">
+								<a class="btn btn-default"
+									onclick="$('#modalExcluirPreRegistro').modal('hide');"> Não
+								</a>
+								<pr:commandLink styleClass="btn btn-danger"
+									onclick="PF('statusDialog').show(); $('#modalExcluirPreRegistro').modal('hide');"
+									oncomplete="PF('statusDialog').hide();"
+									action="#{visualizarPreRegistroController.excluirPreRegistro()}"
+									update="mensagens-sistema formVisualizarPreRegistro">
+								Sim
+							</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	
+	<ui:define name="pageTitle">
+		<h:outputText value="Sobre" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Sobre" />
+		</h1>
+	</ui:define>
+
+	<ui:define name="body">
+		<form jsf:id="formSobre" jsf:prependId="false" class="form-horizontal" role="form">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								
+								<div class="form-body">
+									<h3 class="box-title" align="center">
+										<h:outputText value="Sobre" />
+									</h3>
+									<hr />
+									
+									<div class="row" align="justify">
+										<div class="col-sm-12">
+											<p>
+												A Central de Informação do Registro Civil de Minas Gerais, a CRC-MG, é regulamentada pelo Provimento nº 260/2013 da CGJ-MG. Ela foi criada para armazenar, 
+												concentrar e disponibilizar todas as informações sobre os atos lavrados nos cartórios de registro civil das pessoas naturais do Estado.
+											</p>
+											
+											<p>
+												De acordo com o provimento, é dever dos oficiais de registro civil manter atualizada a base de dados da Central, cumprindo os prazos fixados para o envio das informações.
+											</p>
+										</div>
+										
+										<div class="col-sm-12">
+											<hr/>
+											<p>
+												Os registradores civis das pessoas naturais integrantes da CRC-MG terão acesso gratuito às informações públicas constantes do banco de dados do sistema. 
+												No entanto, os dados referentes ao termo, livro, folha e data do registro só estarão disponíveis para o oficial da serventia que realizou o ato.
+											</p>
+											
+											<p>
+												Já a Corregedoria-Geral de Justiça terá acesso gratuito e irrestrito a todas as informações constantes no banco de dados da Central.
+											</p>
+											
+											<p>
+												Os interessados, pessoas físicas ou jurídicas, públicas ou privadas, só poderão acessar a CRC-MG, após prévio cadastro e devida identificação, para a 
+												verificação da existência de qualquer ato.
+											</p>
+										</div>
+										
+										<div class="col-sm-12">
+											<hr/>
+											<p align="center">
+												<b>O acesso à certidão e a cobrança de emolumentos</b>
+											</p>
+											
+											<p>
+												Ao realizar a pesquisa e solicitar uma certidão, o interessado pode optar entre três formas de receber o documento.
+											</p>
+											
+											<p>
+												A certidão pode ser entregue diretamente na serventia que realizou o ato. Porém, o solicitante também pode preferir pegar o documento em qualquer outra 
+												serventia de Registro Civil das Pessoas Naturais de Minas Gerais. Uma terceira hipótese é a entrega da certidão pelos Correios. Nestes três casos, os 
+												valores cobrados pelo serviço serão diferenciados.
+											</p>
+											
+											<p>
+												Caso o interessado queira pegar o documento na própria serventia onde foi realizado o ato, será cobrado o valor da certidão com o acréscimo das anotações e averbações, se houver.
+											</p>
+											
+											<p>
+												Caso ele opte por buscar a certidão em serventia diversa a do ato, será cobrado o valor da transmissão da certidão (Item 14 da tabela de Emolumentos do 
+												RCPN), mais o valor da certidão. Os emolumentos da transmissão serão pagos ao cartório que originou o documento, já o valor da certidão será pago ao 
+												cartório que imprimiu, selou e entregou o documento.
+											</p>
+											
+											<p>
+												Caso a opção seja o envio pelos Correios, o interessado deverá efetuar ainda o pagamento da remessa postal.
+											</p>
+										</div>
+									</div>
+									
+									<div class="clearfix"></div>
+									
+									<hr/>
+											
+									<a jsf:id="voltar" jsf:action="#{sobreController.voltar()}" class="btn btn-default"
+										jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+										<i class="fa fa-fw fa-arrow-left"></i>Voltar
+									</a>
+				
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

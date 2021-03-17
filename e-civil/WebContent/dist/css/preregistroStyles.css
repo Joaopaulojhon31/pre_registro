@@ -1,0 +1,81 @@
+#tabs-pre-registro{
+	color: black;
+}
+.geral{
+	width: 82%;
+}
+
+#gemeos{
+	width: 82%;
+}
+.grupo-naturalidade{
+	padding-left: 0%;
+	text-align: left;
+	padding-bottom: 2%;
+}
+
+.button-preregistro{	
+	font-family: Rubik, sans-serif !important;
+	background: #00C851;
+    border: 1px solid #00C851;
+    font-size: 14px !important;
+    color: white;
+}
+.button-preregistro:hover{
+	font-family: Rubik, sans-serif !important;
+	background: #7ace4c;
+    border: 1px solid #7ace4c;
+    font-size: 14px !important;
+    color: white;
+}
+#navbar-tabs{
+	width: 82%;
+}
+#menu1{
+	width: 82%;
+}
+#menu2{
+	width: 82%;
+}
+#menu3{
+	width: 82%;
+}
+#listaPreRegistro{
+	width: 95%;
+}
+#listaPreRegistroDeclarado{
+	width: 95%;
+}
+#aviso-campos{
+	padding-left: 0.1%;
+    font-family: Rubik,sans-serif;
+    font-weight: 300;
+}
+.destaque{
+	color: red;
+}
+.destaque-pai{
+	color:red;
+}
+.campos{
+	font-weight: 1;
+}
+.informacoes-gemeos{
+	display:none;
+}
+
+#dados-declarante{
+	display:none;
+}
+
+.enviar-pre-registro{
+	
+	margin-left:0.5%;
+	width:0px;
+	length:0px;
+}
+.btn-enviar-pre-registro{
+	length:50px;
+	width:50px;
+}
+

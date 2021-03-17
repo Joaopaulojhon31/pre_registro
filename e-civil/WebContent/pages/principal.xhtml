@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<h:form id="form">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Inicial" />
+									</h3>
+
+									<hr />
+
+									<div class="row">
+										<div class="col-md-12">
+
+											<style>
+.menu-inicial-item {
+	color: #0a3756 !important;
+	font-size: 15px !important;
+	margin-bottom: 25px;
+}
+</style>
+
+											<div class="col-md-4" jsf:rendered="false">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaBuscarCertidao}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-file-pdf-o"></i> Certidão Digital <f:param
+														name="tipoSaidaCertidao" value="1" />
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaCadastroPreRegistro}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-file-text-o"></i> Cadastro Pré-Registro
+													<f:param name="tipocadastroPreRegistro" value="4" />
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaVisualizarPreRegistro}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-list"></i> Visualizar Pré-Registros
+													<f:param name="tipovizualizarPreRegistro" value="5" />
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaBuscarCertidao}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-envelope-o"></i> Certidão via Correios <f:param
+														name="tipoSaidaCertidao" value="2" />
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaBuscarCertidao}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-user"></i> Certidão via Presencial <f:param
+														name="tipoSaidaCertidao" value="3" />
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaConsultarCertidao}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-search"></i> Consulta de Certidão
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaValidarHashCertidao}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-check"></i> Validar Hash Certidão
+												</a>
+											</div>
+
+											<div class="col-md-4">
+												<a class="menu-inicial-item btn-block btn-lg btn-default"
+													jsf:action="#{principalController.direcionaSobre}"
+													jsf:onclick="PF('statusDialog').show();"
+													jsf:oncomplete="PF('statusDialog').hide();"> <i
+													class="fa fa-fw fa-info"></i> Sobre
+												</a>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+
+								<br />
+								<hr />
+
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="alert alert-info" role="alert">
+											<strong><i class="fa fa-info-circle"></i>
+												Importante:</strong> <br /> <br />
+
+											<p>O banco de dados da CRC-MG é alimentado pelos Oficiais
+												de Registo Civil das Pessoas Naturais do Estado de Minas
+												Gerais.</p>
+
+											<br />
+
+											<p>
+												Portanto, nos termos do art. 608, §4º, do Provimento nº
+												260/CGJ/2013, <b>eventual erro na informação prestada</b>
+												pelos Oficiais de Registro Civil das Pessoas Naturais do
+												Estado de Minas Gerais <b>ou eventual ausência na
+													transmissão de algum dado</b> por eles prestado, <b>não
+													impede a existência de ato registral relativo à pessoa
+													pesquisada.</b>
+											</p>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
+

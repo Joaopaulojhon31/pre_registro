@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+/*BOTÕES*/
+.botao { width:95px; height:30px; border:0px!important; font-size:12px!important; color:#fff!important;  padding-left:20px; line-height:30px; display:inline-block; }
+a.botao {/*inicio hack i7*/ *display:block; *float:left; /*fim hack i7*/}
+.botao.pesquisar { background:url(../resources/images/geral/b_pesquisar.png); margin-left:10px; width:95px; }
+.botao.pesquisar:hover { background:url(../resources/images/geral/b_pesquisar_hover.png); }
+.botao.gravar {background:url(../resources/images/geral/b_gravar.png); margin-left:10px; margin-top:15px; height: 40px; width: 85px; float:right; margin-bottom:15px; }
+.botao.gravar:hover {background:url(../resources/images/geral/b_gravar_hover.png); }
+.botao.editar {background:url(../resources/images/geral/editar.png); margin-left:10px; height: 40px; width: 75px; float:right; }
+.botao.editar:hover {background:url(../resources/images/geral/editar_hover.png); }
+.botao.assinar {background:url(../resources/images/geral/assinar.png); margin-left:10px; height: 40px; width: 83px; float:right; }
+.botao.assinar:hover {background:url(../resources/images/geral/assinar_hover.png); }
+.botao.finalizar {background:url(../resources/images/geral/finalizar.png); margin-left:10px; height: 40px; width: 88px; float:right; }
+.botao.finalizar:hover {background:url(../resources/images/geral/finalizar_hover.png); }
+.botao.remover {background:url(../resources/images/geral/remover_arquivos.png); margin-left:10px; height: 40px; width: 141px; float:right; }
+.botao.remover:hover {background:url(../resources/images/geral/remover_arquivos_hover.png);}
+.botao.processo {background:url(../resources/images/geral/download_processo.png); margin-left:10px; height: 40px; width: 152px; float:right; }
+.botao.processo:hover {background:url(../resources/images/geral/download_processo_hover.png);}
+.botao.termo {background:url(../resources/images/geral/download_termo.png); margin-left:10px; height: 40px; width: 231px; float:right; }
+.botao.termo:hover {background:url(../resources/images/geral/download_termo_hover.png);}
+.botao.sim {background:url(../resources/images/geral/sim.png); margin-left:10px; height: 30px; width: 85px; float:right; }
+.botao.sim:hover {background:url(../resources/images/geral/sim_hover.png);}
+.botao.nao {background:url(../resources/images/geral/nao.png); margin-left:10px; height: 30px; width: 85px; float:right; }
+.botao.nao:hover {background:url(../resources/images/geral/nao_hover.png);}
+.botao.validar {background:url(../resources/images/geral/botao/validar.png); margin-left:10px; height: 40px; width: 83px; float:right; }
+.botao.validar:hover {background:url(../resources/images/geral/botao/validar_hover.png);}
+.botao.voltar {background:url(../resources/images/geral/botao/voltar.png) no-repeat; height: 40px; width: 80px; }
+.botao.voltar:hover {background:url(../resources/images/geral/botao/voltar_hover.png) no-repeat;}
+.botao.adiciona_assinante { background:url(../resources/images/geral/b_adicionar_assinante.png); width:149px; }
+.botao.adiciona_assinante:hover { background:url(../resources/images/geral/b_adicionar_assinante_hover.png); }
+.botao.adiciona_numero_dae { background:url(../resources/images/geral/b_adicionar_dae.png); width:155px;}
+.botao.adiciona_numero_dae:hover { background:url(../resources/images/geral/b_adicionar_dae_hover.png); }
+.botao.adicionar_arquivo { background:url(../resources/images/geral/b_selecionar_arquivo.png) no-repeat; width:141px; padding-left:0px;}
+.botao.visualizar_arquivo {background:url(../resources/images/geral/botao/visualizar-arquivo.png) no-repeat; padding-left:20px;}
+.botao.visualizar_arquivo:hover {background:url(../resources/images/geral/botao/visualizar-arquivo_hover.png) no-repeat; }
+.botao.remover_arquivo { background:url(../resources/images/geral/botao/remover.png) no-repeat; width:91px; margin-right:5px;  }
+.botao.remover_arquivo:hover { background:url(../resources/images/geral/botao/remover_hover.png) no-repeat;  }
+.botao.confimar_edicao {background:url(../resources/images/geral/sim.png); height: 30px; width: 85px; padding:0px;  }
+.botao.confimar_edicao:hover {background:url(../resources/images/geral/sim_hover.png);}
+.botao.finaliza_deferida { background:url(../resources/images/geral/botao/finalizar_como_deferida.png); width:216px; margin:0px 10px; }
+.botao.finaliza_deferida:hover { background:url(../resources/images/geral/botao/finalizar_como_deferida_hover.png); }
+.botao.finaliza_indeferida { background:url(../resources/images/geral/botao/finalizar_como_indeferida.png); width:226px; }
+.botao.finaliza_indeferida:hover { background:url(../resources/images/geral/botao/finalizar_como_indeferida_hover.png); }
+.botao.em_estudo { background:url(../resources/images/geral/botao/deixar_em_estudo.png); width:136px; }
+.botao.em_estudo:hover { background:url(../resources/images/geral/botao/deixar_em_estudo_hover.png); }
+.botao.imprimir { background:url(../resources/images/geral/botao/imprimir.png) no-repeat; width:57px; text-align:left; padding-left:30px; }
+.botao.imprimir:hover { background:url(../resources/images/geral/botao/imprimir_hover.png) no-repeat; }
+.botao.confirmar_im { background:url(../resources/images/geral/botao/confirmar_im.png); width:207px; margin-left:10px; }
+.botao.confirmar_im:hover { background:url(../resources/images/geral/botao/confirmar_im_hover.png); }
+.botao.confirmar_alvara { background:url(../resources/images/geral/botao/confirmar_alvara.png); width:134px; margin-left:10px; }
+.botao.confirmar_alvara:hover { background:url(../resources/images/geral/botao/confirmar_alvara_hover.png); }
+.botao.limpar { background:url(../resources/images/geral/botao/limpar.png); width:78px; margin-left:10px; }
+.botao.limpar:hover { background:url(../resources/images/geral/botao/limpar_hover.png); }
+.botao.salvar {background:url(../resources/images/geral/botao/salvar.png) no-repeat; height: 40px; width:77px; margin-left:10px; }
+.botao.salvar:hover {background:url(../resources/images/geral/botao/salvar_hover.png) no-repeat;}
+.botao.salvar_p {background:url(../resources/images/geral/botao/salvar_p.png) no-repeat; width:77px; margin-left:10px; }
+.botao.salvar_p:hover {background:url(../resources/images/geral/botao/salvar_p_hover.png) no-repeat;}
+.botao.deixar_pendente {background:url(../resources/images/geral/botao/deixar_pendente.png) no-repeat; height: 40px; width: 134px; }
+.botao.deixar_pendente:hover {background:url(../resources/images/geral/botao/deixar_pendente_hover.png) no-repeat;}
+.botao.gerar_relatorio {background:url(../resources/images/geral/botao/gerar_relatorio.png) no-repeat; width: 124px; }
+.botao.gerar_relatorio:hover {background:url(../resources/images/geral/botao/gerar_relatorio_hover.png) no-repeat;}
+a.botao.gerar_relatorio {background:url(../resources/images/geral/botao/gerar_relatorio.png) no-repeat; width: 124px; padding-left: 28px; font-size:12px!important; }
+a.botao.gerar_relatorio:hover {background:url(../resources/images/geral/botao/gerar_relatorio_hover.png) no-repeat; }
+.botao.nova_unidade_atend {background:url(../resources/images/geral/botao/nova_unidade.png) no-repeat; width: 213px; }
+.botao.nova_unidade_atend:hover {background:url(../resources/images/geral/botao/nova_unidade_hover.png) no-repeat;}
+.botao.classificar {background:url(../resources/images/geral/botao/classificar.png) no-repeat; }
+.botao.classificar:hover {background:url(../resources/images/geral/botao/classificar_hover.png) no-repeat;}
+.botao.pesquisa_fonetica {background:url(../resources/images/geral/botao/pesquisa_fonetica.png) no-repeat; width: 137px; }
+.botao.pesquisa_fonetica:hover {background:url(../resources/images/geral/botao/pesquisa_fonetica_hover.png) no-repeat;}
+.botao.cancelar_viabilidade { background:url(../resources/images/geral/botao/cancelar_viabilidade.png); width:153px; }
+.botao.cancelar_viabilidade:hover { background:url(../resources/images/geral/botao/cancelar_viabilidade_hover.png); }
+.botao.prorrogar_reservanome { background:url(../resources/images/geral/botao/prorrogar_reservanome.png); width:194px; }
+.botao.prorrogar_reservanome:hover { background:url(../resources/images/geral/botao/prorrogar_reservanome_hover.png); }
+.botao.colocar_reestudo { background:url(../resources/images/geral/botao/colocar_reestudo.png); width:202px; }
+.botao.colocar_reestudo:hover { background:url(../resources/images/geral/botao/colocar_reestudo_hover.png); }
+.botao.gerar_pdf { background:url(../resources/images/geral/botao/gerar_pdf.png); width:65px; text-align:left; padding-left:30px;}
+.botao.gerar_pdf:hover { background:url(../resources/images/geral/botao/gerar_pdf_hover.png)no-repeat; }
+.botao.gerar_docx { background:url(../resources/images/geral/botao/gerar_docx.png); width:65px;text-align:left; padding-left:30px; }
+.botao.gerar_docx:hover { background:url(../resources/images/geral/botao/gerar_docx_hover.png)no-repeat; }
+.botao.processar_proxima { background:url(../resources/images/geral/botao/processar_proxima.png); width:141px; }
+.botao.processar_proxima:hover { background:url(../resources/images/geral/botao/processar_proxima_hover.png); }
+.botao.excluir {background:url(../resources/images/geral/botao/excluir.png) no-repeat; height: 40px; width: 76px; }
+.botao.excluir:hover {background:url(../resources/images/geral/botao/excluir_hover.png) no-repeat;}
+.botao.adicionar {background:url(../resources/images/geral/botao/adicionar.png) no-repeat; width: 93px; }
+.botao.adicionar:hover {background:url(../resources/images/geral/botao/adicionar_hover.png) no-repeat;}
+.botao.filtrar_uf {background:url(../resources/images/geral/botao/filtrar_uf.png) no-repeat; width: 90px; margin-left:5px; }
+.botao.filtrar_uf:hover {background:url(../resources/images/geral/botao/filtrar_uf_hover.png) no-repeat;}
+.botao.filtrar_municipio {background:url(../resources/images/geral/botao/filtrar_municipio.png) no-repeat; width: 131px; margin-left:5px; }
+.botao.filtrar_municipio:hover {background:url(../resources/images/geral/botao/filtrar_municipio_hover.png) no-repeat;}
+.botao.avancar {background:url(../resources/images/geral/botao/avancar.png); margin-left:10px; height: 40px; width: 89px; }
+.botao.avancar:hover {background:url(../resources/images/geral/botao/avancar_hover.png); }
+.botao.avancar.disabletrue, .botao.avancar.disabletrue:hover {background:url(../resources/images/geral/botao/avancar_disable.png); margin-left:10px; height: 40px; width: 89px; }
+.botao.concluir {background:url(../resources/images/geral/botao/concluir.png); margin-left:10px; height: 40px; width: 91px; float:right; }
+.botao.concluir:hover {background:url(../resources/images/geral/botao/concluir_hover.png); }
+.botao.pesquisar_atividade {background:url(../resources/images/geral/botao/pesquisar_atividades.png); margin-left:10px; width:156px; }
+.botao.pesquisar_atividade:hover {background:url(../resources/images/geral/botao/pesquisar_atividades_hover.png); }

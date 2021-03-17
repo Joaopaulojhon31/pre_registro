@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<style>
+			.ui-chkbox-box {
+				margin-right: 7px;
+			}
+			.itens-acoes .btn {
+				margin: 0px 3px 3px 3px;
+			}
+		</style>
+
+		<h:form id="form" prependId="false">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body" jsf:id="idDivSaldoDisponivel">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Solicitar Saque" />
+									</h3>
+									<hr />
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<b>
+													<div jsf:rendered="#{solicitarSaqueController.consultaSaldoRealizada}">
+														<div jsf:rendered="#{solicitarSaqueController.existeSaldoDiponivel()}">
+															Total disponível para saque: 
+															<span style="color: green">
+																R$ <h:outputLabel styleClass="control-label" value="#{solicitarSaqueController.totalDisponivelSaque}" converter="bigDecimalConverter" />
+															</span>
+														</div>
+														<div jsf:rendered="#{!solicitarSaqueController.existeSaldoDiponivel()}">
+															Não existe saldo disponível para saque
+														</div>
+													</div>
+													<div jsf:rendered="#{!solicitarSaqueController.consultaSaldoRealizada}">
+														<h:outputLabel styleClass="control-label" value="Não foi possível consultar o saldo disponível para saque neste momento." style="color: red;" />
+													</div>
+												</b>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Valor" />
+												<input type="text" class="form-control" placeholder="Valor" jsf:value="#{solicitarSaqueController.valorSaque}" 
+													jsf:converter="bigDecimalConverter" onkeyup="moeda(this);" maxlength="14"/>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-actions" align="right">
+									<pr:commandLink styleClass="btn btn-success" onclick="PF('statusDialog').show();"
+										disabled="#{solicitarSaqueController.desabilitaBtnSolicitarSaque()}" 
+										actionListener="#{solicitarSaqueController.preparaSolicitacaoSaque('modalConfirmacaoSaque')}"
+										oncomplete="PF('statusDialog').hide();" update="mensagens-sistema modalConfirmacaoSaque" >
+										<i class="fa fa-fw fa-money"></i>Solicitar Saque
+									</pr:commandLink>
+								</div>
+								
+								<div class="row" jsf:rendered="#{not empty solicitarSaqueController.saqueProvisionadoResponse and not empty solicitarSaqueController.saqueProvisionadoResponse.saqueProvisionadoDetalhadoResponse}">
+									<hr/>
+									<div class="table-responsive">
+										<div class="col-sm-12">
+											
+											<h:outputLabel value="Últimas solictações de saque:" />
+											
+											<h:dataTable id="tableUltimasSolicitacoesSaque" value="#{solicitarSaqueController.saqueProvisionadoResponse.saqueProvisionadoDetalhadoResponse}" var="solicitacao"
+												styleClass="table table-bordered table-striped">
+											
+												<h:column p:style="text-align: center; width: 33%;">
+													<f:facet name="header">
+														<h:outputText value="Data da Solicitação" />
+													</f:facet>
+													<h:outputText value="#{solicitacao.dataSolicitacao}" />
+												</h:column>
+												
+												<h:column p:style="text-align: center; width: 33%;">
+													<f:facet name="header">
+														<h:outputText value="Valor" />
+													</f:facet>
+													<span style="color: green">
+														R$ <h:outputText value="#{solicitacao.saqueProvisionado}" converter="bigDecimalConverter" />
+													</span>
+												</h:column>
+												
+												<h:column p:style="text-align: center; width: 34%;">
+													<f:facet name="header">
+														<h:outputText value="Situação" />
+													</f:facet>
+													<h:outputText value="#{solicitacao.descricaoSituacao()}" />
+												</h:column>
+												
+											</h:dataTable>
+											
+										</div>
+									</div>
+								</div>
+								
+								<hr/>
+								
+								<a jsf:id="voltar" jsf:action="#{solicitarSaqueController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Confirmar Solicitação Saque -->
+			<div class="modal fade" jsf:id="modalConfirmacaoSaque" tabindex="-1" role="dialog" aria-labelledby="modalConfirmacaoSaque" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Confirmação</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="form-group">
+							
+								<div class="col-sm-12" align="center">
+									<label class="col-sm-12 control-label">Dados Bancários</label>
+									<br/><br/>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Nome do Titular:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.nomeTitularConta}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">CPF/CNPJ do Titular:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.cpfCnpjTitularFormatado()}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Código do Banco:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.codigoBanco}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Nome do Banco:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.nomeBanco}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Agência:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.agencia}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Conta:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.conta}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Tipo de Conta:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{solicitarSaqueController.solicitacaoSaqueVO.recuperaDescricaoTipoConta()}" />
+									</div>
+								</div>
+								
+								<div class="col-sm-12">
+									<hr/>
+									<label class="col-sm-4 control-label text-right">Valor Solicitado:</label>
+									<div class="col-sm-8">
+										<span style="color: green">
+											R$ <h:outputText value="#{solicitarSaqueController.valorSaque}" converter="bigDecimalConverter" />
+										</span>
+									</div>
+								</div>
+	
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-danger" onclick="$('#modalConfirmacaoSaque').modal('hide');">
+								Cancelar
+							</pr:commandLink>
+							<pr:commandLink styleClass="btn btn-success" onclick="PF('statusDialog').show(); $('#modalConfirmacaoSaque').modal('hide');" 
+								oncomplete="PF('statusDialog').hide();" action="#{solicitarSaqueController.solicitarSaque()}" update="mensagens-sistema idDivSaldoDisponivel">
+								Confirmar
+							</pr:commandLink>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

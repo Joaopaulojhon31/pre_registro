@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pr="http://primefaces.org/ui"
+	xmlns:paginacao="http://java.sun.com/jsf/composite/paginacao"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+
+<composite:interface>
+	<composite:attribute name="bean" type="java.lang.Object" />
+	<composite:attribute name="renderiza" default="panelPaginado" />
+	<composite:attribute name="pesquisaBean" type="java.lang.Object" />
+	<composite:attribute name="nomeMetodo" type="java.lang.String" />
+</composite:interface>
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<style>
+.ui-chkbox-box {
+	margin-right: 7px;
+}
+
+.itens-acoes .btn {
+	margin: 0px 3px 3px 3px;
+}
+</style>
+
+		<h:form id="form" prependId="false">
+
+			<div jsf:id="divDadosPreRegistro" class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Pesquisa Registro" />
+									</h3>
+									<hr />
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="CPF da Mãe" />
+												<input type="text" class="form-control" jsf:id="cpf"
+													placeholder="CPF da Mãe"
+													onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)"
+													jsf:converter="cpfConverter"
+													jsf:value="#{pesquisaPreRegistroController.filtroPesquisaSolicitacaoUI.cpfMae}"
+													maxlength="14" />
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label"
+													value="Numero da Solicitação" />
+												<input type="text" class="form-control"
+													jsf:id="NumeroSolicitacao"
+													placeholder="Numero da Solicitação"
+													onkeypress="formatar_mascara(event,this,'###########'); return somenteNumero(event)"
+													jsf:value="#{pesquisaPreRegistroController.filtroPesquisaSolicitacaoUI.numeroSolicitacao}"
+													maxlength="14" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<div class="form-group">
+													<h:outputLabel styleClass="control-label" value="Serventia" />
+													<h:selectOneMenu id="comboCartorio" name="comboCartorio"
+														styleClass="form-control"
+														disabled="#{pesquisaPreRegistroController.desabilitaComboSelecionarServentia()}"
+														value="#{pesquisaPreRegistroController.filtroPesquisaSolicitacaoUI.codCorregedoriaCartorio}">
+														<f:selectItem itemLabel="Selecione..." itemValue=""
+															noSelectionOption="true" />
+														<f:selectItems
+															value="#{pesquisaPreRegistroController.listaCartorio}"
+															var="cartorio"
+															itemLabel="#{cartorio.nomeDistritoECartorio}"
+															itemValue="#{cartorio.codigoCorregedoria}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label"
+													value="Data Início" />
+												<input type="date" class="form-control"
+													jsf:value="#{pesquisaPreRegistroController.filtroPesquisaSolicitacaoUI.dataInicioSolicitacao}"
+													onkeydown="return false" jsf:converter="dataConverter"
+													maxlength="10" />
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Data Final" />
+												<input type="date" class="form-control"
+													jsf:value="#{pesquisaPreRegistroController.filtroPesquisaSolicitacaoUI.dataFimSolicitacao}"
+													onkeydown="return false" jsf:converter="dataConverter"
+													maxlength="10" />
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Situação" />
+												<select jsf:id="idComboSituacaoPedido1" class="form-control"
+													size="1"
+													jsf:value="#{pesquisaPreRegistroController.filtroPesquisaSolicitacaoUI.situacaoSolicitacao}">
+													<f:selectItem itemLabel="Selecione"
+														noSelectionOption="true" />
+													<f:selectItems
+														value="#{pesquisaPreRegistroController.listaSituacaoSolicitacaoUI}"
+														var="situacao" itemLabel="#{situacao.nome}"
+														itemValue="#{situacao.id.toString()}" />
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-actions">
+									<a jsf:id="limparPedidos" render="pedidosPanel"
+										jsf:action="#{pesquisaPreRegistroController.limpar()}"
+										class="btn btn-default"> <i class="fa fa-fw fa-eraser"></i>Limpar
+									</a> <a jsf:id="consultaPedidos" render="pedidosPanel"
+										jsf:action="#{pesquisaPreRegistroController.pesquisarSolicitacoesUI()}"
+										class="btn btn-primary "> <i class="fa fa-fw fa-search"></i>Pesquisar
+									</a>
+								</div>
+
+								<hr />
+
+								<div jsf:id="listaPreRegistro" class="row">
+									<div
+										jsf:rendered="#{pesquisaPreRegistroController.pesquisaRealizada}">
+										<div
+											jsf:rendered="#{empty pesquisaPreRegistroController.listaPreRegistro}">
+											<div class="col-md-12">
+												<strong>Nenhuma solicitação encontrada.</strong>
+											</div>
+										</div>
+										<div class="table-responsive" style="font-size: 0.8em;"
+											jsf:rendered="#{not empty pesquisaPreRegistroController.preRegistro}">
+											<div class="col-sm-12">
+												<div
+													jsf:rendered="#{pesquisarPermissaoUsuarioInternoController.possuiPermissaoPreposto()}">
+													<h:outputLabel value="Registros Encontrados:" />
+												</div>
+												<div
+													jsf:rendered="#{!pesquisarPermissaoUsuarioInternoController.possuiPermissaoPreposto()}">
+													<h:outputLabel value="Registros Para a Minha Serventia:" />
+												</div>
+												<h:dataTable id="tablePedidosUsuario"
+													value="#{pesquisaPreRegistroController.listaPreRegistro}"
+													var="preRegistro"
+													styleClass="table table-bordered table-striped">
+
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="CPF da Mãe" />
+														</f:facet>
+														<h:outputText value="#{preRegistro.cpfMae}" />
+													</h:column>
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Data Início" />
+														</f:facet>
+														<h:outputText
+															value="#{preRegistro.dataInicioSolicitacaoFormatada()}" />
+													</h:column>
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da Criança" />
+														</f:facet>
+														<h:outputText value="#{preRegistro.nomeCrianca1}" />
+													</h:column>
+
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Maternidade" />
+														</f:facet>
+														<h:outputText value="#{preRegistro.nomeUi}" />
+													</h:column>
+
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Ações" />
+														</f:facet>
+														<pr:commandLink styleClass="btn btn-sm btn-primary"
+															update="mensagens-sistema modalVisualizarPreRegistro idCheckFinalizarSolicitacao"
+															actionListener="#{pesquisaPreRegistroController.setaPreRegistro(preRegistro,'modalVisualizarPreRegistro')}"
+															onclick="PF('statusDialog').show();"
+															oncomplete="PF('statusDialog').hide();">
+															<i class="fa fa-search"> Visualizar</i>
+														</pr:commandLink>
+													</h:column>
+
+												</h:dataTable>
+											</div>
+
+											<paginacao:paginacao
+												pesquisaBean="#{pesquisaPreRegistroController}"
+												bean="#{pesquisaPreRegistroController.paginacao}"
+												renderiza="listaPreRegistro"
+												nomeMetodo="pesquisarPreRegistroPaginado" />
+										</div>
+									</div>
+								</div>
+								<hr />
+
+								<a jsf:id="voltar"
+									jsf:action="#{pesquisaPreRegistroController.voltar()}"
+									class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();"
+									jsf:oncomplete="PF('statusDialog').hide();"> <i
+									class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Visualizar Pré Registro  -->
+			<div class="modal fade" jsf:id="modalVisualizarPreRegistro"
+				tabindex="-1" role="dialog"
+				aria-labelledby="modalVisualizarPreRegistro" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Dados</h4>
+						</div>
+
+						<div class="panel-body">
+							<div class="form-group">
+
+								<style>
+.margem-top {
+	padding-top: 7px;
+}
+</style>
+
+								<!-- Nav tabs -->
+								<ul class="nav nav-tabs" role="tablist"
+									value="#{pesquisaPreRegistroController.listaPreRegistro}"
+									var="preRegistro">
+									<li role="presentation"
+										class="active 'col-sm-3' : 'col-sm-3'}">
+										<a href="#detalhesPedido" aria-controls="detalhesPedido"
+										role="tab" data-toggle="tab" class="abas hidden-xs"
+										style="text-align: center;">Dados do Registro</a> <a
+										href="#detalhesPedido" aria-controls="detalhesPedido"
+										role="tab" data-toggle="tab" class="abas-xs visible-xs-block"
+										style="text-align: center;">Dados do Registro</a>
+									</li>
+									<li
+										jsf:rendered="#{pesquisaPreRegistroController.preRegistro.preRegistroFilhoUnico}"
+										role="presentation"
+										class="#{pesquisaPedidoRealizadoController.exibeHistoricoPedidoCertidao() ? 'col-sm-3' : 'col-sm-3'}">
+										<a href="#detalhesCertidao" aria-controls="detalhesCertidao"
+										role="tab" data-toggle="tab" class="abas hidden-xs"
+										style="text-align: center;">Dados da Criança</a> <a
+										href="#detalhesCertidao" aria-controls="detalhesCertidao"
+										role="tab" data-toggle="tab" class="abas-xs visible-xs-block"
+										style="text-align: center;">Dados da Criança</a>
+									</li>
+									<li
+										jsf:rendered="#{!pesquisaPreRegistroController.preRegistro.preRegistroFilhoUnico}"
+										role="presentation"
+										class="#{pesquisaPedidoRealizadoController.exibeHistoricoPedidoCertidao() ? 'col-sm-3' : 'col-sm-3'}">
+										<a href="#detalhesCertidao" aria-controls="detalhesCertidao"
+										role="tab" data-toggle="tab" class="abas hidden-xs"
+										style="text-align: center;">Dados das Crianças</a> <a
+										href="#detalhesCertidao" aria-controls="detalhesCertidao"
+										role="tab" data-toggle="tab" class="abas-xs visible-xs-block"
+										style="text-align: center;">Dados das Crianças</a>
+									</li>
+									<li role="presentation"
+										class="#{pesquisaPedidoRealizadoController.exibeHistoricoPedidoCertidao() ? 'col-sm-3' : 'col-sm-3'}">
+										<a href="#dadosHistorico" aria-controls="dadosHistorico"
+										role="tab" data-toggle="tab" class="abas hidden-xs"
+										style="text-align: center;">Dados do Pai</a> <a
+										href="#dadosHistorico" aria-controls="dadosHistorico"
+										role="tab" data-toggle="tab" class="abas-xs visible-xs-block"
+										style="text-align: center;">Dados do Pai</a>
+									</li>
+									<li role="presentation"
+										class="#{pesquisaPedidoRealizadoController.exibeHistoricoPedidoCertidao() ? 'col-sm-3' : 'col-sm-3'}">
+										<a href="#dadosCartorio" aria-controls="dadosCartorio"
+										role="tab" data-toggle="tab" class="abas hidden-xs"
+										style="text-align: center;">Dados da Mãe</a> <a
+										href="#dadosCartorio" aria-controls="dadosCartorio" role="tab"
+										data-toggle="tab" class="abas-xs visible-xs-block"
+										style="text-align: center;">Dados do Mãe</a>
+									</li>
+								</ul>
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div role="tabpanel" class="tab-pane active"
+										id="detalhesPedido">
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right margem-top">Situação:</label>
+												<div class="col-sm-8 margem-top">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.retornaNomeSolicitacao()}"
+														styleClass="#{pesquisaPreRegistroController.preRegistro.situacaoSolicitacao}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Protocolo:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.numeroSolicitacao}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Data
+													do registro:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.dataInicioSolicitacaoFormatada()}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Quantidade
+													de crianças:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.retornaQuantidadeCriancas()}" />
+												</div>
+											</div>
+										</div>
+										<div style="clear: both;"></div>
+									</div>
+
+									<div role="tabpanel" class="tab-pane" id="detalhesCertidao">
+										<ul
+											jsf:rendered="#{!pesquisaPreRegistroController.preRegistro.preRegistroFilhoUnico}"
+											class="nav nav-tabs">
+											<li class="active"><a
+												style="text-align: center; width: 169px;" data-toggle="tab"
+												href="#exibeDadosCrianca1">Primeira Criança</a></li>
+											<li><a style="text-align: center; width: 169px;"
+												data-toggle="tab" href="#exibeDadosCrianca2">Segunda
+													Criança</a></li>
+											<li
+												jsf:rendered="#{pesquisaPreRegistroController.retornaQuantidadeCriancas() > 2}"><a
+												style="text-align: center; width: 169px;" data-toggle="tab"
+												href="#exibeDadosCrianca3">Terceira Criança</a></li>
+											<li
+												jsf:rendered="#{pesquisaPreRegistroController.retornaQuantidadeCriancas() > 3}"><a
+												style="text-align: center; width: 169px;" data-toggle="tab"
+												href="#exibeDadosCrianca4">Quarta Criança</a></li>
+											<li
+												jsf:rendered="#{pesquisaPreRegistroController.retornaQuantidadeCriancas() > 4}"><a
+												style="text-align: center; width: 169px;" data-toggle="tab"
+												href="#exibeDadosCrianca5">Quinta Criança</a></li>
+										</ul>
+
+										<div class="tab-content">
+											<div role="tabpanel" class="tab-pane active"
+												id="exibeDadosCrianca1">
+												<div class="row">
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Nome
+															da Criança</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.nomeCrianca1}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Sexo:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.sexoCrianca1}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Data
+															de Nascimento:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoCrianca1Formatada()}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">DNV:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dnvCrianca1}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidade}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">UF:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUf}" />
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div role="tabpanel" class="tab-pane" id="exibeDadosCrianca2">
+												<div class="row">
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Nome
+															da Criança</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.nomeCrianca2}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Sexo:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.sexoCrianca2}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Data
+															de Nascimento:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoCrianca2Formatada()}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">DNV:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dnvCrianca2}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidade}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">UF:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUf}" />
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div role="tabpanel" class="tab-pane" id="exibeDadosCrianca3">
+												<div class="row">
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Nome
+															da Criança</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.nomeCrianca3}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Sexo:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.sexoCrianca3}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Data
+															de Nascimento:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoCrianca3Formatada()}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">DNV:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dnvCrianca3}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidade}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">UF:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUf}" />
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div role="tabpanel" class="tab-pane" id="exibeDadosCrianca4">
+												<div class="row">
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Nome
+															da Criança</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.nomeCrianca4}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Sexo:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.sexoCrianca4}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Data
+															de Nascimento:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoCrianca4Formatada()}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">DNV:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dnvCrianca4}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidade}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">UF:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUf}" />
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div role="tabpanel" class="tab-pane" id="exibeDadosCrianca5">
+												<div class="row">
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Nome
+															da Criança</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.nomeCrianca5}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Sexo:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.sexoCrianca5}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Data
+															de Nascimento:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoCrianca5Formatada()}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">DNV:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.dnvCrianca5}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidade}" />
+														</div>
+													</div>
+													<div class="col-sm-12">
+														<label class="col-sm-4 control-label text-right">UF:</label>
+														<div class="col-sm-8">
+															<h:outputText
+																value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUf}" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div role="tabpanel" class="tab-pane" id="dadosCartorio">
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Nome:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.nomeMae}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">CPF:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.cpfMae}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Data
+													de Nascimento:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoMaeFormatada()}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.naturalidadeMae}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">UF:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUfMae}" />
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div role="tabpanel" class="tab-pane" id="dadosHistorico">
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Nome:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.nomePai}" />
+												</div>
+											</div>
+
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">CPF:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.cpfPai}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Data
+													de Nascimento:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.dataNascimentoPaiFormatada()}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">Naturalidade:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.naturalidadePai}" />
+												</div>
+											</div>
+											<div class="col-sm-12">
+												<label class="col-sm-4 control-label text-right">UF:</label>
+												<div class="col-sm-8">
+													<h:outputText
+														value="#{pesquisaPreRegistroController.preRegistro.naturalidadeUfPai}" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default"
+									onclick="$('#modalVisualizarPreRegistro').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div jsf:rendered="#{pesquisaPreRegistroController.exibeBotoesInteracao()}">
+							<h:selectBooleanCheckbox
+								rendered="#{pesquisaPreRegistroController.preRegistro.situacaoSolicitacao == 4}"
+								value="#{pesquisaPreRegistroController.desabilitaBotaoDownload}"
+								id="idCheckFinalizarSolicitacao">
+								<pr:ajax event="click" update="ButtonDownloadXml" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel
+								rendered="#{pesquisaPreRegistroController.preRegistro.situacaoSolicitacao == 4}"
+								for="idCheckFinalizarSolicitacao"
+								style="margin-left:5px; margin-right:10px"
+								value="Finalizar Solicitação" />
+							<button jsf:id="ButtonDownloadXml"
+								jsf:rendered="#{pesquisaPreRegistroController.preRegistro.situacaoSolicitacao == 4}"
+								jsf:disabled="#{!pesquisaPreRegistroController.desabilitaBotaoDownload}"
+								class="btn btn-primary"
+								jsf:action="#{pesquisaPreRegistroController.downloadPreRegistro()}">
+								<i class="fa fa-fw fa-file-text-o"></i>Download XML Certidão
+							</button>
+							<a
+								jsf:rendered="#{pesquisaPreRegistroController.preRegistro.situacaoSolicitacao == 2}"
+								class="btn btn-primary"
+								jsf:action="#{pesquisaPreRegistroController.downloadRmlPreRegistro()}">
+								<i class="fa fa-fw fa-file-text-o"></i>Download XML Certidão
+							</a> <a
+								jsf:rendered="#{pesquisarPermissaoUsuarioInternoController.possuiPermissaoPreRegistro()}"
+								class="btn btn-primary"
+								jsf:action="#{pesquisaPreRegistroController.removerXmlAnexado()}">
+								<i class="fa fa-fw fa-file-text-o"></i>Download Documentação
+							</a>	
+							<pr:commandLink styleClass="btn btn-primary"
+								onclick="PF('statusDialog').show();"
+								oncomplete="PF('statusDialog').hide(); $('#modalAnexarXmlCertidao').modal('show');"
+								update="modalAnexarXmlCertidao"
+								rendered="#{pesquisarPermissaoUsuarioInternoController.possuiPermissaoPreRegistro()}">
+								<i class="fa fa-fw fa-file-text-o"></i>Enviar XML Certidão
+										</pr:commandLink>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Anexar XML da Certidao -->
+			<div class="modal fade" jsf:id="modalAnexarXmlCertidao" tabindex="-1"
+				role="dialog" aria-labelledby="modalAnexarXmlCertidao"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Anexar XML Certidão</h4>
+						</div>
+
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-sm-12" jsf:id="idDivAnexoXmlModal">
+									<div class="row">
+										<div class="col-sm-12">
+											<a onclick="$('#uploadAnexoXmlCertidao input').click()"
+												class="btn btn-sm btn-primary"> <i
+												class="fa fa-fw fa-upload"></i>Anexar Certidão
+											</a>
+
+											<h:outputText value=" " />
+											<pr:commandLink
+												actionListener="#{pesquisaPreRegistroController.removerXmlAnexado()}"
+												styleClass="btn btn-fill btn-sm btn-danger"
+												rendered="#{not empty pesquisaPreRegistroController.preRegistro.xml}"
+												update="idDivAnexoXmlModal" p:style="font-size: 12px;">
+												<i class="fa fa-fw fa-trash"></i>Remover
+											</pr:commandLink>
+
+											<div id="uploadAnexoXmlCertidao" style="display: none">
+												<pr:fileUpload
+													fileUploadListener="#{pesquisaPreRegistroController.anexarXml}"
+													update="mensagens-sistema idDivAnexoXmlModal"
+													onstart="PF('statusDialog').show();"
+													oncomplete="PF('statusDialog').hide();" label="Anexar"
+													mode="advanced" dragDropSupport="false" auto="true">
+												</pr:fileUpload>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<br />
+								<br />
+								<div class="col-sm-12">
+									<div class="well bg-default"
+										style="padding: 5px !important; text-align: center;">Só
+										é permitido anexar arquivos do tipo XML (XML.DSIG)!</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default"
+									onclick="$('#modalAnexarXmlCertidao').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-success"
+									onclick="PF('statusDialog').show(); $('#modalAnexarXmlCertidao').modal('hide'); $('#modalVisualizarPreRegistro').modal('hide');"
+									oncomplete="PF('statusDialog').hide();"
+									action="#{pesquisaPreRegistroController.salvarXml()}"
+									update="divDadosPreRegistro mensagens-sistema">
+									Salvar
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

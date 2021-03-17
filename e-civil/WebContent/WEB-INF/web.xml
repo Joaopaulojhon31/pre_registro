@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+
+	<display-name>e-civil</display-name>
+
+	<context-param>
+		<param-name>createTempFiles</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>facelets.SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>commons</param-value>
+	</context-param>
+	
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+		<init-param>
+			<param-name>uploadDirectory</param-name>
+			<param-value>c:/TEMP</param-value>
+		</init-param>
+		<init-param>
+			<param-name>thresholdSize</param-name>
+			<param-value>52428800</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>Charset Filter</filter-name>
+		<filter-class>ecivil.web.filter.CharsetFilter</filter-class>
+		<init-param>
+			<param-name>requestEncoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+		<filter-mapping>
+		<filter-name>Charset Filter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+	<servlet>
+		<servlet-name>default</servlet-name>
+		<servlet-class>io.undertow.servlet.handlers.DefaultServlet</servlet-class>
+		<init-param>
+			<param-name>allowed-extensions</param-name>
+			<param-value>js, css, png, jpg, gif, html, htm, txt, pdf, jpeg, xml, zip</param-value>
+		</init-param>
+		<init-param>
+			<param-name>disallowed-extensions</param-name>
+			<param-value>class, jar, war</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>livre</web-resource-name>
+			<url-pattern>/pages/inicial.jsf</url-pattern>
+			<url-pattern>/pages/usuario/cadastroUsuarioPortalExterno.jsf</url-pattern>
+			<url-pattern>/pages/usuario/recuperarSenhaUsuarioPortalExterno.jsf</url-pattern>
+			<url-pattern>/javax.faces.resource/*</url-pattern>
+			<url-pattern>/rfRes/*</url-pattern>
+			<http-method>HEAD</http-method>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>protected-resources</web-resource-name>
+			<url-pattern>*.jsf</url-pattern>
+			<http-method>HEAD</http-method>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>usuarioPortalExterno</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>livre</web-resource-name>
+			<url-pattern>/pages/usuario/login.jsf</url-pattern>
+			<http-method>HEAD</http-method>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>ecivilPortalExternoDomain</realm-name>
+		<form-login-config>
+			<form-login-page>/pages/usuario/login.jsf</form-login-page>
+			<form-error-page>/pages/usuario/login.jsf</form-error-page>
+		</form-login-config>
+	</login-config>
+	<security-role>
+		<role-name>usuarioPortalExterno</role-name>
+	</security-role>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/pages/principal.xhtml</location>
+	</error-page>
+
+</web-app>

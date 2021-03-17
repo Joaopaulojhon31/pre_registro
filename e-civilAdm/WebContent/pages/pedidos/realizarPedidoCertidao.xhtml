@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<style>
+			.ui-chkbox-box {
+				margin-right: 7px;
+			}
+			.itens-acoes .btn {
+				margin: 0px 3px 3px 3px; 
+			}
+		</style>
+		
+		<h:form id="form" prependId="false">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								
+								<style>
+									.text-right {
+										text-align: right;
+									}
+								</style>
+								
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Realizar pedido de certidão" />
+									</h3>
+									
+									<hr />
+									
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<strong>Nome da pessoa:</strong><br/>
+												<input type="text" class="form-control" jsf:value="#{realizarPedidoCertidaoController.pedidoCertidao.nomePessoaPesquisa}" maxlength="100" />
+												<h:selectBooleanCheckbox value="#{realizarPedidoCertidaoController.pedidoCertidao.nomeIdentico}" id="idCheckConfirmaDados"/>
+												<h:outputLabel for="idCheckConfirmaDados" style="margin-left:5px;" value="Pesquisar pelo nome idêntico" />
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<strong>Pessoa associada (Mãe ou Cônjuge):</strong><br/>
+												<input type="text" class="form-control" jsf:value="#{realizarPedidoCertidaoController.pedidoCertidao.nomeAssociado}" maxlength="100" />
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<strong>CPF da pessoa:</strong><br/>
+												<input type="text" class="form-control" jsf:id="cpf" placeholder="CPF"
+													onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)"
+													jsf:converter="cpfConverter"
+													jsf:value="#{realizarPedidoCertidaoController.pedidoCertidao.cpf}"
+													maxlength="14" />
+											</div>
+										</div>
+									
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label class="control-label">Municipio:</label>
+												<h:selectOneMenu id="comboMunicipio" name="comboMunicipio" styleClass="form-control" 
+													value="#{realizarPedidoCertidaoController.pedidoCertidao.municipioPesquisa}" converter="entidadeConverter">
+													<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{realizarPedidoCertidaoController.recuperaListaMunicipioEstadoSede()}" var="municipio" itemLabel="#{municipio.nome}" itemValue="#{municipio}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="clearfix"></div>
+								
+								<hr/>
+								
+								<div class="col-sm-12">
+									<div class="pull-right">
+										<a jsf:id="limpar" jsf:action="#{realizarPedidoCertidaoController.limparFiltros()}" class="btn btn-fill btn-default"
+											jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+											<i class="fa fa-fw fa-eraser"></i>Limpar Filtros
+										</a>
+										<h:outputText value=" " />
+										<a jsf:id="salvar" jsf:action="#{realizarPedidoCertidaoController.avancar()}" class="btn btn-fill btn-success"
+											jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+											<i class="fa fa-fw fa-arrow-right"></i>Pesquisar
+										</a>
+									</div>
+								</div>
+								
+								
+								<div class="col-sm-12">
+									<hr/>
+									<div class="pull-left">
+										<a jsf:id="voltar" jsf:action="#{realizarPedidoCertidaoController.voltar()}" class="btn btn-default"
+											jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+											<i class="fa fa-fw fa-arrow-left"></i>Voltar
+										</a>
+									</div>
+								</div>
+									
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

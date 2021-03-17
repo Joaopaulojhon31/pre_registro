@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui"
+	xmlns:paginacao="http://java.sun.com/jsf/composite/paginacao">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	
+	<ui:define name="pageTitle">
+		<h:outputText value="Consultar pedido de certidão" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Consultar pedido de certidão" />
+		</h1>
+	</ui:define>
+
+	<ui:define name="body">
+		<form jsf:id="formConsultarCertidao" jsf:prependId="false" class="form-horizontal" role="form">
+			<div class="row" jsf:id="idDivConsultarPedidos" >
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Consultar pedido de certidão" />
+									</h3>
+									<hr />
+									
+									<div class="row">
+										<div class="col-md-3"></div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Protocolo" />
+												<input type="text" class="form-control" jsf:value="#{consultarCertidaoController.protocolo}" size="13" maxlength="13" placeholder="Protocolo" />
+											</div>
+										</div>
+										<div class="col-md-3"></div>
+									</div>
+									
+									<div class="row" align="center">
+										<a jsf:id="limparPedidos" jsf:action="#{consultarCertidaoController.limpar()}" class="btn btn-default">
+											<i class="fa fa-fw fa-eraser"></i>Limpar
+										</a>
+										<h:outputText value=" " />
+										<a jsf:action="#{consultarCertidaoController.pesquisarPorProtocolo()}" class="btn btn-primary">
+											<i class="fa fa-fw fa-search"></i>Pesquisar
+										</a>
+									</div>
+									
+									<hr/>
+									
+									<div jsf:id="listaPedidoCertidao" class="row">
+										<div class="table-responsive" style="font-size: 0.9em;" jsf:rendered="#{empty consultarCertidaoController.listaPedidoCertidao}">
+											<div class="col-sm-12" align="center">
+												Nenhum registro encontrado.
+											</div>
+										</div>
+										
+										<div class="table-responsive" style="font-size: 0.9em;" jsf:rendered="#{not empty consultarCertidaoController.listaPedidoCertidao}">
+											<div class="col-sm-12">
+												<h:outputLabel value="Meus pedidos:" />
+												<h:dataTable id="tablePedidosUsuario" value="#{consultarCertidaoController.listaPedidoCertidao}" var="pedidoCertidao"
+													styleClass="table table-bordered table-striped">
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Protocolo" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.protocolo}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Situação" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.situacao.nome}" styleClass="#{pedidoCertidao.situacao.classeCssRequisitante}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da pessoa/cônjuge 1" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.nomePrimeiraPessoa}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da mãe/cônjuge 2" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.nomeSegundaPessoa}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Data do pedido" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.dataPedido}" converter="dataConverter">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Tipo de certidão" />
+														</f:facet>
+														<h:outputText rendered="#{!pedidoCertidao.pedidoCertidaoNegativa}" value="#{pedidoCertidao.tipoCertidao.descFato}" />
+														<h:outputText rendered="#{pedidoCertidao.pedidoCertidaoNegativa}" value="#{pedidoCertidao.tipoCertidao.descFato} (NEGATIVA)" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Valor total" />
+														</f:facet>
+														<div jsf:rendered="#{not empty pedidoCertidao.valorTotal}">
+															R$ <h:outputText value="#{pedidoCertidao.valorTotal}" converter="bigDecimalConverter" />
+														</div>
+														<div jsf:rendered="#{empty pedidoCertidao.valorTotal}">
+															<h:outputText value="--" />
+														</div>
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Ações" />
+														</f:facet>
+														<pr:commandLink styleClass="btn btn-fill btn-sm btn-primary" 
+																onclick="PF('statusDialog').show();"
+																oncomplete="PF('statusDialog').hide(); $('#modalVisualizarPedidoCertidao').modal('show');" 
+																update="mensagens-sistema modalVisualizarPedidoCertidao"
+																actionListener="#{consultarCertidaoController.setaPedidoCertidao(pedidoCertidao)}">
+															<i class="fa fa-search"> Visualizar</i>
+														</pr:commandLink>
+													</h:column>
+													
+												</h:dataTable>
+											</div>
+									
+											<paginacao:paginacao pesquisaBean="#{consultarCertidaoController}" bean="#{consultarCertidaoController.paginacao}" 
+												renderiza="listaPedidoCertidao" nomeMetodo="recuperaPedidoCertidaoPaginado" />
+										
+										</div>
+									</div>
+									
+									<div class="clearfix"></div>
+
+									<hr/>
+									
+									<a jsf:id="voltar" jsf:action="#{consultarCertidaoController.voltar()}" class="btn btn-default"
+										jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+										<i class="fa fa-fw fa-arrow-left"></i>Voltar
+									</a>
+				
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Visualizar Pedido Certidao -->
+			<div class="modal fade" jsf:id="modalVisualizarPedidoCertidao" tabindex="-1" role="dialog" aria-labelledby="modalVisualizarPedidoCertidao" aria-hidden="true">
+				<div class="modal-dialog modal-lg"> 
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Dados do pedido</h4>
+						</div>
+						<div class="col-md-12">
+							<div class="panel-body">
+								<div class="form-group">
+								
+									<style>
+										.margem-top {
+											padding-top: 7px;
+										}
+									</style>
+	    							
+									<!-- Nav tabs -->
+									<ul class="nav nav-tabs" role="tablist">
+										<li role="presentation" class="active col-sm-4">
+											<a href="#detalhesPedido" aria-controls="detalhesPedido" role="tab" data-toggle="tab" class="abas hidden-xs" style="text-align: center;">Exibir detalhes do pedido</a>
+											<a href="#detalhesPedido" aria-controls="detalhesPedido" role="tab" data-toggle="tab" class="abas-xs visible-xs-block" style="text-align: center;">Detalhes do pedido</a>
+										</li>
+										<li role="presentation" class="col-sm-4">
+											<a href="#detalhesCertidao" aria-controls="detalhesCertidao" role="tab" data-toggle="tab" class="abas hidden-xs" style="text-align: center;">Exibir detalhes da certidão</a>
+											<a href="#detalhesCertidao" aria-controls="detalhesCertidao" role="tab" data-toggle="tab" class="abas-xs visible-xs-block" style="text-align: center;">Detalhes da certidão</a>
+										</li>
+										<li role="presentation" class="col-sm-4">
+											<a href="#dadosCartorio" aria-controls="dadosCartorio" role="tab" data-toggle="tab" class="abas hidden-xs" style="text-align: center;">Exibir dados do cartório</a>
+											<a href="#dadosCartorio" aria-controls="dadosCartorio" role="tab" data-toggle="tab" class="abas-xs visible-xs-block" style="text-align: center;">Dados do cartório</a>
+										</li>
+									</ul>
+							  
+	   								<!-- Tab panes -->
+								  	<div class="tab-content">
+									    <div role="tabpanel" class="tab-pane active" id="detalhesPedido">
+									    	<div class="row">
+												<div class="col-sm-12" jsf:rendered="#{not empty consultarCertidaoController.pedidoCertidao.situacao.progresso}">
+													<label class="col-sm-3 control-label text-right">Progresso:</label>
+													<div class="col-sm-8 margem-top">
+														<pr:progressBar value="#{consultarCertidaoController.pedidoCertidao.situacao.progresso}" 
+															labelTemplate="#{consultarCertidaoController.pedidoCertidao.situacao.progresso}%" displayOnly="true" />
+													</div>
+												</div>
+												
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Situação:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.situacao.nome}" styleClass="#{consultarCertidaoController.pedidoCertidao.situacao.classeCssRequisitante}" />
+													</div>
+												</div>
+												
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Protocolo:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.protocolo}" />
+													</div>
+												</div>
+												
+		           								<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Possui averbação?</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.possuiAverbacao ? 'Sim' : 'Não'}" />
+													</div>
+												</div>
+												
+												<div jsf:rendered="#{empty consultarCertidaoController.pedidoCertidao.valorTotal and !consultarCertidaoController.pedidoCertidao.situacaoPedidoRejeitado}">
+													<div class="col-sm-12">
+														<label class="col-sm-3 control-label text-right">Valor total:</label>
+														<div class="col-sm-8 margem-top">
+															<h:outputText rendered="#{!consultarCertidaoController.pedidoCertidao.saidaViaCorreios}" value="O valor da certidão será calculado após a análise de averbação do cartório." />
+															<h:outputText rendered="#{consultarCertidaoController.pedidoCertidao.saidaViaCorreios}" value="O valor da certidão será calculado após a análise de averbação e frete do cartório." />
+														</div>
+													</div>
+												</div>
+												
+												<div jsf:rendered="#{not empty consultarCertidaoController.pedidoCertidao.valorTotal and !consultarCertidaoController.pedidoCertidao.situacaoPedidoRejeitado}">
+			           								<div class="col-sm-12">
+														<label class="col-sm-3 control-label text-right">Valor certidão:</label>
+														<div class="col-sm-8 margem-top">
+															R$ <h:outputText value="#{consultarCertidaoController.pedidoCertidao.valorCertidao}" converter="bigDecimalConverter" />
+														</div>
+													</div>
+			           								<div class="col-sm-12">
+														<label class="col-sm-3 control-label text-right">Taxa de manutenção:</label>
+														<div class="col-sm-8 margem-top">
+															R$ <h:outputText value="#{consultarCertidaoController.pedidoCertidao.taxaManuntencao}" converter="bigDecimalConverter" />
+														</div>
+													</div>
+			           								<div class="col-sm-12" jsf:rendered="#{consultarCertidaoController.pedidoCertidao.saidaViaCorreios}">
+														<label class="col-sm-3 control-label text-right">Valor frete:</label>
+														<div class="col-sm-8 margem-top">
+															R$ <h:outputText value="#{consultarCertidaoController.pedidoCertidao.valorFrete}" converter="bigDecimalConverter" />
+														</div>
+													</div>
+			           								<div class="col-sm-12">
+														<label class="col-sm-3 control-label text-right">Valor total:</label>
+														<div class="col-sm-8 margem-top">
+															R$ <h:outputText value="#{consultarCertidaoController.pedidoCertidao.valorTotal}" converter="bigDecimalConverter" />
+														</div>
+													</div>
+												</div>
+												
+		           								<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Forma de entrega:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.recuperaDescricaoTipoSaidaCertidao()}" />
+													</div>
+												</div>
+												
+		           								<div jsf:rendered="#{consultarCertidaoController.pedidoCertidao.saidaViaCorreios}">
+			           								<div class="col-sm-12">
+														<label class="col-sm-3 control-label text-right">Endereço de entrega:</label>
+														<div class="col-sm-8 margem-top">
+															<h:outputText value="#{consultarCertidaoController.pedidoCertidao.enderecoUsuarioExterno.obtemDescricaoEndereco()}" />
+														</div>
+													</div>
+			           								<div class="col-sm-12" jsf:rendered="#{not empty consultarCertidaoController.pedidoCertidao.codigoRastreio}">
+														<label class="col-sm-3 control-label text-right">Código de rastreio:</label>
+														<div class="col-sm-8 margem-top">
+															<b><h:outputText value="#{consultarCertidaoController.pedidoCertidao.codigoRastreio}" /></b>
+														</div>
+													</div>
+												</div>
+												
+		           								<div class="col-sm-12" jsf:rendered="#{not empty consultarCertidaoController.pedidoCertidao.observacao}">
+													<label class="col-sm-3 control-label text-right">Observação:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.observacao}" />
+													</div>
+												</div>
+												
+		           								<div class="col-sm-12" jsf:rendered="#{consultarCertidaoController.pedidoCertidao.situacaoPedidoRejeitado}">
+													<label class="col-sm-3 control-label text-right">Motivo de rejeição:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.motivoRejeicao}" />
+													</div>
+												</div>
+											</div>
+												
+											<div style="clear: both;"></div>
+										</div>
+									
+								    	<div role="tabpanel" class="tab-pane" id="detalhesCertidao">
+											<div class="row">
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Tipo de certidão:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText rendered="#{!consultarCertidaoController.pedidoCertidao.pedidoCertidaoNegativa}" value="#{consultarCertidaoController.pedidoCertidao.tipoCertidao.nome}" />
+														<h:outputText rendered="#{consultarCertidaoController.pedidoCertidao.pedidoCertidaoNegativa}" value="#{consultarCertidaoController.pedidoCertidao.tipoCertidao.nome} (NEGATIVA)" />
+													</div>
+												</div>
+		           								<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right" jsf:rendered="#{consultarCertidaoController.pedidoCertidao.certidaoCasamento}">Nome do cônjuge 1:</label>
+													<label class="col-sm-3 control-label text-right" jsf:rendered="#{!consultarCertidaoController.pedidoCertidao.certidaoCasamento}">Nome da pessoa:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.nomePrimeiraPessoa}" />
+													</div>
+												</div>
+		           								<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right" jsf:rendered="#{consultarCertidaoController.pedidoCertidao.certidaoCasamento}">Nome do cônjuge 2:</label>
+													<label class="col-sm-3 control-label text-right" jsf:rendered="#{!consultarCertidaoController.pedidoCertidao.certidaoCasamento}">Nome da mãe:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.nomeSegundaPessoa}" />
+													</div>
+												</div>
+		           								<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Data do #{consultarCertidaoController.pedidoCertidao.tipoCertidao.descFato.toLowerCase()}:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.dataFato}" converter="dataConverter">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+								    	<div role="tabpanel" class="tab-pane" id="dadosCartorio">
+											<div class="row">
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Cartório:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.nomeCartorio}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Telefone:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.telefone}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Logradouro:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.logradouro}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Número:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.numeroLogradouro}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Bairro:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.bairro}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Município:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.nomeMunicipio}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">Distrito:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.distrito}" />
+													</div>
+												</div>
+												<div class="col-sm-12">
+													<label class="col-sm-3 control-label text-right">CEP:</label>
+													<div class="col-sm-8 margem-top">
+														<h:outputText value="#{consultarCertidaoController.pedidoCertidao.cartorio.cepFormatado}" />
+													</div>
+												</div>
+											</div>
+										</div>
+								  	</div>
+								  	
+	        						<div jsf:rendered="#{consultarCertidaoController.pedidoCertidao.situacaoAguardandoPagamento}">
+	         							<div class="col-sm-12">
+	         								<hr/>
+	         								<label>
+	         									Caso tenha efetuado já o pagamento do pedido, aguarde a aprovação do pagamento, senão clique abaixo emitir o boleto e efetuar o pagamento.
+	         								</label>
+	        							</div>
+	         							<div class="col-sm-12">
+	         								<br/>
+	         								<div class="pull-right">
+												<a class="btn btn-fill btn-sm btn-primary" target="_blank" 
+													jsf:action="#{consultarCertidaoController.emitirBoleto()}">
+													<i class="fa fa-file-text"> Emitir Boleto</i>
+												</a>
+	         								</div>
+	        							</div>
+									</div>
+								  	
+	       							<div class="col-sm-12" jsf:rendered="#{consultarCertidaoController.exibeReciboCertidao() or consultarCertidaoController.exibeDownloadCertidao()}">
+	       								<br/>
+	       								<div class="pull-right">
+											<a jsf:id="donwloadReciboCertidao" target="_blank" class="btn btn-fill btn-sm btn-success" 
+												jsf:rendered="#{consultarCertidaoController.exibeReciboCertidao()}"
+												jsf:action="#{consultarCertidaoController.downloadReciboCertidao()}">
+												<i class="fa fa-file-text"> Download Recibo Certidão</i>
+											</a>
+											<h:outputText value=" " />
+											<a jsf:id="donwloadCertidao" target="_blank" class="btn btn-fill btn-sm btn-success" 
+												jsf:rendered="#{consultarCertidaoController.exibeDownloadCertidao()}"
+												jsf:action="#{consultarCertidaoController.downloadCertidao()}">
+												<i class="fa fa-file-text"> Download Certidão</i>
+											</a>
+										</div>
+	       							</div>
+										
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalVisualizarPedidoCertidao').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show(); $('#modalVisualizarPedidoCertidao').modal('hide');"
+									rendered="#{consultarCertidaoController.pedidoCertidao.situacaoPedidoRejeitado and !consultarCertidaoController.pedidoCertidao.isPedidoCertidaoNegativa()}"
+									oncomplete="PF('statusDialog').hide();" action="#{consultarCertidaoController.solicitarCertidaoNegativa()}" update="idDivConsultarPedidos mensagens-sistema" >
+									Solicitar Cerditão Negativa
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

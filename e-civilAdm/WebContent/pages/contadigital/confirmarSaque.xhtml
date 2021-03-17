@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui"
+	xmlns:paginacao="http://java.sun.com/jsf/composite/paginacao">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<style>
+			.ui-chkbox-box {
+				margin-right: 7px;
+			}
+			.itens-acoes .btn {
+				margin: 0px 3px 3px 3px;
+			}
+		</style>
+
+		<h:form id="form" prependId="false">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Confirmar Solicitação de Saque" />
+									</h3>
+									<hr />
+									
+									<div jsf:id="idDivFiltros">
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-12">
+													<h:outputLabel styleClass="control-label" value="Cartório" />
+													<h:selectOneMenu id="comboCartorio" name="comboCartorio" styleClass="form-control" value="#{confirmarSaqueController.codigoCorregedoria}">
+														<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+														<f:selectItems value="#{confirmarSaqueController.recuperaListaCartorio()}" var="cartorio"
+															itemLabel="#{cartorio.nomeDistritoECartorio}" itemValue="#{cartorio.codigoCorregedoria}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+										
+										<br/>
+										
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<h:outputLabel styleClass="control-label" value="Data inicío da solicitação" />
+													<input type="date" class="form-control" jsf:value="#{confirmarSaqueController.dataInicioSolicitacao}" 
+														onkeydown="return false" jsf:converter="dataConverter" maxlength="10" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<h:outputLabel styleClass="control-label" value="Data fim do solicitação" />
+													<input type="date" class="form-control" jsf:value="#{confirmarSaqueController.dataFimSolicitacao}" 
+														onkeydown="return false" jsf:converter="dataConverter" maxlength="10" />
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<h:outputLabel styleClass="control-label" value="CPF/CNPJ do oficial" />
+													<input type="text" class="form-control" placeholder="CPF/CNPJ do oficial" jsf:value="#{confirmarSaqueController.cpfCnpjOficial}" 
+														jsf:converter="cpfCnpjConverter" onkeypress="return somenteNumero(event)" maxlength="18" />
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<h:outputLabel styleClass="control-label" value="Situação" />
+													<h:selectOneMenu id="comboSituacao" name="comboSituacao" styleClass="form-control" value="#{confirmarSaqueController.codigoSituacaoSolicitacaoSaque}">
+														<f:selectItems value="#{confirmarSaqueController.recuperaListaSituacaoSolicSaque()}" var="situacao"
+															itemLabel="#{situacao.descricao}" itemValue="#{situacao.codigo}" />
+													</h:selectOneMenu>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<pr:selectBooleanCheckbox value="#{confirmarSaqueController.exibirDadosDetalhados}"
+														itemLabel="Exibir solicitações de saque de forma detalhada"	onchange="PF('statusDialog').show();">
+											            <pr:ajax update="listaSolicitacaoSaque" listener="#{confirmarSaqueController.pesquisaSolicitacaoSaque()}" oncomplete="PF('statusDialog').hide();" />
+											        </pr:selectBooleanCheckbox>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="form-actions" align="right" jsf:id="idBtnPesquisaRegistros">
+									<h:commandLink styleClass="btn btn-success" target="_blank" action="#{confirmarSaqueController.gerarExcel()}"
+										rendered="#{confirmarSaqueController.existeRegistrosEncontrados()}" update="mensagens-sistema" >
+										<i class="fa fa-fw fa-file-excel-o"></i>Gerar Excel
+									</h:commandLink>
+									<pr:commandLink styleClass="btn btn-default" onclick="PF('statusDialog').show();"
+										actionListener="#{confirmarSaqueController.limpar()}"
+										oncomplete="PF('statusDialog').hide();" update="mensagens-sistema listaSolicitacaoSaque idDivFiltros idBtnPesquisaRegistros" >
+										<i class="fa fa-fw fa-eraser"></i>Limpar
+									</pr:commandLink>
+									<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();"
+										actionListener="#{confirmarSaqueController.pesquisaSolicitacaoSaque()}"
+										oncomplete="PF('statusDialog').hide();" update="mensagens-sistema listaSolicitacaoSaque idDivFiltros idBtnPesquisaRegistros" >
+										<i class="fa fa-fw fa-search"></i>Pesquisar Solicitações
+									</pr:commandLink>
+								</div>
+								
+								<hr/>
+								
+								<div jsf:id="listaSolicitacaoSaque" class="row">
+									<div jsf:rendered="#{!confirmarSaqueController.existeRegistrosEncontrados()}">
+										<div class="col-md-12">
+											<strong>Nenhum registro encontrado.</strong>
+										</div>
+									</div>
+									
+									<div jsf:rendered="#{confirmarSaqueController.existeRegistrosEncontrados()}">
+										<div class="table-responsive" style="font-size: 0.9em;">
+											<div class="col-sm-12">
+												<h:outputLabel value="Solictações de saque:" />
+												<h:dataTable id="tableSolicitacaoSaque" value="#{confirmarSaqueController.listaSolicitacaoSaqueVO}" var="solicitacao"
+													styleClass="table table-bordered table-striped">
+												
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<pr:selectBooleanCheckbox value="#{confirmarSaqueController.marcaTodos}" itemLabel="">
+													            <pr:ajax update="tableSolicitacaoSaque idDivFiltros" listener="#{confirmarSaqueController.marcaTodosRegistrosSaqueConfirmado()}" />
+													        </pr:selectBooleanCheckbox>
+														</f:facet>
+														 <pr:selectBooleanCheckbox value="#{solicitacao.saqueConfirmado}" itemLabel="">
+												            <pr:ajax update="idDivFiltros" />
+														 </pr:selectBooleanCheckbox>
+													</h:column>
+												
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Cartório" />
+														</f:facet>
+														<h:outputText value="#{solicitacao.nomeDistritoECartorio}" />
+													</h:column>
+												
+													<h:column p:style="text-align: center; width: 9%;">
+														<f:facet name="header">
+															<h:outputText value="CPF/CNPJ Titular" />
+														</f:facet>
+														<h:outputText value="#{solicitacao.cpfCnpjTitularFormatado()}" />
+													</h:column>
+												
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome Titular" />
+														</f:facet>
+														<h:outputText value="#{solicitacao.nomeTitularConta}" />
+													</h:column>
+												
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Banco / Agencia / Conta" />
+														</f:facet>
+														<h:outputText value="#{solicitacao.recuperaBancoAgenciaConta()}" />
+													</h:column>
+													
+													<h:column rendered="#{confirmarSaqueController.exibirDadosDetalhados}" p:style="text-align: center; width: 8%;">
+														<f:facet name="header">
+															<h:outputText value="Data da Solicitação" />
+														</f:facet>
+														<h:outputText value="#{solicitacao.dataSolicitacao}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center; width: 7%;">
+														<f:facet name="header">
+															<h:outputText value="Valor" />
+														</f:facet>
+														<span style="color: green">
+															R$ <h:outputText value="#{solicitacao.valorSolicitacao}" converter="bigDecimalConverter" />
+														</span>
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Ações" />
+														</f:facet>
+														<pr:commandLink styleClass="btn btn-fill btn-sm btn-primary" 
+															update="modalVisualizarSolicitacaoSaque idDivFiltros" oncomplete="$('#modalVisualizarSolicitacaoSaque').modal('show');" 
+															actionListener="#{confirmarSaqueController.setaSolicitacaoSaqueModal(solicitacao)}">
+															<i class="fa fa-search"> Visualizar</i>
+														</pr:commandLink>
+													</h:column>
+													
+												</h:dataTable>
+											</div>
+											
+											<paginacao:paginacao pesquisaBean="#{confirmarSaqueController}" bean="#{confirmarSaqueController.paginacao}" 
+												renderiza="listaSolicitacaoSaque" nomeMetodo="pesquisaSolicitacaoSaquePaginado" />
+										
+										</div>
+									</div>
+								
+									<div class="form-actions" align="right">
+										<pr:commandLink styleClass="btn btn-success" update="modalConfirmacaoSaqueRegistros mensagens-sistema idDivFiltros"
+											rendered="#{confirmarSaqueController.exibeBtnConfirmarSolicitacaoSaque()}"
+											actionListener="#{confirmarSaqueController.verificaSelecaoConfirmarSaque('modalConfirmacaoSaqueRegistros')}">
+											
+											<span jsf:rendered="#{confirmarSaqueController.ehSituacaoSolicitacaoSaqueEmAberto()}">
+												<i class="fa fa-fw fa-money"></i>Confirmar Lançamento de Transferência
+											</span>
+											
+											<span jsf:rendered="#{confirmarSaqueController.ehSituacaoSolicitacaoSaqueTransferenciaLancada()}">
+												<i class="fa fa-fw fa-money"></i>Confirmar Transferência
+											</span>
+										</pr:commandLink>
+									</div>
+								</div>
+								
+								<hr/>
+								
+								<a jsf:id="voltar" jsf:action="#{confirmarSaqueController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Visualizar Solicitação de Saque -->
+			<div class="modal fade" jsf:id="modalVisualizarSolicitacaoSaque" tabindex="-1" role="dialog" aria-labelledby="modalVisualizarSolicitacaoSaque" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Dados da Solicitação de Saque</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="form-group">
+							
+								<div class="col-sm-12" align="center">
+									<label class="col-sm-12 control-label">Dados do Cartório</label>
+									<br/><br/>
+								</div>
+								
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Cartório:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.nomeCartorio}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Código Corregedoria:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.codigoCorregedoria}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Distrito:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.distrito}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Telefone:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.telefone}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">E-mail:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.email}" />
+									</div>
+								</div>
+								
+								
+								<div class="col-sm-12" align="center">
+									<hr/>
+									<label class="col-sm-12 control-label">Dados Bancários</label>
+									<br/><br/>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Nome do Titular:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.nomeTitularConta}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">CPF/CNPJ do Titular:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.cpfCnpjTitularFormatado()}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Código do Banco:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.codigoBanco}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Nome do Banco:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.nomeBanco}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Agência:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.agencia}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Conta:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.conta}" />
+									</div>
+								</div>
+	
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label text-right">Tipo de Conta:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.recuperaDescricaoTipoConta()}" />
+									</div>
+								</div>
+								
+								<div class="col-sm-12">
+									<hr/>
+									<label class="col-sm-4 control-label text-right">Valor Solicitado:</label>
+									<div class="col-sm-8">
+										<span style="color: green">
+											R$ <h:outputText value="#{confirmarSaqueController.solicitacaoSaqueVO.valorSolicitacao}" converter="bigDecimalConverter" />
+										</span>
+									</div>
+								</div>
+	
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalVisualizarSolicitacaoSaque').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right" jsf:rendered="#{confirmarSaqueController.exibeBtnConfirmarSolicitacaoSaque()}">
+								<pr:commandLink styleClass="btn btn-success" update="modalConfirmacaoSaqueRegistros mensagens-sistema listaSolicitacaoSaque"
+									onclick="$('#modalVisualizarSolicitacaoSaque').modal('hide');"
+									actionListener="#{confirmarSaqueController.marcaSaqueConfirmadoSolicitacaoSaqueModal('modalConfirmacaoSaqueRegistros')}">
+									
+									<span jsf:rendered="#{confirmarSaqueController.ehSituacaoSolicitacaoSaqueEmAberto()}">
+										<i class="fa fa-fw fa-money"></i>Confirmar Lançamento de Transferência
+									</span>
+									
+									<span jsf:rendered="#{confirmarSaqueController.ehSituacaoSolicitacaoSaqueTransferenciaLancada()}">
+										<i class="fa fa-fw fa-money"></i>Confirmar Transferência
+									</span>
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Confirmar Solicitação de Saque -->
+			<div class="modal fade" jsf:id="modalConfirmacaoSaqueRegistros" tabindex="-1" role="dialog" aria-labelledby="modalConfirmacaoSaqueRegistros" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Confirmação</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="form-group">
+								<b jsf:rendered="#{confirmarSaqueController.ehSituacaoSolicitacaoSaqueEmAberto()}">
+									Confirma o lançamento da transfêrencia dos registros abaixo?
+								</b>
+								<b jsf:rendered="#{confirmarSaqueController.ehSituacaoSolicitacaoSaqueTransferenciaLancada()}">
+									Confirma a realização de transfêrencia dos registros abaixo?
+								</b>
+								
+								<br/>
+								<br/>
+								
+								<div class="table-responsive">
+									<div class="col-sm-12">
+										<h:dataTable id="tableConfirmarSolicitacaoSaque" value="#{confirmarSaqueController.recuperaListaSaqueConfirmado()}" var="solicitacao"
+											styleClass="table table-bordered table-striped" style="font-size: 0.9em;">
+												
+												<h:column p:style="text-align: center; width: 17%;">
+													<f:facet name="header">
+														<h:outputText value="CPF/CNPJ Titular" />
+													</f:facet>
+													<h:outputText value="#{solicitacao.cpfCnpjTitularFormatado()}" />
+												</h:column>
+											
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Nome Titular" />
+													</f:facet>
+													<h:outputText value="#{solicitacao.nomeTitularConta}" />
+												</h:column>
+											
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Banco / Agencia / Conta" />
+													</f:facet>
+													<h:outputText value="#{solicitacao.recuperaBancoAgenciaConta()}" />
+												</h:column>
+												
+												<h:column p:style="text-align: center; width: 12%;">
+													<f:facet name="header">
+														<h:outputText value="Valor" />
+													</f:facet>
+													<span style="color: green">
+														R$ <h:outputText value="#{solicitacao.valorSolicitacao}" converter="bigDecimalConverter" />
+													</span>
+												</h:column>
+										
+										</h:dataTable>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalConfirmacaoSaqueRegistros').modal('hide');">
+								Não
+							</pr:commandLink>
+							<pr:commandLink styleClass="btn btn-success" onclick="PF('statusDialog').show(); $('#modalConfirmacaoSaqueRegistros').modal('hide');" 
+								oncomplete="PF('statusDialog').hide();" actionListener="#{confirmarSaqueController.confirmarRealizacaoSaque()}" 
+								update="mensagens-sistema listaSolicitacaoSaque idDivFiltros">
+								Sim
+							</pr:commandLink>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:rich="http://richfaces.org/rich" 
+	xmlns:a="http://richfaces.org/a4j" 
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="pt-br" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<title><ui:insert name="pageTitle" /></title>
+	<ui:insert name="head" />
+	
+	<script src="#{request.contextPath}/resources/js/funcoes.js"></script>
+	<!-- Mensagens JS -->
+	<script language="javascript" src="#{request.contextPath}/javascript/mensagem-sistema.js" type="text/javascript"></script>
+	<!-- Mensagens CSS -->
+	<link href="#{request.contextPath}/css/message-info.css" type="text/css" rel="stylesheet" />
+	<!-- Reset Richfaces CSS -->
+	<link href="#{request.contextPath}/css/resetRichefaceClass.css" type="text/css" rel="stylesheet" />
+	<!-- Bootstrap Core CSS -->
+    <link href="#{request.contextPath}/dist/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Menu CSS -->
+    <link href="#{request.contextPath}/dist/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet"/>
+    <!-- toast CSS -->
+    <link href="#{request.contextPath}/dist/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet"/>
+    <!-- animation CSS -->
+    <link href="#{request.contextPath}/dist/css/animate.css" rel="stylesheet"/>
+    <!-- Custom CSS -->
+    <link href="#{request.contextPath}/dist/css/style.css" rel="stylesheet"/>
+    <!-- Sgcon CSS -->
+    <link href="#{request.contextPath}/dist/css/sgcon.css" rel="stylesheet"/>
+    <!-- color CSS -->
+    <link href="#{request.contextPath}/dist/css/colors/default.css" id="theme" rel="stylesheet"/>
+    <!-- Datepicker CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</h:head>
+<h:body styleClass="novo-login">
+	<!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    
+    <section id="wrapper" class="login-register">
+	  <div class="container container-login-wrapper">
+	    <div class="white-box">
+	    	<ui:insert name="body"/>
+	    </div>
+	    <ui:insert name="opt"/>
+	  </div>
+	</section>
+    
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <!-- jQuery -->
+    <script src="#{request.contextPath}/dist/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="#{request.contextPath}/dist/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="#{request.contextPath}/dist/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="#{request.contextPath}/dist/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="#{request.contextPath}/dist/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="#{request.contextPath}/dist/js/custom.min.js"></script>
+    <script src="#{request.contextPath}/dist/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+    <!-- Datepicker BS3 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+
+	<script type="text/javascript">
+    $(document).ready(function(){
+		//Exibe mensagens de erro no load da página.
+		exibeEscondeMensagemSistema();
+		$("[data-toggle=popover]").popover();
+		$('.bs-datepicker').datepicker({
+		    format: "dd/mm/yyyy",
+		    autoclose: true,
+		    language: "pt-BR"
+		});
+		$('.modal').on('shown.bs.modal', function () {
+			$('.bs-datepicker').datepicker({
+			    format: "dd/mm/yyyy",
+			    autoclose: true,
+			    language: "pt-BR"
+			});
+		});
+    });
+    </script>
+
+</h:body>
+
+</html>

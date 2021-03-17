@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+		<ui:define name="body">
+
+		<h:form id="formCadastroGrupoUsuario" prependId="false">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									
+									<h3 class="box-title">
+										<h:outputText value="Cadastrar Grupo Usuário" />
+									</h3>
+									<hr />
+									
+									<div class="row">
+										<div class="col-sm-3"></div>
+										<div class="col-sm-6">
+											<div class="form-group">
+											<label for="nome" class="control-label required">Grupo Usuário:</label>
+												<input type="text" class="form-control" jsf:id="grupousuario"
+													placeholder="Grupo Usuário" maxlength="100"
+													jsf:value="#{cadastrarGrupoUsuarioInternoController.grupoUsuario.descricao}" />
+											</div>
+										</div>
+										<div class="col-sm-3"></div>
+									</div>
+										
+									<div class="row">
+										<div class="table-responsive">
+											<div class="col-sm-12" jsf:id="idDivListaPermissaoGrupoUsuario">
+												<h:dataTable value="#{cadastrarGrupoUsuarioInternoController.listaPermissoes}"
+													var="permissao" styleClass="table table-hover table-striped table-bordered">
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Permissão" />
+														</f:facet>
+														<h:outputText value="#{permissao.descricao}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center; vertical-align: middle;">
+														<f:facet name="header">
+															<h:outputText value="Adicionar" />
+														</f:facet>
+														<pr:commandLink action="#{cadastrarGrupoUsuarioInternoController.adicionarPermissao(permissao)}"
+															onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+															update="mensagens-sistema idDivListaPermissaoSelecionada idDivListaPermissaoGrupoUsuario" 
+															styleClass="btn btn-primary btn-xs">
+															<i class="fa fa-fw fa-plus"></i>Adicionar
+														</pr:commandLink>
+													</h:column>
+						
+												</h:dataTable>
+											</div>
+										</div>
+									</div>
+									
+									<br/>
+									
+									<div class="row" jsf:id="idDivListaPermissaoSelecionada">
+										<div class="table-responsive">
+											<div class="col-sm-12" jsf:rendered="#{not empty cadastrarGrupoUsuarioInternoController.grupoUsuario.listGrupoUsuarioPermissoes}">
+												<div class="panel panel-default panel-bordered">
+													<div class="panel-body">
+														<h:outputLabel value="Permissões selecionadas" />
+														
+														<h:dataTable value="#{cadastrarGrupoUsuarioInternoController.grupoUsuario.listGrupoUsuarioPermissoes}"
+															var="grupoUsuarioPermissao" styleClass="table table-hover table-striped table-bordered">
+															
+															<h:column>
+																<f:facet name="header">
+																	<h:outputText value="Permissão" />
+																</f:facet>
+																<h:outputText value="#{grupoUsuarioPermissao.permissao.descricao}" />
+															</h:column>
+															
+															<h:column p:style="text-align: center; vertical-align: middle;">
+																<f:facet name="header">
+																	<h:outputText value="Remover" />
+																</f:facet>
+																<pr:commandLink action="#{cadastrarGrupoUsuarioInternoController.removerGrupoUsuarioPermissao(grupoUsuarioPermissao)}"
+																	update="mensagens-sistema idDivListaPermissaoSelecionada idDivListaPermissaoGrupoUsuario" 
+																	onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+																	styleClass="btn btn-xs btn-primary">
+																	<i class="fa fa-fw fa-minus"></i>Remover
+																</pr:commandLink>
+															</h:column>
+														</h:dataTable>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<hr/>
+									
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group pull-right">
+												<pr:commandLink action="#{cadastrarGrupoUsuarioInternoController.excluir}"
+													update="mensagens-sistema" onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+													rendered="#{cadastrarGrupoUsuarioInternoController.exibirExcluir}"
+													class="btn btn-danger">
+													<i class="fa fa-fw fa-remove"></i>Excluir
+												</pr:commandLink>
+												<h:outputText value=" " />
+												<pr:commandLink action="#{cadastrarGrupoUsuarioInternoController.limpar}" class="btn btn-default"
+													update="mensagens-sistema idDivListaPermissaoSelecionada idDivListaPermissaoGrupoUsuario" 
+													onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+													<i class="fa fa-fw fa-trash"></i>Limpar
+												</pr:commandLink>
+												<h:outputText value=" " />
+												<pr:commandLink action="#{cadastrarGrupoUsuarioInternoController.gravar}" class="btn btn-success"
+													update="mensagens-sistema" onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+													<i class="fa fa-fw fa-save"></i>Cadastrar
+												</pr:commandLink>
+											</div>
+										</div>
+									</div>
+									
+									<hr/>
+									
+									<div class="row">
+						 				<div class="form-group">
+					                       <div class="col-sm-6">
+					                      		<a jsf:id="voltar" jsf:action="#{cadastrarGrupoUsuarioInternoController.voltar}"
+					                      			jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();" 
+					                      			class="btn btn-default">
+					                      			
+					                      			<i class="fa fa-fw fa-arrow-left"></i>Voltar
+					                      		</a>
+					                       </div>
+			               				</div>
+			             			</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

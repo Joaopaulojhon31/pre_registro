@@ -1,0 +1,385 @@
+@import url("botoes.css");
+@charset "utf-8";
+
+/*RESET*/
+* { margin:0; padding:0; }
+a { text-decoration:none; color:#97bf0d; }
+a:hover { color:#658200;}
+a:visited { color: #cce47a;}
+images {border:0px;}
+
+/*ESTRUTURA*/
+body { background:#fbfbfb; font-family:Arial, Helvetica, sans-serif; font-size:12px; border-top:6px solid #dff6ff;}
+#geral {  }
+#holder { margin:auto; width:960px;}
+
+/*TOPO*/
+#topo { height:166px; width:960px; position:relative; }
+#acessibilidade { position:absolute; height:19px; line-height:19px; top:5px; right:0px; font-size:11px;}
+#acessibilidade a { padding:0px 3px;; }
+#acessibilidade span { margin-left:5px;}
+#acessibilidade images { margin:0px 5px;}
+#logo { position:absolute; top:24px; left:20px; }
+#frase { position:absolute; top:45px; left:406px; }
+#minasfacil { position:absolute; top:80px; right:8px; }
+#areabusca { position:absolute; bottom:0px;}
+#menu { width:960px; height:41px; line-height:41px; background:url(../resources/images/geral/bg_menu_azul.png) no-repeat; float:left; margin-top:10px; padding:0 14px; }
+#menu li { display:inline; }
+.usuario_autenticado_topo { float:right; font-size:11px; }
+.usuario_autenticado_topo span { margin-left:5px;}
+.usuario_autenticado_topo images { margin:0px 5px;}
+
+/*CONTEUDO*/
+#conteudo_central { background:url(../resources/images/geral/conteudo_central.gif) repeat-y; padding:18px 20px 0px 20px; }
+#fundo_conteudo { background:url(../resources/images/geral/conteudo_fundo.gif) no-repeat; height:18px; }
+#interna { float:left; width:660px;}
+#infor_uteis_topo { height:9px; background:url(../resources/images/geral/bg_topo_inforuteis.gif) no-repeat; width:239px;}
+#infor_uteis_centro { background:url(../resources/images/geral/bg_centro_inforuteis.gif); padding-bottom:10px;}
+#infor_uteis_fundo { height:9px; background:url(../resources/images/geral/bg_fundo_inforuteis.gif) no-repeat; width:239px;}
+#coluna_direita { width:239px; float:right; }
+#coluna_direita h2 { background:url(../resources/images/geral/icone_inforuteis.jpg) no-repeat left 5px; font-size:16px; padding:0px 0px 10px 33px; margin:0px 13px; height:30px; line-height:30px; border-bottom:1px dashed #a5a5a5;}
+
+/*MIGALHAS*/
+.migalhas { border-bottom:1px solid #e1e1e1; font-size:11px; border-bottom:1px solid #e1e1e1; height:20px; margin-bottom:7px }
+.migalhas a { padding:0 3px; }
+
+/*RODAPE*/
+#rodape { background:url(../resources/images/geral/bg_rodape.png) no-repeat; height:47px; margin-bottom:15px; }
+#sigla { height:17px; width:100px; float:left; text-align:center; padding:15px 0px; }
+#endereco { /*height:47px;*/ width:450px; float:left; font-size:10px; padding:11px 0 0 20px; }
+#aspectoslegais { height:17px; width:365px; float:left; padding:15px 20px 15px 0px; font-size:11px; text-align:right; }
+
+/*CLASSES COMUNS*/
+.negrito { font-weight:bold; }
+.m_dez_fundo { margin-bottom:10px;}
+#menu a, #sigla , h1, #mais_buscados, #utilidades, h2, .botao { font-family: "Segoe UI", Tahoma, Arial, sans-serif!important; font-weight:bold; font-size:13px; }
+h1 { font-size:19px; }
+input, select { font-size:12px;}
+select { padding:5px 5px 5px 0px; border-color:#c3c3c3!important; margin-left:5px; }
+input[type="text"], input.campo { height:24px; padding:0px 5px; margin-left:5px; border:1px solid #c3c3c3; border-color:#c3c3c3!important; background: url(../resources/images/geral/bg_inputtext.gif) repeat-x!important;}
+td input[type="checkbox"] { margin-left:5px;}	
+.clear { clear:both; height:1px;}
+.texto_centralizado { text-align: center;}
+.texto_direita { text-align: right;}
+#botoes_acao { margin-top:15px; border-top: 1px dashed #aaa; padding-top:14px; }
+.botoes_acao { margin-top:15px; border-top: 1px dashed #aaa; padding-top:14px; }
+.right { float:right; }
+.m_bottom_5px {margin-bottom:5px;}
+.full_width { width: 100%;}
+#panelFormulario table td { height:30px;}
+
+/*MENU*/
+#menu a { color:#FFFFFF; padding:4px 7px; }
+
+/*DUVIDAS FREQUENTES*/
+.campo_duvidas { border:1px solid #949494; width:173px; height:20px; margin-left:16px; font-size:12px; padding-left: 5px;}
+
+/*MENSAGENS*/
+.errormsg, .warnmsg, .infomsg { list-style:none; padding: 10px; margin: 20px 0px;  display: block; }
+.errormsg { background:#FFCECE; border:1px solid #DF8F8F; }
+.warnmsg { background:#FFFF99; border:1px solid #FF9933; }
+.infomsg { background:#DBE3FF; border:1px solid #A2B4EE; }
+
+/*SUBMENUS INTERNOS*/
+#submenu { margin-bottom:20px; background:#fafafa; border:1px solid #e1e1e1; }
+#submenu li { list-style:none; border-bottom:1px dotted #e1e1e1; }
+#submenu ul { padding:15px 15px; }
+#submenu ul li:last-child { border-bottom:0px;}
+#submenu a { display:block; color:#000000; padding:10px 0 10px 25px; font-size:12px!important; background:url(../resources/images/geral/list-image-verde.png) no-repeat 4px center; }
+#submenu a:hover { color:#658200; background-color: #fff;}
+#submenu .active a { color:#658200; background-color: #e1e1e1;}
+
+/*MENSAGENS ASSINANTES*/
+.msg_externa_erro_assinante, .msg_externa_alerta_assinante, .msg_externa_info_assinante { list-style:none; padding: 10px; margin-top: 20px; display: block; width:786px; }
+.msg_externa_erro_assinante { background:#FFCECE; border:1px solid #DF8F8F; }
+.msg_externa_alerta_assinante { background:#FFFF99; border:1px solid #FF9933; }
+.msg_externa_info_assinante { background:#DBE3FF; border:1px solid #A2B4EE; }
+ul#mensagensAssinantes { margin-top:20px;}
+ul#mensagensAssinantes li { padding:10px;}
+
+/*REGISTRO DIGITAL*/
+.rd_protocolo { border-bottom:1px dashed #aaa; padding:15px 0px 15px 0px; }
+input.jota { width:151px;}
+
+/*UPLOAD*/
+.fileupload-buttonbar, .idFileUploadAnexos_input { background:none!important; padding:0px!important; margin:0px!important; border:0px!important; }
+.fileupload-content { border:0px!important;}
+#idFileUploadAnexos, #idFileUploadDocPrincipal { height:auto!important; width:100%!important;}
+.ui-button-icon-left { display:none!important; background:none!important;}
+label.ui-button {background:none!important; border:0px!important; height:30px!important; }
+.ui-button-text { border:0px!important; height:30px!important; width:110px!important; line-height:22px!important; color:#fff!important; }
+table.files { width:100%!important; margin: 15px 0px 0px 0px!important;}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { background: none!important; border: 0px!important; box-shadow: none!important; color: #fff!important; }
+.ui-button-text { text-shadow:none!important;}
+
+div.bgcinza, .filtros_relatorio { background:#f2f2f2; padding:14px; line-height:18px; margin:14px 0px; width: 900px }
+div#assinantes { padding:14px 0px; border-bottom: 1px dashed #aaa; border-top:1px dashed #aaa;}
+input.nome_assinante { width:220px; margin-right:10px;}
+input.email_assinante {width:119px; margin-right:10px; }
+input.cpf_assinante { width:80px; }
+div.adiciona_assinantes { text-align:right; margin-top:10px; }
+div.dados_assinantes, div.dados_dae {margin-top:10px; padding-left:5px;}
+div#dae { padding: 14px 0px; border-bottom: 1px dashed #aaa; margin-bottom:15px; }
+div.adiciona_num_dae { margin-top:10px; }
+input.numero_dae { width:235px;}
+.text_centralizado { text-align:center;}
+.espaco_lateral { margin-right:15px;}
+
+#envio_arquivos { padding-top:14px;}
+.remover_arquivo { background:url(../resources/images/geral/remover_icone.png); }
+/*div.arquivo_enviado { width:210px; height:107px; background:#deefbf; margin:10px 5px 0px 5px; float:left;}*/
+.documento .dados { margin-top:5px;}
+div.arquivo_enviado { width:100%; height:160px; background:/*#deefbf*/ #f2f2f2; margin-bottom:10px; }
+div.arquivo_enviado_validacao { width:650px; height:107px; background:#deefbf; margin:10px 5px 0px 5px; float:left;}
+.miniatura { width:115px; height:130px; /*background:url(../resources/images/geral/sombra_thumbnail_arquivo.png) no-repeat; padding: 3px 7px 11px 7px;*/ float:left; margin:15px; }
+.dados_documento { width:475px; float:left; font-size:12px; margin:15px 15px 15px 0px; height:130px; overflow:hidden; position:relative; }
+.dados_documento span { font-size:16px; font-weight:bold; font-family: "Segoe UI", Tahoma, Arial, sans-serif }
+.acoes_documento { position:absolute; right:0px; bottom:0px; }
+.dados_documento .botao { float:right!important; margin-right:5px; }
+div.adicionar_documento, div.holder_anexo, .adicionar_assinante_documento { margin:10px 0px; padding-bottom:14px; border-bottom: 1px dashed #aaa;}
+.link_remover { font-weight:bold; color:red; padding-left:10px  }
+/*.arquivo_capa_processo { background: #66AFF9!important;}*/
+.msg_valida_ass { width:100%; height:82px; font-size:32px; line-height:82px; text-align:center; margin:20px 0px; }
+.msg_valida_ass.valida { background:#DBE3FF; border:1px solid #A2B4EE; color:#08540e; }
+.msg_valida_ass.invalida { background:#FFCECE; border:1px solid #DF8F8F; color:#8c0e0e; }
+.tabela_validar_arquivos {margin-bottom:20px;}
+.opcoes_sistema images { margin: 4px;}
+/*div.rf-cp-hdr { background:#f2f2f2; line-height:30px!important; height:30px!important; font-family: "Segoe UI", Tahoma, Arial, sans-serif!important; background-image: none!important; }*/
+.adicionar_assinante_documento .botao { margin-left:10px;}
+#assinantesDocumento, .filtros_assinantes { margin-bottom:15px; }
+.tabela_assinantesdocumento { overflow:scroll; height:160px; }
+
+
+/*upload de arquivo*/
+#idFileUploadDocPrincipal object {filter: alpha(opacity=00); /* internet explorer */ -khtml-opacity: 0.0; /* khtml, old safari */ -moz-opacity: 0.0; /* mozilla, netscape */ opacity: 0.0;/* fx, safari, opera */}
+#idFileUploadAnexos object {filter: alpha(opacity=00); /* internet explorer */ -khtml-opacity: 0.0; /* khtml, old safari */ -moz-opacity: 0.0; /* mozilla, netscape */ opacity: 0.0;/* fx, safari, opera */}
+.box_num_registrodigital { border:1px solid #b5b5b5; padding:10px; margin:auto; background:#e1e1e1; width: 357px; height: 60px; margin-top:20px; margin-bottom:20px; }
+.numero_protocolo {font-size: 40px; font-weight:bold; }
+
+
+/*---PADRÃO DE TABELA---*/
+.dados .header_tabela, .dados th, .dados .header_tabela td { background:url(../resources/images/geral/bg_header_tabela.gif) repeat-x; border-bottom:1px solid #d7d7d7!important; text-align:left; background-color: #ededed; }
+.dados th, .dados td, .dados .entradadado1 td, .dados .entradadado2 td { padding-left:10px; padding-right:10px; border-left: 1px solid #d7d7d7!important;  }
+.dados .entradadado1, .dados .entradadado1 td { background:#ffffff; border-bottom:0px!important; border-top:0px!important; border-right:0px!important; }
+.dados .entradadado2, .dados .entradadado2 td { background:#ececec; border-bottom:0px!important; border-top:0px!important; border-right:0px!important; }
+.dados { border:1px solid #d7d7d7!important; border-left:0px!important; width: 100%; }
+.dados tbody { border-bottom:1px solid #d7d7d7!important; }
+/*.dados images { margin-top:2px;}
+.dados .entradadado1 td images, .dados .entradadado2 td images { margin-left:-10px; }*/
+.dados th a {color:#000;}
+
+.dados2 { background:url(../resources/images/geral/bg_header_tabela.gif) repeat-x; border-bottom:1px solid #d7d7d7!important; text-align:left; background-color: #eaeaea; }
+
+/*APPLET ASSINADOR*/
+#panelAssinador { position:relative;}
+#applet_holder { background:url(../resources/images/geral/applet_assinador.png) no-repeat; }
+#panelAssinador applet {filter: alpha(opacity=00); /* internet explorer */ -khtml-opacity: 0.0; /* khtml, old safari */ -moz-opacity: 0.0; /* mozilla, netscape */ opacity: 0.0;/* fx, safari, opera */}
+
+/*AUTORIZAR*/
+#interna h1 { margin-bottom:10px; }
+input.nire { margin-right:10px; }
+#nomeEmpresa label { margin-right:5px; }
+#panelDadosempresa { padding-bottom:15px; margin-top:15px; border-top:1px dashed #aaa; }
+
+
+/*CORREÇÕES IE*/
+.msie input[type="text"], .msie input[type="password"], .msie input.campo { height:19px; padding-top:5px;}
+.msie .botao { border:0px!important; }
+
+#destaqueOutputText {background:Bisque;}
+
+/*---PAGINAÇÃO---*/
+ul{	border:0; margin:0; padding:0; }	
+ul.paginacao { margin-right:2px;}
+.pag { margin:10px 0px; margin-left:70px; }
+.paginacao li{ border:0; margin:0; padding:0; font-size:11px; list-style:none; display:block; background:url(../resources/images/bg_paginacao.gif) #fff repeat-x bottom; }
+.paginacao a{ border:solid 1px #DDDDDD; /*margin-right:2px;*/ }
+.paginacao .proxima, .paginacao .ultima, .paginacao .anterior, .paginacao .primeira { width:80px; font-weight:bold; }
+.paginacao .primeira { width:100px;}
+.paginacao .previous-off, .paginacao .next-off { display:block; float:left; font-weight:bold; padding:3px 4px; }
+.paginacao .next a, .paginacao .previous a { font-weight:bold; border:solid 1px #FFFFFF; }
+.paginacao .active{ color:#000; font-weight:bold; display:block; }
+.paginacao a:link, .paginacao a:visited { display:block; background-color:#eee; padding:4px 8px; text-decoration:none; }
+.paginacao a:hover{ border:solid 1px #666666; }
+.paginacao li.paginacao_ativa { background: none!important; padding:3px 6px!important;}
+
+/*ANALISE ENDEREÇO*/
+.tab_analiseend { width:660px; }
+.tab_analiseend td, .tab_analiseend .entradadado1 td, .tab_analiseend .entradadado2 td { padding:5px 4px 5px 5px!important; }/*limpa estilo richfaces*/
+.tab_analiseend td *, .tab_analiseend .entradadado1 td *, .tab_analiseend .entradadado2 td * { margin:0px!important; padding:0px!important; border:0px!important; }/*limpa estilo richfaces*/
+.tab_analiseend tbody { border-bottom:1px solid #D7D7D7; }
+.filtro_analise_endereco .nome_requerente { width:490px; margin-bottom:10px; }
+.filtro_analise_endereco .cpf_requerente { width:100px; margin-right:10px; }
+.filtro_analise_endereco .dias_pendentes { width:35px;  margin-right:10px; }
+.filtro_analise_endereco #municipio { margin-right:15px; }
+.filtro_analise_endereco .protocolo { width:200px; margin-right:15px; }
+.filtro_analise_endereco table { margin-top:10px;}
+.rf-sel-btn { border: 0px!important; background: none!important;}
+.rf-sel-btn-arrow { height:24px!important;}
+.legenda { font-weight:bold; margin-bottom:10px; margin-top:20px;}
+.acoes_analisenome, .status_analise, .imprimir_resumoviab { text-align:right;}
+.rf-tab-cnt { padding:10px 15px 15px 15px!important; border-top:0px!important; border-color:#c3c3c3;}
+.aba_analise_end, .rf-tab-cnt { font-size:12px!important;}
+.status_analise .Estudo { font-size: 14px; font-weight: bold; }
+.aba_analise_end textarea { width:610px; margin:1px 0 10px 0;}
+#complementoDeferidoIndeferido, #complementoDeferido, #complementoIndeferido { /*font-weight: bold;*/ }
+.aba_analise_end .observacoes { width:400px; margin-bottom:20px;}
+.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top { background: none!important; border:0px!important; padding:0px!important;}
+.rf-tab-hdr-brd { display:none!important; }
+.rf-tab-hdr-spcr { border-bottom: 1px solid #c3c3c3; }
+.rf-tab-hdr { vertical-align: middle!important; padding: 0px 15px!important; font-size: 13px!important;  }
+.rf-tab-lbl { font-size: 13px!important; font-family: "Segoe UI", Tahoma, Arial, sans-serif!important; }
+.rf-tab-hortab-tabspcr-wdh { padding-left:2px!important; }
+.rf-tab-hdr-act { background-image: none!important; background: #fff!important; }
+.rf-tab-hdr-inact { background-image: none!important; background: #e1e1e1!important;}
+.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top { height: 30px!important; margin-top:15px!important;}
+.aba_visualiza_dadosanalise .input_texto_analise { width:420px; }
+.select_municipio_df { width:245px;}
+.ui-fileupload start, .ui-fileupload cancel { display: none!important;}
+.template-upload td { display:none!important;}
+
+/*ABA RESUMO*/
+.imprimir_resumoviab { margin-bottom:15px;}
+.resumo_dadosemp, .resumo_localidade, .resumo_atividadeseco, .resumo_objetosocial, .resumo_nome { margin-bottom: 15px; padding: 0 5px 14px 5px;  position:relative; border-bottom:1px dashed #a1a1a1; }
+.dados_bordertop { border-top:1px dashed #a1a1a1; padding-top:14px; }
+.aba_visualiza_dadosanalise .tit_box_resumo { font-size:12px; margin-bottom:5px; font-weight: bold; }
+.resumo_editar { position: absolute; top:10px; right: 10px; }
+.termo_uso { margin-top:10px!important; padding: 0px 5px; }
+.termo_uso input { margin-right: 10px;}
+.resumo_dadosemp td, .resumo_localidade td, .resumo_objetosocenome td, .tab_consulta_selecionada td { padding:3px 5px 3px 3px; }
+.resumo_dadosemp #listaEventos, .resumo_dadosemp .rf-dt-c { border:0px; background-color:none!important; font-size:12px!important;}
+.resumo_atividadeseco .ativ_selecionada { width:100%; background:#fff; }
+.resumo_atividadeseco .ativ_secundaria { border-bottom:0px; margin-bottom:0px; }
+.resumo_atividadeseco .ativ_secundaria .perguntas_visa { margin-bottom:0px; padding-bottom:15px; }
+.resumo_atividadeseco .rf-dg { background-color:none; }
+.resumo_atividadeseco #repeatCae { border-bottom:1px solid #D8D8D8!important; }
+.resumo_atividadeseco .perguntas_semad { padding: 7px 15px; font-size: 11px;}
+.resumo_atividadeseco .perguntas_visa { padding: 10px 0px; line-height: 22px; font-size: 11px;}
+.resumo_atividadeseco .ativ_selecionada .rf-dg-c { padding: 0px;}
+.aba_visualiza_dadosanalise .tab_socios { width:610px; }
+.resumo_objetosocial #descricao {margin-left:5px;}
+
+/*FORMALIZAÇÃO DE EMPRESA*/
+.tab_formalizacao { width:660px; }
+.alterar_alvara_im { margin-top:20px; border-top: 1px dashed #aaa; padding-top:14px; }
+.tab_formalizacao .entradadado1 td, .tab_formalizacao .entradadado2 td { padding: 3px 5px; }
+.alterar_alvara_im .rf-p-b { padding:0px!important; font-size:12px; line-height: 33px; margin-top:5px;}
+.filtro_formalizacao .nome_requerente { width:410px; margin-bottom:10px; }
+.filtro_formalizacao table { margin-top:10px; }
+.input_protocolo input, .input_cnpj input, .input_nire input { margin-right:10px; margin-bottom:10px; }
+.select_municipio_filtro { padding:5px 5px 5px 0px; border-color:#c3c3c3!important; /*margin-right:123px;*/ }
+.tab_confirma_alvara_im td { padding-top: 5px; font-size:12px!important; }
+
+/*ANALISE DE NOME*/
+.tab_filtro_nome { margin-top:10px;}
+.filtro_analise_nome .nome_requerente { width:280px; margin-bottom:10px; margin-right:10px; }
+.filtro_analise_nome .input_cpf_req { width:83px; }
+.tab_filtro_nome .input_protocolo, .input_nome_emp, .input_cpf_req { margin-right:10px; }
+.input_nome_emp { width:515px;  }
+.input_cpf_req { width:265px;}
+.tab_filtro_nome .botao.pesquisar { /*margin-left: 94px;*/}
+.tab_consulta_selecionada td, .tab_consulta_selecionada table { border:0px!important; font-size:12px!important; padding:0px;}
+.tab_consulta_selecionada { line-height: 25px; }
+.texto_padding { padding-left:5px; }
+table.texto_padding { margin-left:5px; background:none; }
+.campo.protocolo_filtro_nome { width:150px;}
+.select_municipio_df_an {width:150px;}
+.campo.protocolo_filtro_nome { width:85px; margin-right: 5px;}
+
+/*PROCESSA ANALISE DE NOME*/
+.aba_visualiza_dadosanalise #atividadesPrimarias { margin-bottom: 20px; }
+.header_atividade { background:#F2F2F2; font-family:"Segoe UI",Tahoma,Arial,sans-serif; font-size:13px; padding:10px; }
+.ativ_selecionada { border:1px solid #D8D8D8; margin-bottom:15px; border-radius:7px; }
+.ativ_primaria { margin-bottom: 15px; }
+.perguntas_semad { border-top:1px solid #D8D8D8; padding:10px 15px; line-height: 25px; }
+.perguntas_visa { border-top:1px dashed #AAAAAA; padding-top:10px; margin: 0 15px 10px 15px; line-height: 25px; }
+.acoes_atividade { padding-top:3px; text-align:right; }
+.acoes_atividade input { margin-left:5px; }
+.ativ_selecionada .rf-dg, .ativ_selecionada .rf-dg-c { border: 0px; }
+.ativ_selecionada .rf-dg-c { padding: 0 10px;}
+.ativ_secundaria { width:660px; }
+table#repeatCae { border:0px!important; padding:0px!important; }
+table#repeatCae td{ border:0px!important; padding:0px!important; }
+#atividadesPrimarias .ativ_selecionada.ativ_primaria .header_atividade { background: #e9fee1; }
+.tit_opcao, .acao_analisenome_resultado { font-family:Arial, Helvetica, sans-serif!important; font-size:12px!important; font-weight: normal!important; }
+.acao_analisenome_pesquisa { float:right;  }
+.acao_analisenome_resultado { padding: 5px 10px; text-align: right; }
+.acao_analisenome_resultado table { display:inline; }
+.justificativa { padding:10px; }
+.tab_resultado_nomespesquisado { width:638px; }
+.resultados_pesquisa_nome { margin:10px 10px 7px 10px; padding-bottom:14px; border-bottom: 1px dashed #aaa;}
+.resultados_pesquisa_nome .legenda { margin-top:0px;}
+.justificativa textarea { width:622px; padding:5px; margin-bottom:10px; }
+.botoes_acao_direita { float:right; }
+.botoes_acao_esquerda { float:left; }
+.botoes_acao_direita .botao.gravar { margin:0px 0px 0px 10px!important; }
+.pesquisa_manual_nome { margin-top:15px; border-top: 1px dashed #aaa; padding-top:14px; }
+.pesquisa_manual_nome .tab_resultado_nomespesquisado { width:100%; margin-top:15px;}
+#respostaPadraoAnalisePrimeiroNome td, #respostaPadraoAnaliseSegundoNome td, #respostaPadraoAnaliseTerceiroNome td { padding-bottom:5px;}
+#respostaPadraoAnalisePrimeiroNome, #respostaPadraoAnaliseSegundoNome, #respostaPadraoAnaliseTerceiroNome { margin-top:5px; }
+#gridNomesERespostas .header_atividade { border-bottom:1px solid #D8D8D8; }
+.resumo_dadosemp.analise_nome { border-top:1px dashed #a1a1a1; padding-top:15px; margin-top:20px;}
+.nome_a_pesquisar {width:659px;}
+	
+/*RELATORIO*/
+.formato_relatorio { margin-top:20px; }
+.formato_relatorio select { padding:5px 5px 5px 0px; border-color:#c3c3c3!important; }
+.formato_relatorio, .filtro_intervalo_data, .filtro_situacao_viabilidade { margin-bottom: 10px; }
+.filtro_minimo_dias { margin-top:10px; }
+.rf-pick-add-all, .rf-pick-add, .rf-pick-rem, .rf-pick-rem-all { background-color:transparent!important; background: url(../resources/images/geral/botao/pick_adicionar.png) no-repeat!important; width: 71px!important; height: 30px!important; border:0px!important; margin-left:2px!important;}
+.rf-pick-add-all { background: url(../resources/images/geral/botao/pick_adicionar_todos.png) no-repeat!important; }
+.rf-pick-rem { background: url(../resources/images/geral/botao/pick_remover.png) no-repeat!important; }
+.rf-pick-rem-all { background: url(../resources/images/geral/botao/pick_remover_todos.png) no-repeat!important; }
+.rf-pick-add:hover { background: url(../resources/images/geral/botao/pick_adicionar_hover.png) no-repeat!important; }
+.rf-pick-add-all:hover { background: url(../resources/images/geral/botao/pick_adicionar_todos_hover.png) no-repeat!important; }
+.rf-pick-rem:hover { background: url(../resources/images/geral/botao/pick_remover_hover.png) no-repeat!important; }
+.rf-pick-rem-all:hover { background: url(../resources/images/geral/botao/pick_remover_todos_hover.png) no-repeat!important; }
+
+/*SEMAD-BOMBEIROS-VISA*/
+#gridEditaUnidadeAtencimento input, #gridNovaUnidadeAtencimento input { margin-bottom:2px; }
+#gridEditaUnidadeAtencimento select, #gridNovaUnidadeAtencimento select, .unidades_municipio select { padding:5px 5px 5px 0px; border-color:#c3c3c3!important; margin:0px 0px 2px 5px; }
+.tab_unidades_atend { width:660px; }
+#gridUnidadeAtendimentoMunicipio td { padding-bottom:2px;}
+.aterar_unid_responsavel select { margin: 3px 0px 0px 0px; }
+.aterar_unid_responsavel { line-height: 20px; padding-bottom:10px; }
+.sera_exercida_no_local { border-top:1px solid #D8D8D8; padding:15px; line-height: 25px; }
+/*SEMAD teste classificação*/
+.questionario_pergorgaoslic { margin-bottom:15px;}
+.questionario_pergorgaoslic td, .questionario_pergorgaoslic table {border:0px!important;}
+
+/*QUESTIONARIO*/
+#coleta_questionario .rf-dg { width: 615px; border:0px; margin-top:5px; }
+#coleta_questionario .rf-dg input { margin: 3px 0px 0px 15px; }
+#coleta_questionario .rf-dg-c { border:0px; font-size:12px!important; padding:5px 0px; }
+.questionario_perggerais, .questionario_pergmunicipio { display:block; width:615px; border-bottom:1px dashed #aaa; padding-bottom:15px; margin-bottom:15px; }
+.questionario_pergorgaoslic { display:block; width:615px; border:0px;}
+
+/*FORMALIZAÇÃO*/
+.filtro_formalizacao .nome_empresa { width:640px; margin-right: 10px; }
+.filtro_formalizacao .nire { width:100px; }
+.filtro_formalizacao .protocolo_srm {width:170px; margin-right: 10px; }
+.filtro_formalizacao .cnpj {width:120px; margin-right: 10px; }
+.filtro_formalizacao .alvara {width:100px; margin-right: 10px; }
+.filtro_formalizacao .inscricao_municipal {width:150px; margin-right: 10px; }
+.filtro_formalizacao .nome_requerente {width:277px; margin-right: 10px; }
+.filtro_formalizacao .cpf_requerente {width:100px; margin-right: 10px; }
+.filtro_formalizacao .protocolo_viabilidade {width:100px; margin-right: 10px; }
+.filtro_formalizacao select { margin-left:5px; margin-right:10px;}
+.filtro_formalizacao { margin-bottom:15px; }
+.tab_formalizacao { margin-top: 10px; width:100%; }
+.acoes_tabelas, .acoes_tabelas td { padding:0; border;0; margin:0; }
+.filtro_linha1, .filtro_linha2, .filtro_linha3, .filtro_linha4 { margin-bottom:5px; height:30px; line-height: 30px; display: block; vertical-align: middle; } 
+
+
+/*MSG ERRO POPUPS*/
+.mensagem_popup li.WARN, .mensagem_popup li.ERROR { background-color:#FDF9A5; border:1px solid #FFC84F; color:#000; text-shadow:none; width:94%; }
+.mensagem_popup li.ERROR { background-color:#F54F59; border:1px solid #FF000A; }
+
+/*HACKS IE 7-8-9*/
+input[type="text"], input.campo {
+    *height: 18px!important;
+    *margin-left: 5px;
+    *padding: 3px 5px!important;
+}
+
+.div_inline{display:block !important; float:left !important;}

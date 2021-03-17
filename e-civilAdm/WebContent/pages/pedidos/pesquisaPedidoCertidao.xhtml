@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui"
+	xmlns:paginacao="http://java.sun.com/jsf/composite/paginacao">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<style>
+			.ui-chkbox-box {
+				margin-right: 7px;
+			}
+			.itens-acoes .btn {
+				margin: 0px 3px 3px 3px;
+			}
+		</style>
+
+		<h:form id="form" prependId="false">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Pesquisa Pedidos de Certidão realizados para Serventia" />
+									</h3>
+									<hr />
+									
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Protocolo" />
+												<input type="text" class="form-control" jsf:value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.protocolo}" size="13" maxlength="13" placeholder="Protocolo" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Serventia" />
+												<h:selectOneMenu id="comboCartorio" name="comboCartorio" styleClass="form-control" 
+													disabled="#{pesquisaPedidoCertidaoController.desabilitaComboSelecionarServentia()}"
+													value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.corregedoriaRequisitada}" >
+													<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+													<f:selectItems value="#{pesquisaPedidoCertidaoController.listaCartorio}" var="cartorio" 
+														itemLabel="#{cartorio.nomeDistritoECartorio}" itemValue="#{cartorio.codigoCorregedoria}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Número do boleto" />
+												<input type="text" class="form-control" jsf:value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.numeroBoleto}" size="10" maxlength="10" placeholder="Número do boleto" />
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Data inicío do pedido" />
+												<input type="date" class="form-control" jsf:value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.dataInicioPedido}" 
+													onkeydown="return false" onkeypress="formatar_mascara(event,this,'##/##/####'); return somenteNumero(event)" jsf:converter="dataConverter" maxlength="10" />
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Data fim do pedido" />
+												<input type="date" class="form-control" jsf:value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.dataFimPedido}" 
+													onkeydown="return false" jsf:converter="dataConverter" maxlength="10" />
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="CPF do requerente" />
+												<input type="text" class="form-control" placeholder="CPF do requerente" jsf:value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.cpfRequerente}" 
+													jsf:converter="cpfConverter" onkeypress="formatar_mascara(event,this,'###.###.###-##'); return somenteNumero(event)" maxlength="14" />
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<h:outputLabel styleClass="control-label" value="Situação" />
+												<select jsf:id="idComboSituacaoPedido" class="form-control" size="1" jsf:converter="entidadeConverter"
+													jsf:value="#{pesquisaPedidoCertidaoController.filtroPesquisaCertidao.situacaoPedidoCertidao}">
+													<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+													<f:selectItems value="#{pesquisaPedidoCertidaoController.listaSituacaoPedidoCertidao}" var="situacao" itemLabel="#{situacao.nome}" itemValue="#{situacao}" />
+												</select>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="form-actions">
+									<a jsf:id="limparPedidos" jsf:action="#{pesquisaPedidoCertidaoController.limpar()}" class="btn btn-default">
+										<i class="fa fa-fw fa-eraser"></i>Limpar
+									</a>
+									<a jsf:id="consultaPedidos" jsf:action="#{pesquisaPedidoCertidaoController.pesquisarPedidosCertidao()}" class="btn btn-primary ">
+										<i class="fa fa-fw fa-search"></i>Pesquisar
+									</a>
+								</div>
+								
+								<hr/>
+								
+								<div jsf:id="listaPedidoCertidao" class="row">
+									<div jsf:rendered="#{pesquisaPedidoCertidaoController.pesquisaRealizada}">
+									
+										<div jsf:rendered="#{empty pesquisaPedidoCertidaoController.listaPedidoCertidao}">
+											<div class="col-md-12">
+												<strong>Nenhum registro encontrado.</strong>
+											</div>
+										</div>
+								
+										<div class="table-responsive" style="font-size: 0.8em;" jsf:rendered="#{not empty pesquisaPedidoCertidaoController.listaPedidoCertidao}">
+											<div class="col-sm-12">
+												<h:outputLabel value="Pedidos requisitados à minha serventia:" />
+												<h:dataTable id="tablePedidosUsuario" value="#{pesquisaPedidoCertidaoController.listaPedidoCertidao}" var="pedidoCertidao"
+													styleClass="table table-bordered table-striped">
+												
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Protocolo" />
+														</f:facet>
+														<h:commandLink onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+																action="#{pesquisaPedidoCertidaoController.navegaDadosPedido(pedidoCertidao)}" styleClass="btn btn-sm btn-primary" >
+															<h:outputText value="#{pedidoCertidao.protocolo}" />
+														</h:commandLink>
+													</h:column>
+													
+													<h:column rendered="#{pesquisaPedidoCertidaoController.exibeColunaServentiaTabela()}">
+														<f:facet name="header">
+															<h:outputText value="Serventia" />
+														</f:facet>
+														<h:outputText value="#{pesquisaPedidoCertidaoController.recuperaNomeDistritoECartorio(pedidoCertidao.codCorregedoriaRequisitada)}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Situação" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.situacao.nome}" styleClass="#{pedidoCertidao.situacao.classeCssRequisitado}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center; width: 5%;">
+														<f:facet name="header">
+															<h:outputText value="Data do pedido" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.dataPedidoFormatada()}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center; width: 8%">
+														<f:facet name="header">
+															<h:outputText value="Data última alteração" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.dataUltimaAlteracaoFormatada()}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da pessoa/cônjuge 1" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.nomePrimeiraPessoa}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da mãe/cônjuge 2" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.nomeSegundaPessoa}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Tipo de certidão" />
+														</f:facet>
+														<h:outputText rendered="#{!pedidoCertidao.pedidoCertidaoNegativa}" value="#{pedidoCertidao.tipoCertidao.descFato}" />
+														<h:outputText rendered="#{pedidoCertidao.pedidoCertidaoNegativa}" value="#{pedidoCertidao.tipoCertidao.descFato} (NEGATIVA)" />
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Forma de entrega" />
+														</f:facet>
+														<h:outputText value="#{pedidoCertidao.descricaoTipoSaida}" />
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Valor total" />
+														</f:facet>
+														<div jsf:rendered="#{not empty pedidoCertidao.valorTotal}">
+															R$ <h:outputText value="#{pedidoCertidao.valorTotal}" converter="bigDecimalConverter" />
+														</div>
+														<div jsf:rendered="#{empty pedidoCertidao.valorTotal}">
+															<h:outputText value="--" />
+														</div>
+													</h:column>
+													
+													<h:column p:style="text-align: center;">
+														<f:facet name="header">
+															<h:outputText value="Requisitante" />
+														</f:facet>
+														<pr:commandLink styleClass="btn btn-xs btn-primary" actionListener="#{pesquisaPedidoCertidaoController.setaRequisitante(pedidoCertidao)}"
+															onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide(); $('#modalDadosRequisitante').modal('show');" 
+															update="modalDadosRequisitante" >
+															
+															<h:outputText rendered="#{not empty pedidoCertidao.codCorregedoriaRequisitante}" value="#{pedidoCertidao.codCorregedoriaRequisitanteFormatado}" />
+															<h:outputText rendered="#{empty pedidoCertidao.codCorregedoriaRequisitante}" value="#{pedidoCertidao.usuarioExterno.nome}" />
+														</pr:commandLink>
+													</h:column>
+													
+												</h:dataTable>
+											</div>
+																				
+											<paginacao:paginacao pesquisaBean="#{pesquisaPedidoCertidaoController}" bean="#{pesquisaPedidoCertidaoController.paginacao}" 
+												renderiza="listaPedidoCertidao" nomeMetodo="pesquisarPedidosCertidaoPaginado" />
+												
+										</div>
+										
+									</div>
+								</div>
+								
+								<hr/>
+
+								<a jsf:id="voltar" jsf:action="#{pesquisaPedidoCertidaoController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Visualizar Dados Requisitante -->
+			<div class="modal fade" jsf:id="modalDadosRequisitante" tabindex="-1" role="dialog" aria-labelledby="modalDadosRequisitante" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Dados do requisitante</h4>
+						</div>
+						
+						<div class="panel-body">
+								<div class="row" jsf:rendered="#{not empty pesquisaPedidoCertidaoController.pedidoCertidao.usuarioExterno}" >
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Nome:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.usuarioExterno.nome}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">CPF:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.usuarioExterno.cpf}" converter="cpfConverter" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">E-mail:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.usuarioExterno.email}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Telefone:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.usuarioExterno.telefone}" converter="telefoneConverter" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Celular:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.usuarioExterno.celular}" converter="telefoneConverter" />
+										</div>
+									</div>
+								</div>
+								
+								<div class="row" jsf:rendered="#{not empty pesquisaPedidoCertidaoController.pedidoCertidao.cartorio}" >
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Cartório:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.nomeCartorio}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Código Corregedoria:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.codigoCorregedoriaFormatado}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Telefone:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.telefone}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Logradouro:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.logradouro}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Número:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.numeroLogradouro}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Bairro:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.bairro}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Município:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.nomeMunicipio}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">Distrito:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.distrito}" />
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<label class="col-sm-4 control-label text-right">CEP:</label>
+										<div class="col-sm-8">
+											<h:outputText value="#{pesquisaPedidoCertidaoController.pedidoCertidao.cartorio.cepFormatado}" />
+										</div>
+									</div>
+								</div>
+						</div>
+						
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalDadosRequisitante').modal('hide');">
+								Fechar
+							</pr:commandLink>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

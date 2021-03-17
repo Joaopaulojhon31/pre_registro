@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	<ui:define name="body">
+		<style>
+			.ui-chkbox-box {
+				margin-right: 7px;
+			}
+			.itens-acoes .btn {
+				margin: 0px 3px 3px 3px;
+			}
+		</style>
+		
+		<form jsf:id="form" jsf:prependId="false">
+
+			<div jsf:id="divDadosPedido" class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								
+								<style>
+									.text-right {
+										text-align: right;
+									}
+								</style>
+								
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Dados do pedido de certidão" />
+									</h3>
+									<hr />
+									
+									<div class="panel panel-info panel-bordered"> 
+										<div class="panel-heading">
+											<h:outputText value="Dados do pedido" />
+										</div>
+										<div class="panel-body compact">
+										
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="pull-right">
+														<pr:commandLink styleClass="btn btn-default" onclick="PF('statusDialog').show();" 
+															rendered="#{dadosPedidoCertidaoController.exibeHistoricoPedidoCertidao()}"
+															oncomplete="PF('statusDialog').hide(); $('#modalHistoricoPedidoCertidao').modal('show');" 
+															update="modalHistoricoPedidoCertidao">
+															<i class="fa fa-fw fa-list"></i>Histórico do pedido
+														</pr:commandLink>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.cartorio.nomeDistritoECartorio}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Cartório:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.cartorio.nomeDistritoECartorio}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Protocolo:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.protocolo}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Situação:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.situacao.nome}" styleClass="#{dadosPedidoCertidaoController.pedidoCertidao.situacao.classeCssRequisitado}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Tipo de fato:</label>
+													<div class="col-sm-8">
+														<h:outputText rendered="#{!dadosPedidoCertidaoController.pedidoCertidao.pedidoCertidaoNegativa}" value="#{dadosPedidoCertidaoController.pedidoCertidao.tipoCertidao.descFato}" />
+														<h:outputText rendered="#{dadosPedidoCertidaoController.pedidoCertidao.pedidoCertidaoNegativa}" value="#{dadosPedidoCertidaoController.pedidoCertidao.tipoCertidao.descFato} (NEGATIVA)" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">Nome do cônjuge 1:</label>
+													<label class="col-sm-3 text-right" jsf:rendered="#{!dadosPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">Nome da pessoa:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.nomePrimeiraPessoa}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">Nome do cônjuge 2:</label>
+													<label class="col-sm-3 text-right" jsf:rendered="#{!dadosPedidoCertidaoController.pedidoCertidao.certidaoCasamento}">Nome da mãe:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.nomeSegundaPessoa}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Data do pedido:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.dataPedidoFormatada()}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Data da última alteração:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.dataUltimaAlteracaoFormatada()}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Data do #{dadosPedidoCertidaoController.pedidoCertidao.tipoCertidao.descFato.toLowerCase()}:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.dataFato}" converter="dataConverter">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.dataRegistro}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Data de registro:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.dataRegistro}" converter="dataConverter">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</div>
+												</div>
+											</div>
+																
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.observacao}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Obervações:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.observacao}" />
+													</div>
+												</div>
+											</div>
+																
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Forma de envio:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.descricaoTipoSaida}" />
+													</div>
+												</div>
+											</div>
+																
+											<div class="col-sm-12">
+												<div class="form-group" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno}">
+													<label class="col-sm-3 text-right">Requisitante:</label>
+													<div class="col-sm-8">
+														<pr:commandLink styleClass="btn btn-xs btn-primary" onclick="PF('statusDialog').show();" 
+															oncomplete="PF('statusDialog').hide(); $('#modalDadosRequisitante').modal('show');"	update="modalDadosRequisitante" >
+															
+															<h:outputText  value="Cidadão - #{dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno.nome}" />
+														</pr:commandLink>
+													</div>
+												</div>
+											</div>
+																
+											<div jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.codCorregedoriaRequisitante}">
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label class="col-sm-3 text-right">Requisitante:</label>
+														<div class="col-sm-8">
+															<pr:commandLink styleClass="btn btn-xs btn-primary" onclick="PF('statusDialog').show();" 
+																oncomplete="PF('statusDialog').hide(); $('#modalDadosRequisitante').modal('show');"	update="modalDadosRequisitante" >
+																
+																<h:outputText value="Serventia - #{dadosPedidoCertidaoController.cartorioRequisitante.nomeCartorio}" />
+															</pr:commandLink>
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label class="col-sm-3 text-right">Código CGJMG:</label>
+														<div class="col-sm-8">
+															<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.codigoCorregedoriaFormatado}" />
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label class="col-sm-3 text-right">Código CNS:</label>
+														<div class="col-sm-8">
+															<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.cns}" />
+														</div>
+													</div>
+												</div>
+												
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{dadosPedidoCertidaoController.exibePerguntaAverbacao()}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Possui averbação?</label>
+													<div class="col-sm-8">
+														<pr:selectOneRadio value="#{dadosPedidoCertidaoController.pedidoCertidao.possuiAverbacao}">
+												            <f:selectItem itemLabel="Não" itemValue="#{false}" />
+												            <f:selectItem itemLabel="Sim" itemValue="#{true}" />
+												        </pr:selectOneRadio>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{!dadosPedidoCertidaoController.pedidoCertidao.situacaoEmAnalise}">
+												<div class="form-group" >
+													<label class="col-sm-3 text-right">Possui averbação?</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.descricaoPossuiAverbacao()}" />
+													</div>
+												</div>
+											</div>
+											
+											<div jsf:rendered="#{dadosPedidoCertidaoController.exibirDadosFrete()}">
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label class="col-sm-3 text-right">Valor do frete:</label>
+														<div class="col-sm-3">
+															<input type="text" class="form-control" placeholder="Valor do frete" jsf:value="#{dadosPedidoCertidaoController.pedidoCertidao.valorFrete}" 
+																jsf:converter="bigDecimalConverter" onkeyup="moeda(this);" maxlength="13"/>
+														</div>
+													</div>
+												</div>
+												
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label class="col-sm-3 text-right"></label>
+														<div class="col-sm-3">
+															<a href="http://www2.correios.com.br/sistemas/precosprazos/default.cfm" target="_blank" style="color: #D50000;">Calcular o valor do frete</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Alíquota ISSQN:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.recuperaAliquotaISSQN()}" converter="bigDecimalConverter" />%
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.valorCertidao}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Valor certidão:</label>
+													<div class="col-sm-8">
+														R$ <h:outputText value="#{dadosPedidoCertidaoController.recuperaValorCertidao()}" converter="bigDecimalConverter" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.possuiAverbacao}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Valor averbação:</label>
+													<div class="col-sm-8">
+														R$ <h:outputText value="#{dadosPedidoCertidaoController.recuperaValorAverbacaoCertidao()}" converter="bigDecimalConverter" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.taxaManuntencao}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Taxa de manutenção:</label>
+													<div class="col-sm-8">
+														R$ <h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.taxaManuntencao}" converter="bigDecimalConverter" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.valorFrete}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Valor frete:</label>
+													<div class="col-sm-8">
+														R$ <h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.valorFrete}" converter="bigDecimalConverter" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.valorTotal}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Valor total:</label>
+													<div class="col-sm-8">
+														R$ <h:outputText value="#{dadosPedidoCertidaoController.recuperaValorTotalCertidao()}" converter="bigDecimalConverter" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.certidaoNegativa}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Código Hash:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.certidaoNegativa.codigoHash}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.situacaoPedidoRejeitado}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Motivo de rejeição:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.motivoRejeicao}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.situacaoArquivoNaoAceito}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Motivo rejeição arquivo:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.motivoRejeicaoArquivo}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{dadosPedidoCertidaoController.exibeDescricaoSolicitacaoEstorno()}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Descrição solicitação estorno:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.solicitacaoEstorno.descricaoSolicitacao}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12" jsf:rendered="#{dadosPedidoCertidaoController.exibeMotivoRejeicaoEstorno()}">
+												<div class="form-group">
+													<label class="col-sm-3 text-right">Motivo rejeição estorno:</label>
+													<div class="col-sm-8">
+														<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.solicitacaoEstorno.descricaoRejeicao}" />
+													</div>
+												</div>
+											</div>
+											
+											<div class="col-sm-12">
+												<br/>
+												<br/>
+												<div class="form-group">
+													<h:outputText value="*O valor total da certidão é calculado após a confirmação do pedido" />
+												</div>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								
+								<div class="panel panel-info panel-bordered" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.saidaViaCorreios}">
+									<div class="panel-heading">
+										<h:outputText value="Dados do destinatário" />
+									</div>
+									<div class="panel-body compact">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label class="col-sm-3 text-right">Destinatário:</label>
+												<div class="col-sm-8">
+													<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.enderecoUsuarioExterno.destinatario}" />
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label class="col-sm-3 text-right">Tipo de Endereço:</label>
+												<div class="col-sm-8">
+													<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.enderecoUsuarioExterno.identificadorEndereco}" />
+												</div>
+											</div>
+										</div>
+										
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label class="col-sm-3 text-right">Endereço:</label>
+												<div class="col-sm-8">
+													<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.enderecoUsuarioExterno.obtemDescricaoEndereco()}" />
+												</div>
+											</div>
+										</div>
+									
+										<div class="col-sm-12" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.codigoRastreio}">
+											<div class="form-group">
+												<label class="col-sm-3 text-right">Código de rastreio:</label>
+												<div class="col-sm-8">
+													<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.codigoRastreio}" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-actions" jsf:rendered="#{dadosPedidoCertidaoController.exibeBotoesAcoesPedidoCertidao()}">
+									<div class="pull-right">
+										<pr:commandLink styleClass="btn btn-danger" onclick="PF('statusDialog').show();" 
+											rendered="#{dadosPedidoCertidaoController.exibeConfirmarRejeitarPedido()}"
+											oncomplete="PF('statusDialog').hide(); $('#modalRejeitarPedido').modal('show');" update="modalRejeitarPedido" >
+											<i class="fa fa-fw fa-ban"></i>Rejeitar pedido
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" update="mensagens-sistema divDadosPedido" 
+											rendered="#{dadosPedidoCertidaoController.exibeConfirmarRejeitarPedido()}"
+											oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.confirmarPedido()}">
+											<i class="fa fa-fw fa-check"></i>Confirmar pedido
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" update="mensagens-sistema divDadosPedido" 
+											rendered="#{dadosPedidoCertidaoController.exibeBtnFinalizarPedido()}"
+											oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.finalizarPedido()}">
+											<i class="fa fa-fw fa-check"></i>Finalizar pedido
+										</pr:commandLink>
+																				
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" update="mensagens-sistema divDadosPedido" 
+											rendered="#{dadosPedidoCertidaoController.exibeLiberarColetaCertidao()}"
+											oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.liberarColetaCertidao()}">
+											<i class="fa fa-fw fa-check"></i>Liberar certidão para coleta do cidadão
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-danger" onclick="PF('statusDialog').show();" 
+											rendered="#{dadosPedidoCertidaoController.exibeConfirmarRejeitarPedidoCertidaoNegativa()}"
+											oncomplete="PF('statusDialog').hide(); $('#modalRejeitarPedido').modal('show');" update="modalRejeitarPedido" >
+											<i class="fa fa-fw fa-ban"></i>Rejeitar pedido de Certidão Negativa
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" update="mensagens-sistema divDadosPedido" 
+											rendered="#{dadosPedidoCertidaoController.exibeConfirmarPedidoCertidaoNegativa()}"
+											oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.confirmarPedidoCertidaoNegativa()}">
+											<i class="fa fa-fw fa-check"></i>Confirmar pedido de Certidão Negativa
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" 
+											rendered="#{dadosPedidoCertidaoController.exibeInformarCodigoRastreio()}"
+											oncomplete="PF('statusDialog').hide(); $('#modalInformarCodigoRastreio').modal('show');" update="modalInformarCodigoRastreio" >
+											<i class="fa fa-fw fa-location-arrow"></i>Informar código de rastreio
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" 
+											rendered="#{dadosPedidoCertidaoController.exibeAnexarCertidaoNegativa()}"
+											oncomplete="PF('statusDialog').hide(); $('#modalAnexarCertidaoNegativa').modal('show');" update="modalAnexarCertidaoNegativa">
+											<i class="fa fa-fw fa-file-text-o"></i>Anexar Certidão Negativa
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" 
+											rendered="#{dadosPedidoCertidaoController.exibeAnexarXMLCertidao()}"
+											oncomplete="PF('statusDialog').hide(); $('#modalAnexarXmlCertidao').modal('show');" update="modalAnexarXmlCertidao">
+											<i class="fa fa-fw fa-file-text-o"></i>Anexar XML Certidão
+										</pr:commandLink>
+										
+										<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show();" 
+											rendered="#{dadosPedidoCertidaoController.exibeAnalisarEstorno()}"
+											oncomplete="PF('statusDialog').hide(); $('#modalAnalisarEstorno').modal('show');" update="modalAnalisarEstorno">
+											<i class="fa fa-fw fa-file-text-o"></i>Analisar solicitação de estorno
+										</pr:commandLink>
+									</div>
+									<br/>
+								</div>
+								
+								<br/>
+								<hr/>
+								
+								<a jsf:id="voltar" jsf:action="#{dadosPedidoCertidaoController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+									
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Informar Codigo Rastreio -->
+			<div class="modal fade" jsf:id="modalInformarCodigoRastreio" tabindex="-1" role="dialog" aria-labelledby="modalInformarCodigoRastreio" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Informar código de rastreio</h4>
+						</div>
+					
+						<div class="panel-body">
+							<div class="form-group">								
+								<div class="row">
+									<div class="col-sm-12">
+										<h:outputLabel styleClass="control-label" value="Código de rastreio:" />
+										<input type="text" class="form-control" jsf:value="#{dadosPedidoCertidaoController.pedidoCertidao.codigoRastreio}" maxlength="100" placeholder="Código de rastreio" />
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalInformarCodigoRastreio').modal('hide');">
+								Fechar
+							</pr:commandLink>
+							<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show(); $('#modalInformarCodigoRastreio').modal('hide');"
+								oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.salvarCodigoRastreio()}" update="divDadosPedido mensagens-sistema" >
+								Salvar
+							</pr:commandLink>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Anexar Certidao Negativa -->
+			<div class="modal fade" jsf:id="modalAnexarCertidaoNegativa" tabindex="-1" role="dialog" aria-labelledby="modalAnexarCertidaoNegativa" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Anexar Certidão Negativa</h4>
+						</div>
+					
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-sm-12" jsf:id="idDivAnexoModal">						
+									<div class="row" >
+										<div class="col-sm-12">
+											<a onclick="$('#uploadAnexoCertidao input').click()" class="btn btn-sm btn-primary">
+												<i class="fa fa-fw fa-upload"></i>Anexar Certidão
+											</a>
+											
+											<h:outputText value=" " />
+											<a jsf:action="#{dadosPedidoCertidaoController.exibirAnexoCertidao()}"
+												target="_blank" class="btn btn-sm btn-default"
+												jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.anexo}">
+												<i class="fa fa-fw fa-file-text-o"></i>Exibir
+											</a>
+											
+											<h:outputText value=" " />
+											<pr:commandLink actionListener="#{dadosPedidoCertidaoController.removerAnexoCertidao()}" styleClass="btn btn-fill btn-sm btn-danger"
+												rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.anexo}" update="idDivAnexoModal"
+												p:style="font-size: 12px;">
+												<i class="fa fa-fw fa-trash"></i>Remover
+											</pr:commandLink>
+										
+											<div id="uploadAnexoCertidao" style="display: none">
+												<pr:fileUpload fileUploadListener="#{dadosPedidoCertidaoController.realizaUploadAnexoCertidao}" 
+													update="mensagens-sistema idDivAnexoModal"
+													onstart="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+													label="Anexar" mode="advanced" dragDropSupport="false" auto="true">
+												</pr:fileUpload>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<br/><br/>
+								<div class="col-sm-12">
+									<div class="well bg-default" style="padding: 5px !important; text-align: center;">
+										Só é permitido anexar arquivos do tipo PDF e de tamanho máximo de 10mb!
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalAnexarCertidaoNegativa').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-success" onclick="PF('statusDialog').show(); $('#modalAnexarCertidaoNegativa').modal('hide');"
+									oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.salvarEAnexarCertidaoNegativa()}" update="divDadosPedido mensagens-sistema" >
+									Salvar
+								</pr:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Anexar XML da Certidao -->
+			<div class="modal fade" jsf:id="modalAnexarXmlCertidao" tabindex="-1" role="dialog" aria-labelledby="modalAnexarXmlCertidao" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Anexar XML Certidão</h4>
+						</div>
+					
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-sm-12" jsf:id="idDivAnexoXmlModal">						
+									<div class="row" >
+										<div class="col-sm-12">
+											<a onclick="$('#uploadAnexoXmlCertidao input').click()" class="btn btn-sm btn-primary">
+												<i class="fa fa-fw fa-upload"></i>Anexar Certidão
+											</a>
+											
+											<h:outputText value=" " />
+											<pr:commandLink actionListener="#{dadosPedidoCertidaoController.removerAnexoCertidao()}" styleClass="btn btn-fill btn-sm btn-danger"
+												rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.anexo}" update="idDivAnexoXmlModal"
+												p:style="font-size: 12px;">
+												<i class="fa fa-fw fa-trash"></i>Remover
+											</pr:commandLink>
+										
+											<div id="uploadAnexoXmlCertidao" style="display: none">
+												<pr:fileUpload fileUploadListener="#{dadosPedidoCertidaoController.realizaUploadXmlCertidao}" 
+													update="mensagens-sistema idDivAnexoXmlModal"
+													onstart="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+													label="Anexar" mode="advanced" dragDropSupport="false" auto="true">
+												</pr:fileUpload>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<br/><br/>
+								<div class="col-sm-12">
+									<div class="well bg-default" style="padding: 5px !important; text-align: center;">
+										Só é permitido anexar arquivos do tipo XML (XML.DSIG)!
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalAnexarXmlCertidao').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-success" onclick="PF('statusDialog').show(); $('#modalAnexarXmlCertidao').modal('hide');"
+									oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.salvarEAnexarXmlCertidao()}" update="divDadosPedido mensagens-sistema" >
+									Salvar
+								</pr:commandLink>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Rejeitar Pedido -->
+			<div class="modal fade" jsf:id="modalRejeitarPedido" tabindex="-1" role="dialog" aria-labelledby="modalRejeitarPedido" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Motivo de rejeição</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-12">
+										<select jsf:id="idComboMotivoRejeicao" class="form-control" size="1" jsf:value="#{dadosPedidoCertidaoController.pedidoCertidao.enumMotivoRejeicao}">
+											<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+											<f:selectItems value="#{dadosPedidoCertidaoController.listaMotivoRejeicao()}" var="motivo" itemLabel="#{motivo.descricao}" itemValue="#{motivo}" />
+											<f:ajax render="idTextoMotivoRejeicao" />
+										</select>
+									</div>
+								</div>
+							</div>
+								
+							<div jsf:id="idTextoMotivoRejeicao" class="form-group">								
+								<div class="row" jsf:rendered="#{dadosPedidoCertidaoController.pedidoCertidao.motivoRejeicaoInformarMotivo}">
+									<div class="col-sm-12">
+										<textarea rows="5" class="form-control" jsf:value="#{dadosPedidoCertidaoController.pedidoCertidao.motivoRejeicao}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalRejeitarPedido').modal('hide');">
+								Fechar
+							</pr:commandLink>
+							<pr:commandLink styleClass="btn btn-primary" onclick="PF('statusDialog').show(); $('#modalRejeitarPedido').modal('hide');" 
+								oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.rejeitarPedido()}" update="divDadosPedido mensagens-sistema">
+								Rejeitar pedido
+							</pr:commandLink>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Analisar Estorno -->
+			<div class="modal fade" jsf:id="modalAnalisarEstorno" tabindex="-1" role="dialog" aria-labelledby="modalAnalisarEstorno" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.solicitacaoEstorno}">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Analisar solicitação de estorno</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="form-group">								
+								<div class="row">
+									<div class="col-sm-12">
+										<label class="control-label">Descrição da solicitação</label>
+										<textarea rows="5" class="form-control" jsf:disabled="true" 
+											jsf:value="#{dadosPedidoCertidaoController.pedidoCertidao.solicitacaoEstorno.descricaoSolicitacao}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<div class="pull-left">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalAnalisarEstorno').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-danger" update="modalMotivoRejeitarEstorno"
+									onclick="$('#modalAnalisarEstorno').modal('hide');" oncomplete="$('#modalMotivoRejeitarEstorno').modal('show');">
+									Rejeitar
+								</pr:commandLink>
+								<pr:commandLink styleClass="btn btn-success" onclick="PF('statusDialog').show(); $('#modalAnalisarEstorno').modal('hide');" 
+									oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.realizarEstorno()}" update="divDadosPedido mensagens-sistema">
+									Realizar estorno
+								</pr:commandLink>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal Motivo Rejeitar Estorno -->
+			<div class="modal fade" jsf:id="modalMotivoRejeitarEstorno" tabindex="-1" role="dialog" aria-labelledby="modalMotivoRejeitarEstorno" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.solicitacaoEstorno}">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Rejeitar solicitação de estorno</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="form-group">								
+								<div class="row">
+									<div class="col-sm-12">
+										<label class="control-label">Motivo:</label>
+										<textarea rows="5" class="form-control" maxlength="500" 
+											jsf:value="#{dadosPedidoCertidaoController.pedidoCertidao.solicitacaoEstorno.descricaoRejeicao}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalMotivoRejeitarEstorno').modal('hide');">
+								Cancelar
+							</pr:commandLink>
+							<pr:commandLink styleClass="btn btn-danger" onclick="PF('statusDialog').show(); $('#modalMotivoRejeitarEstorno').modal('hide');" 
+								oncomplete="PF('statusDialog').hide();" action="#{dadosPedidoCertidaoController.rejeitarSolicitacaoEstorno()}" update="divDadosPedido mensagens-sistema">
+								Rejeitar solicitação de estorno
+							</pr:commandLink>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Visualizar Dados Requisitante -->
+			<div class="modal fade" jsf:id="modalDadosRequisitante" tabindex="-1" role="dialog" aria-labelledby="modalDadosRequisitante" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Dados do requisitante</h4>
+						</div>
+						
+						<div class="panel-body">
+							<div class="row" jsf:rendered="#{not empty dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno}" >
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Nome:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno.nome}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">CPF:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno.cpf}" converter="cpfConverter" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">E-mail:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno.email}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Telefone:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno.telefone}" converter="telefoneConverter" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Celular:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.pedidoCertidao.usuarioExterno.celular}" converter="telefoneConverter" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="row" jsf:rendered="#{not empty dadosPedidoCertidaoController.cartorioRequisitante}" >
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Cartório:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.nomeCartorio}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Código CGJMG:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.codigoCorregedoriaFormatado}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Código CNS:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.cns}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Telefone:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.telefone}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Logradouro:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.logradouro}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Número:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.numeroLogradouro}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Bairro:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.bairro}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Município:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.nomeMunicipio}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">Distrito:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.distrito}" />
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-3 control-label text-right">CEP:</label>
+									<div class="col-sm-8">
+										<h:outputText value="#{dadosPedidoCertidaoController.cartorioRequisitante.cepFormatado}" />
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalDadosRequisitante').modal('hide');">
+								Fechar
+							</pr:commandLink>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Visualizar Historico Pedido Certidao -->
+			<div class="modal fade" jsf:id="modalHistoricoPedidoCertidao" tabindex="-1" role="dialog" aria-labelledby="modalHistoricoPedidoCertidao" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Histórico do pedido</h4>
+						</div>
+						
+						<div class="panel-body">
+	                        <div class="table-responsive">
+		                        <h:dataTable var="historico" value="#{dadosPedidoCertidaoController.pedidoCertidao.listaHistoricoPedidoCertidaoInicializada}"
+		                        	styleClass="table table-bordered table-striped">
+		                        	
+    								<h:column>
+										<f:facet name="header">
+											<h:outputText value="Situação" />
+										</f:facet>
+										<h:outputText value="#{historico.situacao.nome}" />
+									</h:column>
+		                        	
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Data" />
+										</f:facet>
+										<h:outputText value="#{historico.dataInicioFormatada()}" />
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Última visualização Requisitante" />
+										</f:facet>
+										<h:outputText value="#{historico.dataHoraVisualizacaoRequisitanteFormatada()}" />
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">
+											<h:outputText value="Última visualização Requisitado" />
+										</f:facet>
+										<h:outputText value="#{historico.dataHoraVisualizacaoRequisitadoFormatada()}" />
+									</h:column>
+												
+	                        	</h:dataTable>
+	                        </div>
+						</div>
+						
+						<div class="modal-footer">
+							<pr:commandLink styleClass="btn btn-default" onclick="$('#modalHistoricoPedidoCertidao').modal('hide');">
+								Fechar
+							</pr:commandLink>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+		</form>
+
+	</ui:define>
+</ui:composition>
+</html>

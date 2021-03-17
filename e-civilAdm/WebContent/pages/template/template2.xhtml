@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+<head jsf:id="head">
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Central de Informação</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link jsf:name="bootstrap.min.css" jsf:library="css" rel="stylesheet" type="text/css" />
+    
+    <!-- Custom CSS -->
+     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800&amp;subset=latin,latin-ext" rel="stylesheet"/>
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+     <link jsf:name="css.css" jsf:library="css" rel="stylesheet" type="text/css" />
+     <link jsf:name="bootstrap-combobox.css" jsf:library="css" rel="stylesheet" type="text/css" />
+
+    </head>
+    
+    <script>
+	  //<![CDATA[
+		    jsf.ajax.addOnEvent(function(data) {
+		        var ajaxstatus = data.status; // Can be "begin", "complete" and "success"
+		        var ajaxloader = document.getElementById("ajaxloader");
+		
+		        switch (ajaxstatus) {
+		            case "begin": // This is called right before ajax request is been sent.
+		                $("#aguarde").modal('show');
+		                break;
+		
+		            case "complete": // This is called right after ajax response is received.
+		            	$("#aguarde").modal('hide');
+		                break;
+		
+		            case "success": // This is called when ajax response is successfully processed.
+		                // NOOP.
+		                break;
+		        }
+		    });
+		  //]]>
+	</script>
+
+    <body jsf:id="body" onload="iniciaFuncoes();">
+
+        <ui:include src="/pages/template/topo.xhtml" />
+        
+        <ui:insert name="body"/>
+        
+        <h:panelGroup layout="block" id="mensagens-sistema" class="message #{facesContext.maximumSeverity}">
+			<h:messages warnClass="WARN" infoClass="INFO" fatalClass="ERROR" errorClass="ERROR"/>
+		</h:panelGroup>
+		
+		<ui:include src="/pages/template/aguarde.xhtml" />
+
+		<!-- jQuery Version 1.11.0 -->
+		
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script jsf:target="body" jsf:library="js" jsf:name="bootstrap.min.js"/>
+		<script jsf:target="body" jsf:library="js" jsf:name="bootstrap-combobox.js"/>
+		<script jsf:target="body" jsf:library="js" jsf:name="funcoes.js"/>
+		
+		<footer>
+			<div class="row">
+				<div class="container">
+				<div class="col-md-12">
+					<p>
+						IRTDPJMinas - ​Rua dos Timbiras, 2318, Sl 04 - Lourdes - CEP: 30.140-069 - Belo Horizonte/MG - Tel: (31) 3274-8082 / (31) 3141-8082
+					</p>
+				</div>
+				</div>
+				
+
+			</div>
+		</footer>
+</body>
+
+</html>

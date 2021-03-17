@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:rich="http://richfaces.org/rich" 
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+	<composite:attribute name="bean" type="java.lang.Object" />
+	<composite:attribute name="renderiza" default="panelPaginado" />
+	<composite:attribute name="pesquisaBean" type="java.lang.Object" />
+	<composite:attribute name="nomeMetodo" type="java.lang.String" />
+</composite:interface>
+
+<composite:implementation>
+	<div id="#{cc.clientId}">
+		
+		<h:panelGroup layout="block" styleClass="text-center" rendered="#{cc.attrs.bean.totalRegistros > cc.attrs.bean.registrosPorPagina}">
+			<ul class="pagination">
+	    		<li>
+			    	<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.selecionaPrimeiraPagina()}" rendered="#{cc.attrs.bean.exibePrimeira()}"
+			    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+       					<h:outputText value="Primeira" />
+   					</p:commandLink>
+   					<p:commandLink rendered="#{not cc.attrs.bean.exibePrimeira()}" disabled="true">
+       					<h:outputText value="Primeira" />
+   					</p:commandLink>
+				</li>
+				<li>
+					<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.selecionaAnterior()}" rendered="#{cc.attrs.bean.exibeAnterior()}"
+						onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+       					<h:outputText value="Anterior" />
+   					</p:commandLink>
+   					<p:commandLink rendered="#{not cc.attrs.bean.exibeAnterior()}" disabled="true">
+       					<h:outputText value="Anterior" />
+   					</p:commandLink>
+				</li>
+				<li class="#{cc.attrs.bean.exibeLabel1() ? 'active' : ''}">
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLink1()}">
+						<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.link1Action()}"
+							onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+      						<h:outputText value="#{cc.attrs.bean.valorLink1()}" />
+      						<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+							<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+  						</p:commandLink>
+					</ui:fragment>
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLabel1()}">
+						<a href="#">
+							<h:outputText value="#{cc.attrs.bean.valorLink1()}" />
+						</a>
+					</ui:fragment>
+				</li>
+				<li class="#{cc.attrs.bean.exibeLabel2() ? 'active' : ''}">
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLink2()}">
+						<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.link2Action()}"
+							onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+      						<h:outputText value="#{cc.attrs.bean.valorLink2()}" />
+      						<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+							<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+  						</p:commandLink>
+					</ui:fragment>
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLabel2()}">
+						<a href="#">
+							<h:outputText value="#{cc.attrs.bean.valorLink2()}" />
+						</a>
+					</ui:fragment>
+				</li>
+				<li class="#{cc.attrs.bean.exibeLabel3() ? 'active' : ''}">
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLink3()}">
+						<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.link3Action()}"
+							onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+      						<h:outputText value="#{cc.attrs.bean.valorLink3()}" />
+      						<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+							<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+						</p:commandLink>
+					</ui:fragment>
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLabel3()}">
+						<a href="#">
+							<h:outputText value="#{cc.attrs.bean.valorLink3()}" />
+						</a>
+					</ui:fragment>
+				</li>
+				<li class="#{cc.attrs.bean.exibeLabel4() ? 'active' : ''}">
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLink4()}">
+						<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.link4Action()}"
+							onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+      						<h:outputText value="#{cc.attrs.bean.valorLink4()}" />
+      						<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+							<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+  						</p:commandLink>
+					</ui:fragment>
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLabel4()}">
+						<a href="#">
+							<h:outputText value="#{cc.attrs.bean.valorLink4()}" />
+						</a>
+					</ui:fragment>
+				</li>
+				<li class="#{cc.attrs.bean.exibeLabel5() ? 'active' : ''}">
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLink5()}">
+						<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.link5Action()}"	
+							onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+      						<h:outputText value="#{cc.attrs.bean.valorLink5()}" />
+      						<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+							<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+  						</p:commandLink>
+					</ui:fragment>
+					<ui:fragment rendered="#{cc.attrs.bean.exibeLabel5()}">
+						<a href="#">
+							<h:outputText value="#{cc.attrs.bean.valorLink5()}" />
+						</a>
+					</ui:fragment>
+				</li>
+				<li>
+					<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.selecionaProxima()}" rendered="#{cc.attrs.bean.exibeProxima()}"
+						onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+     					<h:outputText value="Próxima" />
+     					<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+						<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+   					</p:commandLink>
+   					<p:commandLink rendered="#{not cc.attrs.bean.exibeProxima()}" disabled="true">
+       					<h:outputText value="Próxima" />
+   					</p:commandLink>
+				</li>
+				<li>
+					<p:commandLink update="#{cc.attrs.renderiza}" action="#{cc.attrs.bean.selecionaUltimaPagina()}" rendered="#{cc.attrs.bean.exibeUltima()}"
+						onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+  						<h:outputText value="Última" />
+   						<f:setPropertyActionListener target="#{cc.attrs.bean.backingBean}" value="#{cc.attrs.pesquisaBean}" />
+						<f:setPropertyActionListener target="#{cc.attrs.bean.nomeMetodo}" value="#{cc.attrs.nomeMetodo}" />
+   					</p:commandLink>
+   					<p:commandLink rendered="#{not cc.attrs.bean.exibeUltima()}" disabled="true">
+       					<h:outputText value="Última" />
+   					</p:commandLink>
+				</li>
+			</ul>
+		</h:panelGroup>
+			
+		<div class="text-center">
+			<strong><h:outputText value="Exibindo #{cc.attrs.bean.numeroDeRegistrosExibidos} registro(s) de um total de #{cc.attrs.bean.totalRegistros} registro(s)" /></strong>
+			<f:facet name="start">
+				<i class="fa fa-spinner fa-pulse"></i>
+			</f:facet>
+		</div>
+		
+	</div>
+</composite:implementation>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	
+	<ui:define name="pageTitle">
+		<h:outputText value="Resultado da busca da certidão" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Resultado da busca da certidão" />
+		</h1>
+	</ui:define>
+
+	<ui:define name="body">
+		<form jsf:id="formResultadoBuscaCertidao" jsf:prependId="false" class="form-horizontal" role="form">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Resultado da busca da certidão - #{resultadoBuscaCertidaoController.pedidoCertidao.recuperaDescricaoTipoSaidaCertidao()}" />
+									</h3>
+									
+									<hr />
+									
+									<a jsf:action="#{resultadoBuscaCertidaoController.voltar()}" class="btn btn-default"
+										jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+										<i class="fa fa-fw fa-arrow-left"></i>Fazer nova consulta
+									</a>
+									
+									<hr />
+									
+									<div class="row" jsf:id="idListaResultadoBuscaCertidao">
+									
+										<div class="clearfix"></div>
+										
+										<div class="table-responsive">
+											
+											<div class="col-sm-12">
+												<div class="alert alert-warning" role="alert">
+													<strong><i class="fa fa-warning"></i> Pedido via formulário:</strong>
+													<p>Caso não esteja conseguindo encontrar a certidão pela busca de pessoa física, faça o pedido da 2ª via de certidão preenchendo o formulário, para isso, clique em <code>"Pedido de segunda via pelo formulário".</code></p>
+													<br/>
+													<a jsf:action="#{resultadoBuscaCertidaoController.navegaPedidoSegundaVia()}" class="btn btn-warning"
+														jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+														<i class="fa fa-fw fa-arrow-right"></i>Pedido de segunda via pelo formulário 
+													</a>
+												</div>
+											</div>
+											
+											<div class="clearfix"></div>
+											
+											<div jsf:rendered="#{!resultadoBuscaCertidaoController.pedidoCertidao.possuiRegistrosBuscaCertidao()}">
+												<div class="col-md-12">
+													<hr/>
+													<strong>Nenhum registro encontrado.</strong>
+													<hr/>
+												</div>
+											</div>
+
+											<div class="clearfix"></div>
+			
+											<div class="col-sm-12" jsf:rendered="#{resultadoBuscaCertidaoController.pedidoCertidao.possuiRegistrosBuscaCertidao()}">
+												<div class="pull-left">
+													<pr:commandLink styleClass="btn btn-sm btn-default" update="idListaResultadoBuscaCertidao"
+														onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+														rendered="#{resultadoBuscaCertidaoController.exibePaginaAnterior()}"
+														actionListener="#{resultadoBuscaCertidaoController.paginaAnteriorCertidao()}">
+														<i class="fa fa-fw fa-arrow-left"></i>Resultados anteriores
+													</pr:commandLink>
+												</div>
+												<div class="pull-right">
+													<pr:commandLink styleClass="btn btn-sm btn-default" update="idListaResultadoBuscaCertidao"
+														onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+														rendered="#{resultadoBuscaCertidaoController.exibeProximaPagina()}"
+														actionListener="#{resultadoBuscaCertidaoController.proximaPaginaCertidao()}">
+														Próximos resultados<i style="margin-left: 8px;" class="fa fa-arrow-right"></i>
+													</pr:commandLink>
+												</div>
+											</div>
+											
+											<div class="clearfix"></div>
+										
+											<div class="col-sm-12" jsf:rendered="#{resultadoBuscaCertidaoController.pedidoCertidao.possuiRegistrosBuscaCertidao()}">
+												<hr/>
+												<h:outputLabel value="Resultados encontrados:" />
+												<h:dataTable value="#{resultadoBuscaCertidaoController.pedidoCertidao.resultadoBuscaCertidao.dadosCertidao}" var="resultado"
+													styleClass="table table-bordered table-striped">
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Distrito - Cartório" />
+														</f:facet>
+														<h:outputText value="#{resultado.distrito} - #{resultado.serventia}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Tipo de Certidão" />
+														</f:facet>
+														<h:outputText value="#{resultado.descricaoTipoCertidao()}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da pessoa/cônjuge 1" />
+														</f:facet>
+														<h:outputText value="#{resultado.pessoaA}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Nome da mãe/cônjuge 2" />
+														</f:facet>
+														<h:outputText value="#{resultado.pessoaB}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="Data do fato" />
+														</f:facet>
+														<h:outputText value="#{resultado.dataFato}" />
+													</h:column>
+													
+													<h:column p:style="text-align:center; width: 11%;">
+														<f:facet name="header">
+															<h:outputText value="Ação" />
+														</f:facet>
+														<pr:commandLink styleClass="btn btn-sm btn-primary"	 rendered="#{resultadoBuscaCertidaoController.exibirSolicitarCertidao(resultado)}" oncomplete="$('#modalDadosRegistro').modal('show');" update="modalDadosRegistro"
+															actionListener="#{resultadoBuscaCertidaoController.setaCertidaoSolicitacao(resultado)}">
+															<i class="fa fa-fw fa-arrow-right"></i>Solicitar Certidão
+														</pr:commandLink>
+													</h:column>
+													
+												</h:dataTable>
+											</div>
+										</div>
+										
+										<br/>
+										
+										<div class="col-sm-12">
+											<div class="pull-left">
+												<pr:commandLink styleClass="btn btn-sm btn-default" update="idListaResultadoBuscaCertidao"
+													onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+													rendered="#{resultadoBuscaCertidaoController.exibePaginaAnterior()}"
+													actionListener="#{resultadoBuscaCertidaoController.paginaAnteriorCertidao()}">
+													<i class="fa fa-fw fa-arrow-left"></i>Resultados anteriores
+												</pr:commandLink>
+											</div>
+											<div class="pull-right">
+												<pr:commandLink styleClass="btn btn-sm btn-default" update="idListaResultadoBuscaCertidao"
+													onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();"
+													rendered="#{resultadoBuscaCertidaoController.exibeProximaPagina()}"
+													actionListener="#{resultadoBuscaCertidaoController.proximaPaginaCertidao()}">
+													Próximos resultados<i style="margin-left: 8px;" class="fa fa-arrow-right"></i>
+												</pr:commandLink>
+											</div>
+										</div>
+											
+									</div>
+									
+									<br/>
+									
+									<div class="clearfix"></div>
+									
+									<hr/>
+											
+									<a jsf:action="#{resultadoBuscaCertidaoController.voltar()}" class="btn btn-default"
+										jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+										<i class="fa fa-fw fa-arrow-left"></i>Fazer nova consulta
+									</a>
+				
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Dados do Registro -->
+			<div class="modal fade" jsf:id="modalDadosRegistro" tabindex="-1" role="dialog" aria-labelledby="modalDadosRegistro" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Dados do Registro</h4>
+						</div>
+						
+						<style>
+							.margem-top {
+								padding-top: 7px;
+							}
+						</style>
+						
+						<div class="panel-body">
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label">Tipo de fato:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.certidao.descricaoTipoCertidao()}" />
+								</div>
+							</div>
+
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label" jsf:rendered="#{!resultadoBuscaCertidaoController.certidao.certidaoCasamento}">Nome da pessoa:</label>
+								<label class="col-sm-4 control-label" jsf:rendered="#{resultadoBuscaCertidaoController.certidao.certidaoCasamento}">Nome cônjuge 1:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.certidao.pessoaA}" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label" jsf:rendered="#{!resultadoBuscaCertidaoController.certidao.certidaoCasamento}">Nome da mãe:</label>
+								<label class="col-sm-4 control-label" jsf:rendered="#{resultadoBuscaCertidaoController.certidao.certidaoCasamento}">Nome cônjuge 2:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.certidao.pessoaB}" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label">Data do #{resultadoBuscaCertidaoController.certidao.descricaoTipoCertidao().toLowerCase()}:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.certidao.dataFato}" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label">Município:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.certidao.municipio}" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label">Cartório:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.certidao.distrito} - #{resultadoBuscaCertidaoController.certidao.serventia}" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label">Telefone do cartório:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.pedidoCertidao.cartorio.telefone}" rendered="#{not empty resultadoBuscaCertidaoController.pedidoCertidao.cartorio}" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12">
+								<label class="col-sm-4 control-label">Forma de entrega:</label>
+								<div class="col-sm-8 margem-top">
+									<h:outputText value="#{resultadoBuscaCertidaoController.pedidoCertidao.descricaoTipoSaida}" />
+								</div>
+							</div>
+							
+							<div jsf:rendered="#{resultadoBuscaCertidaoController.pedidoCertidao.saidaViaCorreios}">
+								<div class="col-sm-12">
+									<label class="col-sm-4 control-label">Endereço de entrega:</label>
+									<div class="col-sm-8 margem-top">
+										<h:selectOneMenu id="comboEnderecoEntrega" name="comboEnderecoEntrega" styleClass="form-control" value="#{resultadoBuscaCertidaoController.pedidoCertidao.enderecoUsuarioExterno}" converter="entidadeConverter">
+											<f:selectItem itemLabel="Selecione..." itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{resultadoBuscaCertidaoController.listaEnderecoUsuario}" var="enderecoEntrega" itemValue="#{enderecoEntrega}"
+												itemLabel="#{enderecoEntrega.identificadorEndereco}: #{enderecoEntrega.obtemDescricaoEndereco()}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								
+								<div class="col-sm-12">
+									<div class="col-sm-4"></div>
+									<div class="col-sm-8 pull-left">
+										<small>Caso deseje cadastrar outro endereço,</small>
+										<a jsf:action="#{resultadoBuscaCertidaoController.direcionarEditarDadosUsuario()}">
+											clique aqui.
+										</a>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-sm-12 margem-top">
+								<label class="col-sm-4 control-label">Observação:</label>
+								<div class="col-sm-8">
+									<input type="text" jsf:value="#{resultadoBuscaCertidaoController.pedidoCertidao.observacao}" class="form-control" 
+										placeholder="Livro, termo e folha da certidão ou outra informação" maxlength="500" />
+								</div>
+							</div>
+							
+							<div class="col-sm-12" align="center">
+								<br/>
+								<small style="color: #c7254e; background-color: #f9f2f4;">Pedido de certidão inteiro teor deverá ser solicitado diretamente no cartório</small>
+							</div>
+							
+							<div class="col-sm-12">
+								<br/>
+								<div class="col-sm-4"></div>
+								 <div class="col-sm-8">
+								 	 <div class="g-recaptcha" data-sitekey="6LfBm8kZAAAAAINCRa9DKINOecXfAaNldI5o-yAA"></div>
+								 	<!-- local <div class="g-recaptcha" data-sitekey="6LeHEd8ZAAAAACbIRaA2cuLprN_QS40F0mN_69e5"></div>	-->						 
+								 	<script src="https://www.google.com/recaptcha/api.js"></script>
+								 </div>
+							</div>
+							
+							<div class="col-sm-12">
+								<br/>
+								<div class="alert alert-info" role="alert">
+									<strong><i class="fa fa-lg fa-info-circle"></i> Atenção:</strong>
+									<p>Clicando no botão <code>"Solicitar o cartório a análise do pedido"</code>, o pedido será enviado ao cartório para que seja analisado se a certidão possui <code>averbação</code> e <code>calculado o frete</code> para seu endereço, caso a forma de entrega seja via correio.</p>
+									<p>Caso tenha solicitado a análise do pedido, você terá que aguardar o retorno do cartório. Clicando em <code>"Pedidos de Certidão"</code> você acompanhará o processo do seu pedido.</p>
+								</div>
+							</div>
+																		
+						</div>
+
+						<div class="modal-footer">
+							<div class="pull-left">
+								<h:commandLink styleClass="btn btn-default" onclick="$('#modalDadosRegistro').modal('hide');">
+									Cancelar
+								</h:commandLink>
+							</div>
+							<div class="pull-right">
+								<h:commandLink styleClass="btn btn-success" action="#{resultadoBuscaCertidaoController.salvarSolicitacaoCertidao()}" render="mensagens-sistema" 
+									onclick="$('#modalDadosRegistro').modal('hide'); PF('statusDialog').show();">
+									<i class="fa fa-fw fa-check"></i>Solicitar o cartório a análise do pedido
+								</h:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal Informativo Resultado -->
+			<div class="modal fade" jsf:id="modalResultadoBuscaVazio" tabindex="-1" role="dialog" aria-labelledby="modalResultadoBuscaVazio" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">&#215;</span><span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title" id="myModalLabel">Atenção</h4>
+						</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<h:outputText value="Não existem mais resultados para o nome pesquisado!" />
+								</div>	
+							</div>
+						</div>
+						
+						<div class="modal-footer">
+							<div class="pull-right">
+								<pr:commandLink styleClass="btn btn-default" onclick="$('#modalResultadoBuscaVazio').modal('hide');">
+									Fechar
+								</pr:commandLink>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

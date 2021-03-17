@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf" 
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" 
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough" 
+	xmlns:pr="http://primefaces.org/ui">
+
+<ui:composition template="/pages/template/templateBS3.xhtml">
+	
+	<ui:define name="pageTitle">
+		<h:outputText value="Buscar certidão" />
+	</ui:define>
+	<ui:define name="pageHeader">
+		<h1>
+			<h:outputText value="Buscar certidão" />
+		</h1>
+	</ui:define>
+
+	<ui:define name="body">
+		<form jsf:id="formBuscarCertidao" jsf:prependId="false" class="form-horizontal">
+			
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-info">
+						<div class="panel-wrapper" aria-expanded="true">
+							<div class="panel-body">
+								<div class="form-body">
+									<h3 class="box-title">
+										<h:outputText value="Buscar certidão - #{buscarCertidaoController.pedidoCertidao.recuperaDescricaoTipoSaidaCertidao()}" />
+									</h3>
+									<hr />
+									
+									<div class="form-group">
+										<div class="col-sm-12">
+											<strong>Nome da pessoa:</strong><br/>
+											<input type="text" class="form-control" jsf:value="#{buscarCertidaoController.pedidoCertidao.nomePessoaPesquisa}" maxlength="100" />
+										</div>
+										<div class="col-sm-12">
+											<h:selectBooleanCheckbox value="#{buscarCertidaoController.pedidoCertidao.nomeIdentico}"	id="idCheckConfirmaDados"/>
+											<h:outputLabel for="idCheckConfirmaDados" style="margin-left:5px;" value="Pesquisar pelo nome idêntico" />
+										</div>
+									</div>
+								</div>
+								
+								<div class="clearfix"></div>
+					
+								<hr/>
+										
+								<a jsf:id="voltar" jsf:action="#{buscarCertidaoController.voltar()}" class="btn btn-default"
+									jsf:onclick="PF('statusDialog').show();" jsf:oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-arrow-left"></i>Voltar
+								</a>
+								<a jsf:id="salvar" jsf:action="#{buscarCertidaoController.avancar()}" class="btn btn-fill btn-success pull-right"
+									jsf:onclick="PF('statusDialogConsulta').show();"  jsf:oncomplete="PF('statusDialogConsulta').hide();">
+									<i class="fa fa-fw fa-arrow-right"></i>Pesquisar
+								</a>
+								
+								<br/>
+								<hr/>
+								
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="alert alert-info" role="alert">
+											<strong><i class="fa fa-info-circle"></i> Sobre os prazos:</strong>
+											
+											<br/>
+											<br/>
+											
+											<p>Desde 2013, todos os registradores civis de Minas Gerais alimentam diariamente o sistema e, atualmente, o banco de dados contém todos os 
+											registros realizados no Estado. São mais de 10 milhões de registros disponíveis até o momento. Estarão disponíveis os registros realizados desde 1º de janeiro de 1950.</p>
+											
+										</div>
+									</div>
+								</div>
+					
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</form>
+	</ui:define>
+</ui:composition>
+</html>

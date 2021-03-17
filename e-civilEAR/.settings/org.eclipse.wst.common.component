@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="e-civilEAR">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="e-civilAdm.war" deploy-path="/" handle="module:/resource/e-civilAdm/e-civilAdm">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="e-civil.war" deploy-path="/" handle="module:/resource/e-civil/e-civil">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="e-civilEJB.jar" deploy-path="/" handle="module:/resource/e-civilEJB/e-civilEJB">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="WebUtil.jar" deploy-path="/lib" handle="module:/resource/WebUtil/WebUtil">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

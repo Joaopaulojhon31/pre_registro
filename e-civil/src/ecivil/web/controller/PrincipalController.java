@@ -45,35 +45,6 @@ public class PrincipalController extends BaseController implements Serializable 
 	public String direcionaAlterarSenhaUsuarioPortalExterno() {
 		return EnumPaginas.ALTERAR_SENHA_USUARIO_PORTAL_EXTERNO.getUrl();
 	}
-	
-	public String direcionarCadastrarUsuarioPortalExterno() {
-		return EnumPaginas.CADASTRO_USUARIO_PORTAL_EXTERNO.getUrl();
-	}
-
-	public String getEmailNovoUsuarioPortalExterno() {
-		return emailNovoUsuarioPortalExterno;
-	}
-
-	public void setEmailNovoUsuarioPortalExterno(String emailNovoUsuarioPortalExterno) {
-		this.emailNovoUsuarioPortalExterno = emailNovoUsuarioPortalExterno;
-	}
-	
-	public String direcionaConsultarCertidao() {
-		return EnumPaginas.CONSULTAR_CERTIDAO.getUrl();
-	}
-	
-	public String direcionaValidarHashCertidao() {
-		return EnumPaginas.VALIDAR_HASH_CERTIDAO.getUrl();
-	}
-
-	public String direcionaSobre() {
-		return EnumPaginas.SOBRE.getUrl();
-	}
-
-	public String direcionaAlterarSenhaUsuarioPortalExterno() {
-		return EnumPaginas.ALTERAR_SENHA_USUARIO_PORTAL_EXTERNO.getUrl();
-	}
-	
 	public String direcionarCadastrarUsuarioPortalExterno() {
 		return EnumPaginas.CADASTRO_USUARIO_PORTAL_EXTERNO.getUrl();
 	}

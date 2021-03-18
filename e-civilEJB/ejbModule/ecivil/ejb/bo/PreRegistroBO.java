@@ -43,10 +43,10 @@ public class PreRegistroBO {
 		return preRegistroDAO.retornaDadosXmlPreRegistro(idPreRegistro);
 	}
 	
-	public void setaHistoricoPreRegistro(PreRegistro preRegistro, UsuarioPortalInterno usuario) {
-		historicoPreRegistroBO.setaHistoricoPreRegistro(preRegistro, usuario);
+	public void setaHistoricoPreRegistro(PreRegistro preRegistro, Long id) {
+		historicoPreRegistroBO.setaHistoricoPreRegistro(preRegistro, id);
 	}
-	public void setaSituacaoPreRegistro(PreRegistro preRegistro, String codSituacaoPreRegistro, UsuarioPortalInterno usuarioPortalInterno) {
-		preRegistroDAO.setaSituacaoSolicitacao(preRegistro, codSituacaoPreRegistro, usuarioPortalInterno);
+	public void setaSituacaoPreRegistro(PreRegistro preRegistro, String codSituacaoPreRegistro, Long id) {
+		preRegistroDAO.setaSituacaoSolicitacao(preRegistro, codSituacaoPreRegistro, id);
 	}
 }

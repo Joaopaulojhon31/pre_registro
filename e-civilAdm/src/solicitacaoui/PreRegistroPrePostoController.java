@@ -362,18 +362,18 @@ public class PreRegistroPrePostoController extends BaseController implements Ser
 	public String gravaDadosPreRegistroPrePosto() throws ECivilException {
 		if (verificaPreenchimentoCamposPreRegistroPrePosto()) {
 			if (verificaExistenciaPreRegistroPrePostoPorCpfMae() && !buscaEncontradaPreRegistroPrePosto) {
-				Mensagem.errorSemBundle("Já existe um Pré-Registro em aberto para o CPF da mãe que foi inserido.");
+				Mensagem.errorSemBundle("Já existe um registro em aberto para o CPF da mãe que foi inserido.");
 
 			} else {
 				if (Util.isNullOrEmpty(preRegistroPrePosto.getSituacaoSolicitacao())) {
-					preRegistroPrePosto.setSituacaoSolicitacao(SituacaoSolicitacaoUI.COD_EM_PREPARACAO);
+					preRegistroPrePosto.setSituacaoSolicitacao(SituacaoSolicitacaoUI.EM_PREPARACAO);
 				}
 				preRegistroPrePosto.setDataInicioSolicitacao(getPreRegistroDAO().retornaDataBanco());
 				preRegistroPrePosto.setDataAlteracaoSolicitacao(getPreRegistroDAO().retornaDataBanco());
 				gravaInformacoesServentiaPrePosto();
 				gravaInformacoesUnidadeInterligadaPrePosto();
 				GerarCodigoHash();
-				historicoPreRegistroBO.gravaPreRegistroComHistorico(preRegistroPrePosto,getUsuarioLogadoPortal().getId());
+				historicoPreRegistroBO.setaHistoricoPreRegistro(preRegistroPrePosto,getUsuarioLogadoPortal().getId());
 				DeclaracoesPreRegistroPrePostoController.setPreRegistroDeclaracoesPrePosto(preRegistroPrePosto);
 				return principalController.direcionaDeclaracoesPreRegistroPrePosto();
 			}
@@ -789,13 +789,13 @@ public class PreRegistroPrePostoController extends BaseController implements Ser
 				setDisabilitaCamposServentia(true);
 				setBuscaEncontradaPreRegistroPrePosto(true);
 				preencheListasStatusPai();
-				preRegistroPrePosto.setSituacaoSolicitacao(SituacaoSolicitacaoUI.COD_EM_PREPARACAO);
-				historicoPreRegistroBO.gravaPreRegistroComHistorico(preRegistroPrePosto,getUsuarioLogadoPortal().getId());
+				preRegistroPrePosto.setSituacaoSolicitacao(SituacaoSolicitacaoUI.EM_PREPARACAO);
+				historicoPreRegistroBO.setaHistoricoPreRegistro(preRegistroPrePosto,getUsuarioLogadoPortal().getId());
 			} else {
 				preRegistroPrePosto.setCpfMae(cpfMae);
-				setDisabilitaCamposCPFMae(false);
+				setDisabilitaCamposCPFMae(true);
 				setExibeModalBuscaPreRegistro(false);
-				Mensagem.infoSemBundle("Não existe Pré-Registro em aberto para esse CPF informado.");
+				Mensagem.infoSemBundle("Não existe registro em aberto para esse CPF informado.");
 			}
 		} else
 			Mensagem.errorSemBundle("O CPF informado é inválido.");

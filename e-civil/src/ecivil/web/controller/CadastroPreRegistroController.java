@@ -249,7 +249,7 @@ public class CadastroPreRegistroController extends BaseController implements Ser
 			if (isTelaRedirecionadaVisualizaPreRegistro()) {
 				cadastroPreRegistro.setDataAlteracaoSolicitacao(getPreRegistroDAO().retornaDataBanco());
 				gravaCodigoCnsCartorioPreRegistro();
-				historicoPreRegistroBO.gravaPreRegistroComHistorico(cadastroPreRegistro,
+				historicoPreRegistroBO.setaHistoricoPreRegistro(cadastroPreRegistro,
 						getUsuarioLogadoPortal().getId());
 				setCadastroPreRegistro(new PreRegistro());
 				setTelaRedirecionadaVisualizaPreRegistro(false);
@@ -260,7 +260,7 @@ public class CadastroPreRegistroController extends BaseController implements Ser
 					Mensagem.errorSemBundle("Já existe um Pré-Registro em aberto para o CPF da mãe que foi inserido.");
 				} else {
 					gravaInformacoesComplementaresPreRegistro();
-					historicoPreRegistroBO.gravaPreRegistroComHistorico(cadastroPreRegistro,
+					historicoPreRegistroBO.setaHistoricoPreRegistro(cadastroPreRegistro,
 							getUsuarioLogadoPortal().getId());
 					setCadastroPreRegistro(new PreRegistro());
 					Mensagem.infoSemBundle("Cadastro do Pré-Registro efetuado com sucesso.");
@@ -286,7 +286,7 @@ public class CadastroPreRegistroController extends BaseController implements Ser
 			cadastroPreRegistro.setCpfDeclarantePreRegistro(cadastroPreRegistro.getCpfPai());
 			cadastroPreRegistro.setContatoDeclarantePreRegistro(cadastroPreRegistro.getContatoPai());
 		}
-		cadastroPreRegistro.setSituacaoSolicitacao(SituacaoSolicitacaoUI.COD_INICIAL);
+		cadastroPreRegistro.setSituacaoSolicitacao(SituacaoSolicitacaoUI.INICIAL);
 		gravaCodigoCnsCartorioPreRegistro();
 		cadastroPreRegistro.setIdUsuarioPortalExterno(getUsuarioLogadoPortal().getId());
 		cadastroPreRegistro.setDataInicioSolicitacao(getPreRegistroDAO().retornaDataBanco());

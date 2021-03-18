@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import ecivil.ejb.util.DataUtil;
 
@@ -39,6 +40,10 @@ public class PreRegistro {
 	
 	@Column(name = "numero_solicitacao")
 	private String numeroSolicitacao;
+	
+	@Transient
+	private PreRegistroXML xml;
+
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_inicio_solicitacao")
@@ -1205,6 +1210,12 @@ public Long getCodigoUI() {
 	public void setCodigoUI(Long codigoUI) {
 		this.codigoUI = codigoUI;
 	}
+public PreRegistroXML getXml() {
+		return xml;
+	}
+	public void setXml(PreRegistroXML xml) {
+		this.xml = xml;
+	}
 public List<HistoricoPreRegistro> getListaHistoricoPreRegistroInicializada() {
 		if (listaHistoricoPreRegistro == null) {
 			listaHistoricoPreRegistro = new ArrayList<>();
@@ -1227,16 +1238,19 @@ public List<HistoricoPreRegistro> getListaHistoricoPreRegistroInicializada() {
 	public String dataNascimentoCrianca1Formatada() {
 		return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataNascimentoCrianca1());
 	}
-	/*public String getSituacaoSolicitacao() {
-		return situacaoSolicitacao;
+	public String dataNascimentoCrianca2Formatada() {
+		return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataNascimentoCrianca2());
 	}
-	public void setSituacaoSolicitacao(String situacaoSolicitacao){
-		this.situacaoSolicitacao = situacaoSolicitacao;
-	}*/
+	public String dataNascimentoCrianca3Formatada() {
+		return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataNascimentoCrianca3());
+	}
+	public String dataNascimentoCrianca4Formatada() {
+		return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataNascimentoCrianca4());
+	}
+	public String dataNascimentoCrianca5Formatada() {
+		return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataNascimentoCrianca5());
+	}
 
-	//public String dataNascimentoSolicitacaoFormatada() {
-	//	return DataUtil.converteDateParaString_DDMMYYY_HHMMSS_BARRA(getDataNascimentoCrianca1());
-	//}
 
 	@Override
 	public int hashCode() {
@@ -1253,6 +1267,16 @@ public List<HistoricoPreRegistro> getListaHistoricoPreRegistroInicializada() {
 		}
 		return false;
 	}
+	public boolean isPreRegistroFilhoUnico() {
+		if (quantidadeCriancas == null) {
+			return false;
+		}
+		else if (quantidadeCriancas.equals("1")) {
+			return true;
+		}
+		else return false;
+	}
+	
 
 }
 

@@ -55,6 +55,19 @@
 													</a>
 												</div>
 											</ui:fragment>
+											
+											<ui:fragment
+												rendered="#{principalController.exibeMenuPesquisarPreRegistro}">
+												<div class="col-md-4">
+													<a jsf:id="preRegistroPrePosto"
+														class="menu-inicial-item btn-block btn-lg btn-default"
+														jsf:onclick="PF('statusDialog').show();"
+														jsf:oncomplete="PF('statusDialog').hide();"
+														jsf:action="#{principalController.direcionaPreRegistroPrePosto}">
+														<i class="fa fa-fw fa-exchange"></i> Novo Registro
+													</a>
+												</div>
+											</ui:fragment>
 
 											<ui:fragment rendered="#{principalController.exibeMenuPedidosCertidao}">
 												<div class="col-md-4">

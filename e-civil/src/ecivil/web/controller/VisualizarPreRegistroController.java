@@ -1,15 +1,12 @@
 package ecivil.web.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-
-import com.lowagie.text.pdf.ArabicLigaturizer;
 
 import ecivil.ejb.dao.PreRegistroDAO;
 import ecivil.ejb.entidade.PreRegistro;

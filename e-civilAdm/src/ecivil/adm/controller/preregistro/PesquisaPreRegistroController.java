@@ -1,5 +1,6 @@
 package ecivil.adm.controller.preregistro;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -162,7 +163,7 @@ public class PesquisaPreRegistroController extends BaseController implements Ser
 			if (getPreRegistro() != null) {
 			super.downloadXML(preRegistroWS.gerarXmlPreRegistro(preRegistro.getCnsCartorio() + ";" + preRegistro.getCpfMae()).getBytes(),"SOL" + preRegistro.getId() + ".RML");
 				//super.downloadXML(preRegistroWS.gerarXMLPreRegistroViaCRC("07214427656", "036236").getBytes(),"SOL157496.xml");
-			preRegistroBO.setaSituacaoPreRegistro(preRegistro, SituacaoSolicitacaoUI.REALIZADO, getUsuarioLogadoPortal());
+			preRegistroBO.setaSituacaoPreRegistro(preRegistro, SituacaoSolicitacaoUI.REALIZADO, getUsuarioLogadoPortal().getId());
 			} 
 		} catch (ECivilException e) {
 			Mensagem.errorSemBundle(e.getMensagemErro());
@@ -173,10 +174,12 @@ public class PesquisaPreRegistroController extends BaseController implements Ser
 	}
 	
 	public void downloadPreRegistro() {
+		//File arquivoDocumentacoes= new File("DIretorio"+preRegistro.getId()+".rar");
 		try {
 			if (getPreRegistro() != null) {
-				super.downloadXML(preRegistroBO.retornaXmlPreRegistro(preRegistro.getId()).getBytes(),"CER157496.xml");
-				preRegistroBO.setaSituacaoPreRegistro(preRegistro, SituacaoSolicitacaoUI.FINALIZADO, getUsuarioLogadoPortal());
+				super.downloadXML(preRegistroBO.retornaXmlPreRegistro(preRegistro.getId()).getBytes(),"CER"+preRegistro.getId()+".xml");
+				//arquivoDocumentacoes.delete();
+				preRegistroBO.setaSituacaoPreRegistro(preRegistro, SituacaoSolicitacaoUI.FINALIZADO, getUsuarioLogadoPortal().getId());
 			} 
 		} catch (ECivilException e) {
 			Mensagem.errorSemBundle(e.getMensagemErro());
@@ -185,6 +188,7 @@ public class PesquisaPreRegistroController extends BaseController implements Ser
 			Mensagem.errorSemBundle("Não foi possível fazer download da certidão nesse momento.");
 		}
 	}
+	
 	public void limpar() {
 		listaPreRegistro.clear();
 		filtroPesquisaSolicitacaoUI = new FiltroPesquisaPreRegistroVO();
@@ -218,7 +222,7 @@ public class PesquisaPreRegistroController extends BaseController implements Ser
 				return;
 			}
 			preRegistroBO.salvarXml(preRegistro.getXml());
-			preRegistroBO.setaSituacaoPreRegistro(preRegistro, SituacaoSolicitacaoUI.REALIZADO, getUsuarioLogadoPortal());
+			preRegistroBO.setaSituacaoPreRegistro(preRegistro, SituacaoSolicitacaoUI.REALIZADO, getUsuarioLogadoPortal().getId());
 			Mensagem.infoSemBundle("XML da certidão anexado com sucesso.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -229,8 +233,8 @@ public class PesquisaPreRegistroController extends BaseController implements Ser
 	public void anexarXml (FileUploadEvent event) {
 		try {
 			this.preRegistro.setXml(null);
-			if (!event.getFile().getFileName().toUpperCase().endsWith("XML.DSIG")) {
-				throw new UploadException("Só é permitido anexar arquivos com extenção XML.DSIG");
+			if (!event.getFile().getFileName().toUpperCase().endsWith(".XML")) {
+				throw new UploadException("Só é permitido anexar arquivos com extenção .XML");
 			}
 			String content = new String(event.getFile().getContents());
 			preRegistroBO.anexarXmlPreRegistro(preRegistro, content);

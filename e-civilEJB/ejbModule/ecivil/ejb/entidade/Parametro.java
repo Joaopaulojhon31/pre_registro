@@ -33,6 +33,7 @@ public class Parametro {
 	public static final String VALOR_MINIMO_ADD_CREDITO = "VALOR_MINIMO_ADD_CREDITO";
 	public static final String RODAR_CRON_ATUALIZA_LOOKUP_CARTORIOS = "RODAR_CRON_ATUALIZA_LOOKUP_CARTORIOS";
 	public static final String URL_BASE_PREREGISTRO_XML = "URL_BASE_PREREGISTRO_XML";
+	public static final String CAMINHO_ARQUIVOS_PRE_REGISTRO="CAMINHO_ARQUIVOS_PRE_REGISTRO";
 	
 	@Id
 	@Column(name = "id_parametro")

@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:jsf="http://xmlns.jcp.org/jsf" 
-	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -14,372 +14,426 @@
 	<meta http-equiv="Cache-Control" content="no-cache" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
-	<meta charset="utf-8"/>
-	
+	<meta charset="utf-8" />
+
 	<title><ui:insert name="pageTitle" /></title>
 	<ui:insert name="head" />
-	
+
 	<!-- Mensagens JS -->
-	<script language="javascript" src="#{request.contextPath}/javascript/mensagem-sistema.js" type="text/javascript"></script>
+	<script language="javascript"
+		src="#{request.contextPath}/javascript/mensagem-sistema.js"
+		type="text/javascript"></script>
 	<!-- Mensagens CSS -->
-	<link href="#{request.contextPath}/css/message-info.css" type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/css/message-info.css"
+		type="text/css" rel="stylesheet" />
 	<!-- Reset Richfaces CSS -->
-	<link href="#{request.contextPath}/css/resetRichefaceClass.css" type="text/css" rel="stylesheet" />
+	<link href="#{request.contextPath}/css/resetRichefaceClass.css"
+		type="text/css" rel="stylesheet" />
 	<!-- Bootstrap Core CSS -->
-    <link href="#{request.contextPath}/dist/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <!-- Menu CSS -->
-    <link href="#{request.contextPath}/dist/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet"/>
-    <!-- toast CSS -->
-    <link href="#{request.contextPath}/dist/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet"/>
-    <!-- animation CSS -->
-    <link href="#{request.contextPath}/dist/css/animate.css" rel="stylesheet"/>
-    <!-- Custom CSS -->
-    <link href="#{request.contextPath}/dist/css/style.css" rel="stylesheet"/>
-    <!-- Sgcon CSS -->
-    <link href="/e-civil/dist/css/sgcon.css" rel="stylesheet"/>
-    <!-- color CSS -->
-    <link href="#{request.contextPath}/dist/css/colors/default.css" id="theme" rel="stylesheet"/>
-    <!-- Datepicker CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+	<link
+		href="#{request.contextPath}/dist/bootstrap/dist/css/bootstrap.min.css"
+		rel="stylesheet" />
+	<!-- Menu CSS -->
+	<link
+		href="#{request.contextPath}/dist/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css"
+		rel="stylesheet" />
+	<!-- toast CSS -->
+	<link
+		href="#{request.contextPath}/dist/plugins/bower_components/toast-master/css/jquery.toast.css"
+		rel="stylesheet" />
+	<!-- animation CSS -->
+	<link href="#{request.contextPath}/dist/css/animate.css"
+		rel="stylesheet" />
+	<!-- Custom CSS -->
+	<link href="#{request.contextPath}/dist/css/style.css" rel="stylesheet" />
+	<!-- Sgcon CSS -->
+	<link href="/e-civil/dist/css/sgcon.css" rel="stylesheet" />
+	<!-- Pre Registro JS -->
+    <script language="javascript" src="#{request.contextPath}/javascript/pre-registro-preposto.js" type="text/javascript"></script>
+    <!-- Pre Registro CSS -->
+    <link href="#{request.contextPath}/dist/css/preregistroStyles.css" rel="stylesheet"/>
+	<!-- color CSS -->
+	<link href="#{request.contextPath}/dist/css/colors/default.css"
+		id="theme" rel="stylesheet" />
+	<!-- Datepicker CSS -->
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/css/bootstrap-datepicker3.min.css"
+		rel="stylesheet" />
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
     	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	
-	
+
+
 
 </h:head>
 <h:body styleClass="fix-header">
 	<!-- ============================================================== -->
-    <!-- Preloader -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-        </svg>
-    </div>
-    <!-- ============================================================== -->
-    <!-- Wrapper -->
-    <!-- ============================================================== -->
-    <div id="wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <nav class="navbar navbar-default navbar-static-top m-b-0">
-            <div class="navbar-header">
-                <div class="top-left-part">
-                    <!-- Logo -->
-                    <a class="logo" href="https://recivil.com.br/" target="_blank">
-                        <!-- Logo text image you can use text also -->
-                        <b class="hidden-xs">
-	                        <img src="#{request.contextPath}/resources/img/logo.png" alt="home" class="light-logo" />
-	                    </b> 
-                     </a>
-                </div>
-                <!-- /Logo -->
-                <ul class="nav navbar-top-links navbar-left">
-                    <li><a onclick="$('body.fix-header').toggleClass('show-sidebar')" class="open-close waves-effect waves-light"><i class="fa fa-fw fa-bars"></i></a></li>
-                </ul>
-                <ul class="nav navbar-top-links navbar-right pull-right">
-                	<li>
-						<div class="saldo">
-							<h:form>
-								<a href="#" class="btn btn-xs" jsf:action="#{usuarioController.recuperaSaldoAtual()}">
-									<i class="fa fa-refresh"></i>
-								</a>
+	<!-- Preloader -->
+	<!-- ============================================================== -->
+	<div class="preloader">
+		<svg class="circular" viewBox="25 25 50 50"> <circle
+			class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"
+			stroke-miterlimit="10" /> </svg>
+	</div>
+	<!-- ============================================================== -->
+	<!-- Wrapper -->
+	<!-- ============================================================== -->
+	<div id="wrapper">
+		<!-- ============================================================== -->
+		<!-- Topbar header - style you can find in pages.scss -->
+		<!-- ============================================================== -->
+		<nav class="navbar navbar-default navbar-static-top m-b-0">
+		<div class="navbar-header">
+			<div class="top-left-part">
+				<!-- Logo -->
+				<a class="logo" href="https://recivil.com.br/" target="_blank">
+					<!-- Logo text image you can use text also --> <b class="hidden-xs">
+						<img src="#{request.contextPath}/resources/img/logo.png"
+						alt="home" class="light-logo" />
+				</b>
+				</a>
+			</div>
+			<!-- /Logo -->
+			<ul class="nav navbar-top-links navbar-left">
+				<li><a
+					onclick="$('body.fix-header').toggleClass('show-sidebar')"
+					class="open-close waves-effect waves-light"><i
+						class="fa fa-fw fa-bars"></i></a></li>
+			</ul>
+			<ul class="nav navbar-top-links navbar-right pull-right">
+				<li>
+					<div class="saldo">
+						<h:form>
+							<a href="#" class="btn btn-xs"
+								jsf:action="#{usuarioController.recuperaSaldoAtual()}"> <i
+								class="fa fa-refresh"></i>
+							</a>
 								Saldo Atual: <span>#{usuarioController.usuarioLogado.saldoAtualFormatado()}</span>
-							</h:form>
-						</div>
-					</li>
-                	<li class="hidden-sm hidden-xs">
-						<div class="serventia-selecionada">
-							Serventia: #{usuarioController.nomeServentiaSelecionada()}
-						</div>
-					</li>
-	              	<li class="dropdown user user-menu hidden-xs" jsf:rendered="#{usuarioController.exibeAlterarServentia()}"> 
-	              		<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
-	              			<span class="hidden-sm hidden-xs">
-	              				<i class="fa fa-fw fa-exchange"></i>Alterar Serventia
-	              			</span>
-	              			<span class="caret"></span>
-	              		</a>
-		            	<ul class="dropdown-menu">
-		            		<h:form>
-								<ui:repeat var="serventia" value="#{usuarioController.usuarioLogado.usuarioServentiaAtiva}">
-									<li class="user-header">
-									 	<h:commandLink styleClass="btn #{usuarioController.usuarioLogado.codigoCorregedoriaSelecionado == serventia.codigoCorregedoria ? 'btn-success' : 'btn-default'}" 
-									 		action="#{usuarioController.alterarServentia(serventia.codigoCorregedoria)}" 
-									 		title="#{usuarioController.nomeServentiaTooltip(serventia.codigoCorregedoria)}">
+						</h:form>
+					</div>
+				</li>
+				<li class="hidden-sm hidden-xs">
+					<div class="serventia-selecionada">Serventia:
+						#{usuarioController.nomeServentiaSelecionada()}</div>
+				</li>
+				<li class="dropdown user user-menu hidden-xs"
+					jsf:rendered="#{usuarioController.exibeAlterarServentia()}"><a
+					href="#" class="dropdown-toggle" data-toggle="dropdown"
+					aria-expanded="false"> <span class="hidden-sm hidden-xs">
+							<i class="fa fa-fw fa-exchange"></i>Alterar Serventia
+					</span> <span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<h:form>
+							<ui:repeat var="serventia"
+								value="#{usuarioController.usuarioLogado.usuarioServentiaAtiva}">
+								<li class="user-header"><h:commandLink
+										styleClass="btn #{usuarioController.usuarioLogado.codigoCorregedoriaSelecionado == serventia.codigoCorregedoria ? 'btn-success' : 'btn-default'}"
+										action="#{usuarioController.alterarServentia(serventia.codigoCorregedoria)}"
+										title="#{usuarioController.nomeServentiaTooltip(serventia.codigoCorregedoria)}">
 											#{usuarioController.recuperaNomeDistritoECartorio(serventia.codigoCorregedoria)}
-										</h:commandLink>
-									</li>
-								</ui:repeat>
-							</h:form>
-						</ul>
-		          	</li>
-	              	<li class="dropdown user user-menu"> 
-	              		<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
-	              			<span class="hidden-sm hidden-xs">
-	              				<i class="fa fa-fw fa-user"></i>Usuário
-	              			</span>
-	              			<span class="caret"></span>
-	              		</a>
-		            	<ul class="dropdown-menu">
-							<li class="user-header">
-								<img src="#{request.contextPath}/resources/img/user.png" alt="User Image" />
-								<p>#{usuarioController.usuarioLogado.nome}</p>
-							</li>
-							<li class="user-footer">
-		              			<h:form>
-									<div jsf:rendered="#{!usuarioController.exibeVoltarParaWebRecivil()}">
-						                <div class="pull-left">
-						                	<h:commandLink styleClass="btn btn-primary" action="#{principalController.direcionaAlterarSenhaUsuarioPortalInterno()}">
-												<i class="fa fa-fw fa-unlock-alt"></i>Alterar Senha
+										</h:commandLink></li>
+							</ui:repeat>
+						</h:form>
+					</ul></li>
+				<li class="dropdown user user-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"
+					aria-expanded="false"> <span class="hidden-sm hidden-xs">
+							<i class="fa fa-fw fa-user"></i>Usuário
+					</span> <span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<li class="user-header"><img
+							src="#{request.contextPath}/resources/img/user.png"
+							alt="User Image" />
+							<p>#{usuarioController.usuarioLogado.nome}</p></li>
+						<li class="user-footer"><h:form>
+								<div
+									jsf:rendered="#{!usuarioController.exibeVoltarParaWebRecivil()}">
+									<div class="pull-left">
+										<h:commandLink styleClass="btn btn-primary"
+											action="#{principalController.direcionaAlterarSenhaUsuarioPortalInterno()}">
+											<i class="fa fa-fw fa-unlock-alt"></i>Alterar Senha
 											</h:commandLink>
-										</div>
-							
-						                <div class="pull-right">
-						                	<h:commandLink styleClass="btn btn-danger" action="#{usuarioController.logoff()}">
-												<i class="fa fa-fw fa-sign-out"></i>Sair
-											</h:commandLink>
-										</div>
-									</div>		
-									
-									<div jsf:rendered="#{usuarioController.exibeVoltarParaWebRecivil()}">
-						                <div class="text-center">
-						                	<a class="btn btn-danger" href="https://webrecivil.recivil.com.br/wr/">
-												<i class="fa fa-fw fa-sign-out"></i>Voltar para WebRecivil
-											</a>
-										</div>
 									</div>
-						  		</h:form>
-		             		</li>
-		            	</ul>
-		          	</li>
-                </ul>
-            </div>
-            <!-- /.navbar-header -->
-            <!-- /.navbar-top-links -->
-            <!-- /.navbar-static-side -->
-        </nav>
-        <!-- End Top Navigation -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav slimscrollsidebar">
-	            <h:form>
-	                <div class="sidebar-head">
-	                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navegação</span></h3>
-	                </div>
-	                <ul class="nav" id="side-menu">
-	                    <li style="padding: 70px 0 0;">
-	                    	<h:commandLink styleClass="waves-effect" action="#{principalController.direcionaInicial()}"
-	                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
+
+									<div class="pull-right">
+										<h:commandLink styleClass="btn btn-danger"
+											action="#{usuarioController.logoff()}">
+											<i class="fa fa-fw fa-sign-out"></i>Sair
+											</h:commandLink>
+									</div>
+								</div>
+
+								<div
+									jsf:rendered="#{usuarioController.exibeVoltarParaWebRecivil()}">
+									<div class="text-center">
+										<a class="btn btn-danger"
+											href="https://webrecivil.recivil.com.br/wr/"> <i
+											class="fa fa-fw fa-sign-out"></i>Voltar para WebRecivil
+										</a>
+									</div>
+								</div>
+							</h:form></li>
+					</ul></li>
+			</ul>
+		</div>
+		<!-- /.navbar-header --> <!-- /.navbar-top-links --> <!-- /.navbar-static-side -->
+		</nav>
+		<!-- End Top Navigation -->
+		<!-- ============================================================== -->
+		<!-- Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav slimscrollsidebar">
+				<h:form>
+					<div class="sidebar-head">
+						<h3>
+							<span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span>
+							<span class="hide-menu">Navegação</span>
+						</h3>
+					</div>
+					<ul class="nav" id="side-menu">
+						<li style="padding: 70px 0 0;"><h:commandLink
+								styleClass="waves-effect"
+								action="#{principalController.direcionaInicial()}"
+								onclick="PF('statusDialog').show();"
+								oncomplete="PF('statusDialog').hide();">
 								<i class="fa fa-fw fa-home"></i>Início
-							</h:commandLink>
-	                    </li>
-	                     <ui:fragment rendered="#{principalController.exibeMenuPesquisarPreRegistro}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaPesquisaPreRegistro}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-exchange"></i>Registros
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuPedidosCertidao}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaConsultarPedidosParaServentia}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-file-text"></i>Pedidos de Certidão
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuPedidosSolicitados}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaConsultarPedidosRealizadoPelaServentia}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-files-o"></i>Pedidos Solicitados por sua Serventia
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuRealizarPedido}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaRealizarPedidoCertidao}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-clipboard"></i>Realizar Pedido
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuSolicitarSaque}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaSolicitarSaque}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-money"></i>Solicitar Saque
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuExtratoContaDigital}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaExtratoContaDigital}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-list"></i>Extrato Conta Digital
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuAdicionarSaldo}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaAdicionarSaldo}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-money"></i>Adicionar Saldo
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuConfirmarSolicitacaoSaque}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaConfirmarSaque}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">	
-		                    		<i class="fa fa-fw fa-money"></i>Confirmar Saque
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuValidarHashCertidao}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaValidarHashCertidao}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">	
-		                    		<i class="fa fa-fw fa-check"></i>Validar Hash
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuAlterarServentia}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaAlterarServentia}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-exchange"></i>Alterar Serventia
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuAlterarAliquotaISSQN}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaAlterarISSQN}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-exchange"></i>Alterar Alíquota
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    
-	                    <li class="devider"></li>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuGerenciarUsuario}"> 
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaCadastrarUsuario}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-user"></i>Cadastro de Usuários
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuGerenciarGrupoUsuario}"> 
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaCadastrarGrupo}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-group"></i>Cadastro de Grupos
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                    <ui:fragment rendered="#{principalController.exibeMenuGerenciarPermissoes}">
-		                    <li>
-		                    	<h:commandLink action="#{principalController.direcionaCadastrarPermissao}" styleClass="waves-effect"
-		                    		onclick="PF('statusDialog').show();" oncomplete="PF('statusDialog').hide();">
-		                    		<i class="fa fa-fw fa-key"></i>Cadastro de Permissões
-		                    	</h:commandLink>
-		                    </li>
-	                    </ui:fragment>
-	                    
-	                </ul>
-                </h:form>
-            </div>
-            
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page Content -->
-        <!-- ============================================================== -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-            
-				<h:panelGroup layout="block" id="mensagens-sistema" class="message #{facesContext.maximumSeverity}">
+							</h:commandLink></li>
+						<ui:fragment
+							rendered="#{principalController.exibeMenuPesquisarPreRegistro}">
+							<li><h:commandLink
+									action="#{principalController.direcionaPesquisaPreRegistro}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-exchange"></i>Registros
+		                    	</h:commandLink></li>
+						</ui:fragment>
+						<ui:fragment
+							rendered="#{principalController.exibeMenuPesquisarPreRegistro}">
+							<li><h:commandLink
+									action="#{principalController.direcionaPreRegistroPrePosto()}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-exchange"></i>Novo Registro
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuPedidosCertidao}">
+							<li><h:commandLink
+									action="#{principalController.direcionaConsultarPedidosParaServentia}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-file-text"></i>Pedidos de Certidão
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuPedidosSolicitados}">
+							<li><h:commandLink
+									action="#{principalController.direcionaConsultarPedidosRealizadoPelaServentia}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-files-o"></i>Pedidos Solicitados por sua Serventia
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuRealizarPedido}">
+							<li><h:commandLink
+									action="#{principalController.direcionaRealizarPedidoCertidao}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-clipboard"></i>Realizar Pedido
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuSolicitarSaque}">
+							<li><h:commandLink
+									action="#{principalController.direcionaSolicitarSaque}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-money"></i>Solicitar Saque
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuExtratoContaDigital}">
+							<li><h:commandLink
+									action="#{principalController.direcionaExtratoContaDigital}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-list"></i>Extrato Conta Digital
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuAdicionarSaldo}">
+							<li><h:commandLink
+									action="#{principalController.direcionaAdicionarSaldo}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-money"></i>Adicionar Saldo
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuConfirmarSolicitacaoSaque}">
+							<li><h:commandLink
+									action="#{principalController.direcionaConfirmarSaque}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-money"></i>Confirmar Saque
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuValidarHashCertidao}">
+							<li><h:commandLink
+									action="#{principalController.direcionaValidarHashCertidao}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-check"></i>Validar Hash
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuAlterarServentia}">
+							<li><h:commandLink
+									action="#{principalController.direcionaAlterarServentia}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-exchange"></i>Alterar Serventia
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuAlterarAliquotaISSQN}">
+							<li><h:commandLink
+									action="#{principalController.direcionaAlterarISSQN}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-exchange"></i>Alterar Alíquota
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+
+						<li class="devider"></li>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuGerenciarUsuario}">
+							<li><h:commandLink
+									action="#{principalController.direcionaCadastrarUsuario}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-user"></i>Cadastro de Usuários
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuGerenciarGrupoUsuario}">
+							<li><h:commandLink
+									action="#{principalController.direcionaCadastrarGrupo}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-group"></i>Cadastro de Grupos
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+						<ui:fragment
+							rendered="#{principalController.exibeMenuGerenciarPermissoes}">
+							<li><h:commandLink
+									action="#{principalController.direcionaCadastrarPermissao}"
+									styleClass="waves-effect" onclick="PF('statusDialog').show();"
+									oncomplete="PF('statusDialog').hide();">
+									<i class="fa fa-fw fa-key"></i>Cadastro de Permissões
+		                    	</h:commandLink></li>
+						</ui:fragment>
+
+					</ul>
+				</h:form>
+			</div>
+
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Left Sidebar -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Page Content -->
+		<!-- ============================================================== -->
+		<div id="page-wrapper">
+			<div class="container-fluid">
+
+				<h:panelGroup layout="block" id="mensagens-sistema"
+					class="message #{facesContext.maximumSeverity}">
 					<h:messages />
 				</h:panelGroup>
-				
+
 				<style>
-					.label-cinza {
-						background-color: #665757 !important;
-					}
-					
-					.label-azul-primary {
-						background-color: #337ab7 !important;
-					}
-					
-					table td {
-						color: black;
-					}
-				</style>
-	
+.label-cinza {
+	background-color: #665757 !important;
+}
+
+.label-azul-primary {
+	background-color: #337ab7 !important;
+}
+
+table td {
+	color: black;
+}
+</style>
+
 				<ui:insert name="body"></ui:insert>
-			
-            </div>
-            <!-- /.container-fluid -->
-            <footer class="footer">
-			    <div class="pull-right hidden-xs"> e-Civil </div>
-			    <strong>Copyright © 2020 <a href="http://www.r2da.com.br/" target="_blank">R2DA</a>.</strong> Todos os direitos reservados. </footer>
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Page Content -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    
-    <ui:include src="/pages/template/aguarde.xhtml" />
-    
- 	<!-- jQuery -->
+
+			</div>
+			<!-- /.container-fluid -->
+			<footer class="footer">
+			<div class="pull-right hidden-xs">e-Civil</div>
+			<strong>Copyright © 2020 <a href="http://www.r2da.com.br/"
+				target="_blank">R2DA</a>.
+			</strong> Todos os direitos reservados. </footer>
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page Content -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Wrapper -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- All Jquery -->
+	<!-- ============================================================== -->
+
+	<ui:include src="/pages/template/aguarde.xhtml" />
+
+	<!-- jQuery -->
 	<h:outputScript library="primefaces" name="jquery/jquery.js" />
-    <!-- Bootstrap Core JavaScript -->
-    <script src="#{request.contextPath}/dist/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Menu Plugin JavaScript -->
-    <script src="#{request.contextPath}/dist/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
-    <!--slimscroll JavaScript -->
-    <script src="#{request.contextPath}/dist/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="#{request.contextPath}/dist/js/waves.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="#{request.contextPath}/dist/js/custom.min.js"></script>
-    <script src="#{request.contextPath}/dist/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
-    <script src="#{request.contextPath}/resources/js/funcoes.js"></script>
-    <!-- Datepicker BS3 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script
+		src="#{request.contextPath}/dist/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- Menu Plugin JavaScript -->
+	<script
+		src="#{request.contextPath}/dist/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+	<!--slimscroll JavaScript -->
+	<script src="#{request.contextPath}/dist/js/jquery.slimscroll.js"></script>
+	<!--Wave Effects -->
+	<script src="#{request.contextPath}/dist/js/waves.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="#{request.contextPath}/dist/js/custom.min.js"></script>
+	<script
+		src="#{request.contextPath}/dist/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+	<script src="#{request.contextPath}/resources/js/funcoes.js"></script>
+	<!-- Datepicker BS3 -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/js/bootstrap-datepicker.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
 
 	<script type="text/javascript">
 	    $(document).ready(function(){

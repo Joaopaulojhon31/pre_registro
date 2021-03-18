@@ -74,6 +74,11 @@ public class PrincipalController extends BaseController implements Serializable 
 	public String direcionaCadastrarUsuario() {
 		return EnumPaginas.PESQUISAR_USUARIO_PORTAL_INTERNO.getUrl();
 	}
+	
+	public String direcionaDeclaracoesPreRegistroPrePosto() {
+		return EnumPaginas.DECLARACOES_PRE_REGISTRO_PRE_POSTO.getUrl();
+	}
+
 
 	public String direcionaCadastrarGrupo() {
 		return EnumPaginas.PESQUISAR_GRUPO_USUARIO_INTERNO.getUrl();
@@ -89,6 +94,9 @@ public class PrincipalController extends BaseController implements Serializable 
 	
 	public String direcionaPesquisaPreRegistro() {
 		return EnumPaginas.PESQUISA_PRE_REGISTRO.getUrl();
+	}
+	public String direcionaPreRegistroPrePosto() {
+		return EnumPaginas.PRE_REGISTRO_PRE_POSTO.getUrl();
 	}
 
 	public String direcionaPaginaInicial() {

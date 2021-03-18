@@ -35,13 +35,8 @@ public class IntegradorCorreiosWS {
 		Response response = webTarget.resolveTemplate("cep", cep).request(MediaType.APPLICATION_JSON_TYPE).get();
 		
 		if (response.getStatus() != 200) {
-<<<<<<< HEAD
 			if (response.getStatus() == 500) {				
 				throw new ECivilException(response.readEntity(new GenericType<String>() {}));				
-=======
-			if (response.getStatus() == 500) {
-				throw new ECivilException(response.readEntity(new GenericType<String>() {}));
->>>>>>> dd152381d6340d7cb0be92b4373cb0534fad3fa6
 			}
 			throw new ECivilException("Não foi pesquisar pelo CEP nesse momento. Tente novamente mais tarde.");
 		}

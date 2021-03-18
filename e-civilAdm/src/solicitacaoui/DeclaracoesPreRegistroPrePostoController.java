@@ -27,7 +27,9 @@ import ecivil.adm.util.Mensagem;
 import ecivil.adm.util.UploadUtils;
 import ecivil.ejb.bo.HistoricoPreRegistroBO;
 import ecivil.ejb.bo.UIBO;
+import ecivil.ejb.dao.ParametroDAO;
 import ecivil.ejb.dao.PreRegistroDAO;
+import ecivil.ejb.entidade.Parametro;
 import ecivil.ejb.entidade.PreRegistro;
 import ecivil.ejb.entidade.SituacaoSolicitacaoUI;
 import ecivil.ejb.util.Util;
@@ -39,6 +41,9 @@ public class DeclaracoesPreRegistroPrePostoController extends BaseController imp
 
 	@EJB
 	private PreRegistroDAO preRegistroDAO;
+	
+	@EJB
+	private ParametroDAO parametroDAO;
 
 	@EJB
 	private UIBO uiBO;
@@ -1185,7 +1190,7 @@ public class DeclaracoesPreRegistroPrePostoController extends BaseController imp
 
 	public String anexaDocumentacaoConvertida() throws IOException {
 		String nomeArquivo = preRegistroDeclaracoesPrePosto.getId().toString();
-		String caminho = "localhost:8080/teste/" + nomeArquivo
+		String caminho = parametroDAO.buscaValorParametro(Parametro.CAMINHO_ARQUIVOS_PRE_REGISTRO) + nomeArquivo
 				+ ".rar";
 		FileOutputStream anexaArquivo = new FileOutputStream(new File(caminho));
 		anexaArquivo.write(documentacaoAnexaBytes);
@@ -1195,9 +1200,8 @@ public class DeclaracoesPreRegistroPrePostoController extends BaseController imp
 	}
 
 	public void gravaPreRegistroPrePostoTelaDeclaracoes() {
-		preRegistroDeclaracoesPrePosto.setSituacaoSolicitacao(SituacaoSolicitacaoUI.COD_EM_ANDAMENTO);
-		historicoPreRegistroBO.gravaPreRegistroComHistorico(preRegistroDeclaracoesPrePosto,
-				getUsuarioLogadoPortal().getId());
+		preRegistroDeclaracoesPrePosto.setSituacaoSolicitacao(SituacaoSolicitacaoUI.EM_ANDAMENTO);
+		historicoPreRegistroBO.setaHistoricoPreRegistro(preRegistroDeclaracoesPrePosto,getUsuarioLogadoPortal().getId());
 		Mensagem.infoSemBundle("Solicitação enviada com sucesso.");
 	}
 
